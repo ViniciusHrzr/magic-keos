@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(python --version)",
+      "PowerShell(pip show python-docx openpyxl 2>$null)",
+      "PowerShell(pip install python-docx openpyxl --quiet)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\vinicius.ferraz\\\\Desktop\\\\teste claude\\\\kairos-ficha\\\\components\\\\rpg\")",
+      "PowerShell(adb devices 2>$null)",
+      "PowerShell(Get-Content \"c:\\\\Users\\\\vinicius.ferraz\\\\Desktop\\\\teste claude\\\\kairos-ficha\\\\data\\\\grimorio.json\" | ConvertFrom-Json | Select-Object -First 10 | ForEach-Object { \"$\\($_.nome\\) | custo: $\\($_.custo\\)\" })",
+      "PowerShell(if \\(-not \\(Test-Path \"c:\\\\Users\\\\vinicius.ferraz\\\\Desktop\\\\teste claude\\\\kairos-ficha\\\\assets\\\\fonts\"\\)\\) { New-Item -ItemType Directory -Path \"c:\\\\Users\\\\vinicius.ferraz\\\\Desktop\\\\teste claude\\\\kairos-ficha\\\\assets\\\\fonts\" }; Copy-Item \"c:\\\\Users\\\\vinicius.ferraz\\\\Desktop\\\\teste claude\\\\kairos-ficha\\\\magic keos\\\\Planewalker Dings.otf\" \"c:\\\\Users\\\\vinicius.ferraz\\\\Desktop\\\\teste claude\\\\kairos-ficha\\\\assets\\\\fonts\\\\PlanewalkerDings.otf\"; Write-Host \"Font copied\")"
+    ]
+  }
+}

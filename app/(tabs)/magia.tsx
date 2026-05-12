@@ -1,0 +1,585 @@
+import React, { useState, useMemo } from 'react';
+import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useCharacter } from '@/store/CharacterContext';
+import { RPG } from '@/constants/theme';
+import SectionHeader from '@/components/rpg/SectionHeader';
+import NumericStepper from '@/components/rpg/NumericStepper';
+import CheckboxGrid from '@/components/rpg/CheckboxGrid';
+import MemoGrid from '@/components/rpg/MemoGrid';
+import { grimoire, Spell, SpellColor } from '@/data/grimoire';
+
+export default function MagiaScreen() {
+  const {
+    character: c,
+    setVelocidade, setMemoria, setCanalizacao, setFoco,
+    setDominio, setInventario, setEquipamento, setMagicasReceitas,
+  } = useCharacter();
+
+  const [viewSpell, setViewSpell] = useState<Spell | null>(null);
+  const [viewDomain, setViewDomain] = useState<string | null>(null);
+
+  const spellByName = (v: string) => grimoire.find(s => s.nome === v.trim());
+  const isDomainName = (v: string) => v.trim() !== '' && grimoire.some(s => s.dominio === v.trim());
+  const domainSpells = useMemo(
+    () => viewDomain ? grimoire.filter(s => s.dominio === viewDomain) : [],
+    [viewDomain],
+  );
+
+  return (
+    <SafeAreaView style={styles.safe} edges={['top']}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
+
+        <View style={styles.titleBar}>
+          <Text style={styles.title}>Ficha de Magia</Text>
+        </View>
+
+        {/* ── VELOCIDADE + MEMÓRIA ── */}
+        <View style={styles.twoCol}>
+          {/* Velocidade */}
+          <View style={{ flex: 1 }}>
+            <SectionHeader title="Velocidade" />
+            <View style={styles.balizRow}>
+              <NumericStepper
+                label="base"
+                value={c.velocidade.base}
+                onChange={v => setVelocidade({ base: v })}
+                compact
+              />
+              <NumericStepper
+                label="temp"
+                value={c.velocidade.temp}
+                onChange={v => setVelocidade({ temp: v })}
+                compact
+                color={RPG.textMuted}
+              />
+            </View>
+            <View style={styles.gridWrap}>
+              <CheckboxGrid
+                boxes={c.velocidade.boxes}
+                onChange={boxes => setVelocidade({ boxes })}
+              />
+            </View>
+          </View>
+
+          <View style={styles.colDivider} />
+
+          {/* Memória */}
+          <View style={{ flex: 1 }}>
+            <SectionHeader title="Memória" />
+            <View style={styles.balizRow}>
+              <NumericStepper
+                label="base"
+                value={c.memoria.base}
+                onChange={v => setMemoria({ base: v })}
+                compact
+              />
+              <NumericStepper
+                label="temp"
+                value={c.memoria.temp}
+                onChange={v => setMemoria({ temp: v })}
+                compact
+                color={RPG.textMuted}
+              />
+            </View>
+            <View style={styles.gridWrap}>
+              <MemoGrid
+                entries={c.memoria.entries}
+                onChange={entries => setMemoria({ entries })}
+                placeholder="feitiço..."
+              />
+            </View>
+          </View>
+        </View>
+
+        {/* ── CANALIZAÇÃO + FOCO ── */}
+        <View style={styles.twoCol}>
+          {/* Canalização */}
+          <View style={{ flex: 1 }}>
+            <SectionHeader title="Canalização" />
+            <View style={styles.balizRow}>
+              <NumericStepper
+                label="base"
+                value={c.canalizacao.base}
+                onChange={v => setCanalizacao({ base: v })}
+                compact
+              />
+              <NumericStepper
+                label="temp"
+                value={c.canalizacao.temp}
+                onChange={v => setCanalizacao({ temp: v })}
+                compact
+                color={RPG.textMuted}
+              />
+            </View>
+            <View style={styles.gridWrap}>
+              <CheckboxGrid
+                boxes={c.canalizacao.boxes}
+                onChange={boxes => setCanalizacao({ boxes })}
+              />
+            </View>
+          </View>
+
+          <View style={styles.colDivider} />
+
+          {/* Foco */}
+          <View style={{ flex: 1 }}>
+            <SectionHeader title="Foco" />
+            <View style={styles.balizRow}>
+              <NumericStepper
+                label="base"
+                value={c.foco.base}
+                onChange={v => setFoco({ base: v })}
+                compact
+              />
+              <NumericStepper
+                label="temp"
+                value={c.foco.temp}
+                onChange={v => setFoco({ temp: v })}
+                compact
+                color={RPG.textMuted}
+              />
+            </View>
+            <View style={styles.gridWrap}>
+              <MemoGrid
+                entries={c.foco.entries}
+                onChange={entries => setFoco({ entries })}
+                placeholder="permanente..."
+              />
+            </View>
+          </View>
+        </View>
+
+        {/* ── DOMÍNIOS ── */}
+        <SectionHeader title="Domínios" />
+        <View style={styles.dominiosGrid}>
+          {c.dominios.map((d, i) => {
+            const spell = spellByName(d);
+            const isDomain = !spell && isDomainName(d);
+            return (
+              <View key={i} style={[styles.dominioCell, i < 3 && styles.dominioInitial]}>
+                {i < 3 && <Text style={styles.dominioInitialLabel}>inicial</Text>}
+                <TextInput
+                  style={styles.dominioInput}
+                  value={d}
+                  onChangeText={v => setDominio(i, v)}
+                  placeholder={i < 3 ? `Domínio inicial ${i + 1}` : `Domínio ${i + 1}`}
+                  placeholderTextColor={RPG.textDark}
+                />
+                {spell && (
+                  <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
+                    <Text style={styles.slotBtnSpell}>ℹ</Text>
+                  </TouchableOpacity>
+                )}
+                {isDomain && (
+                  <TouchableOpacity style={styles.slotBtn} onPress={() => setViewDomain(d.trim())} activeOpacity={0.7}>
+                    <Text style={styles.slotBtnDomain}>▼</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            );
+          })}
+        </View>
+
+        {/* ── INVENTÁRIO ── */}
+        <SectionHeader title="Inventário" />
+        <TextInput
+          style={styles.bigTextArea}
+          value={c.inventario}
+          onChangeText={setInventario}
+          multiline
+          placeholder="Itens carregados..."
+          placeholderTextColor={RPG.textDark}
+          textAlignVertical="top"
+        />
+
+        {/* ── EQUIPAMENTOS ── */}
+        <SectionHeader title="Equipamentos" />
+        <View style={styles.equipGrid}>
+          {equipSlots.map(({ key, label }) => (
+            <View key={key} style={styles.equipCell}>
+              <Text style={styles.equipLabel}>{label}</Text>
+              <TextInput
+                style={styles.equipInput}
+                value={c.equipamentos[key]}
+                onChangeText={v => setEquipamento(key, v)}
+                placeholder="—"
+                placeholderTextColor={RPG.textDark}
+              />
+            </View>
+          ))}
+        </View>
+
+        {/* ── MÁGICAS E RECEITAS ── */}
+        <SectionHeader title="Mágicas e Receitas" />
+        <TextInput
+          style={styles.bigTextArea}
+          value={c.magicasReceitas}
+          onChangeText={setMagicasReceitas}
+          multiline
+          placeholder="Mágicas conhecidas, receitas de alquimia..."
+          placeholderTextColor={RPG.textDark}
+          textAlignVertical="top"
+        />
+
+        <View style={{ height: 32 }} />
+      </ScrollView>
+
+      {/* Spell detail modal */}
+      <Modal visible={!!viewSpell} transparent animationType="slide" onRequestClose={() => setViewSpell(null)}>
+        <View style={styles.modalBg}>
+          <View style={styles.modalCard}>
+            {viewSpell && <SpellDetailView spell={viewSpell} onClose={() => setViewSpell(null)} />}
+          </View>
+        </View>
+      </Modal>
+
+      {/* Domain expansion modal */}
+      <Modal visible={!!viewDomain} transparent animationType="slide" onRequestClose={() => setViewDomain(null)}>
+        <View style={styles.modalBg}>
+          <View style={styles.modalCard}>
+            {viewDomain && (
+              <DomainView
+                domain={viewDomain}
+                spells={domainSpells}
+                onViewSpell={s => { setViewDomain(null); setViewSpell(s); }}
+                onClose={() => setViewDomain(null)}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
+  );
+}
+
+const COLOR_HEX: Record<SpellColor, string> = {
+  branco: RPG.branco,
+  verde: RPG.verdeLight,
+  vermelho: RPG.vermelhoLight,
+  preto: RPG.pretoLight,
+  azul: RPG.azulLight,
+};
+const GRAU_COLORS = ['#888', RPG.gold, RPG.goldLight, '#fff'];
+
+function SpellDetailView({ spell, onClose }: { spell: Spell; onClose: () => void }) {
+  const color = COLOR_HEX[spell.cor];
+  return (
+    <ScrollView contentContainerStyle={styles.detailContent}>
+      <View style={[styles.detailHeader, { borderBottomColor: color }]}>
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.detailName, { color }]}>{spell.nome}</Text>
+          <Text style={styles.detailMeta}>{spell.dominio} · {spell.atributo}</Text>
+        </View>
+        <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+          <Text style={styles.closeBtnText}>✕</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.detailStats}>
+        <View style={styles.pill}>
+          <Text style={styles.pillLabel}>Grau</Text>
+          <Text style={styles.pillValue}>{spell.grau}</Text>
+        </View>
+        <View style={styles.pill}>
+          <Text style={styles.pillLabel}>Tipo</Text>
+          <Text style={styles.pillValue}>{spell.tipo}</Text>
+        </View>
+        <View style={styles.pill}>
+          <Text style={styles.pillLabel}>Custo</Text>
+          <Text style={[styles.pillValue, { fontFamily: 'PlanewalkerDings', fontStyle: 'normal' }]}>{spell.custo || '—'}</Text>
+        </View>
+      </View>
+      <Text style={styles.detailEffect}>{spell.efeito}</Text>
+    </ScrollView>
+  );
+}
+
+function DomainView({ domain, spells, onViewSpell, onClose }: {
+  domain: string;
+  spells: Spell[];
+  onViewSpell: (s: Spell) => void;
+  onClose: () => void;
+}) {
+  return (
+    <ScrollView>
+      <View style={[styles.detailHeader, { borderBottomColor: RPG.gold, padding: 16, paddingBottom: 12, marginBottom: 0 }]}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.domainTitle}>{domain}</Text>
+          <Text style={styles.domainCount}>{spells.length} mágicas</Text>
+        </View>
+        <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+          <Text style={styles.closeBtnText}>✕</Text>
+        </TouchableOpacity>
+      </View>
+      {spells.map((item, i) => (
+        <TouchableOpacity key={i} style={styles.domainSpellCard} onPress={() => onViewSpell(item)} activeOpacity={0.7}>
+          <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[item.grau] }]}>
+            <Text style={[styles.grauText, { color: GRAU_COLORS[item.grau] }]}>{item.grau}</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.domainSpellName} numberOfLines={1}>{item.nome}</Text>
+            <Text style={styles.domainSpellMeta}>
+              {item.tipo} · Custo: <Text style={{ fontFamily: 'PlanewalkerDings', fontStyle: 'normal' }}>{item.custo || '—'}</Text>
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ))}
+      <View style={{ height: 32 }} />
+    </ScrollView>
+  );
+}
+
+const equipSlots = [
+  { key: 'arma' as const, label: 'Arma' },
+  { key: 'escudo' as const, label: 'Escudo' },
+  { key: 'vestimenta' as const, label: 'Vestimenta' },
+  { key: 'armadura' as const, label: 'Armadura' },
+  { key: 'acessorio1' as const, label: 'Acessório' },
+  { key: 'acessorio2' as const, label: 'Acessório' },
+];
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: RPG.bg },
+  scroll: { flex: 1 },
+  content: { paddingBottom: 16 },
+
+  titleBar: {
+    backgroundColor: RPG.headerBg,
+    paddingVertical: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: RPG.gold,
+    alignItems: 'center',
+  },
+  title: {
+    color: RPG.gold,
+    fontSize: 18,
+    fontFamily: 'serif',
+    fontWeight: 'bold',
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+  },
+
+  twoCol: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+  },
+  colDivider: {
+    width: 1,
+    backgroundColor: RPG.border,
+  },
+
+  balizRow: {
+    flexDirection: 'column',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    backgroundColor: RPG.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+  },
+  gridWrap: {
+    padding: 8,
+    backgroundColor: RPG.surface,
+  },
+
+  dominiosGrid: {
+    backgroundColor: RPG.surface,
+    padding: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+    gap: 6,
+  },
+  dominioCell: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: RPG.border,
+    backgroundColor: RPG.surfaceAlt,
+  },
+  dominioInitial: {
+    borderColor: RPG.goldDim,
+    borderStyle: 'dashed',
+  },
+  dominioInitialLabel: {
+    color: RPG.goldDim,
+    fontSize: 9,
+    paddingHorizontal: 6,
+    fontStyle: 'italic',
+    letterSpacing: 0.5,
+  },
+  dominioInput: {
+    flex: 1,
+    color: RPG.text,
+    fontSize: 13,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+  },
+
+  bigTextArea: {
+    backgroundColor: RPG.surface,
+    color: RPG.text,
+    fontSize: 13,
+    padding: 10,
+    minHeight: 120,
+    lineHeight: 20,
+    textAlignVertical: 'top',
+  },
+
+  equipGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: RPG.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+    padding: 4,
+    gap: 4,
+  },
+  equipCell: {
+    width: '48%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: RPG.border,
+    backgroundColor: RPG.surfaceAlt,
+    paddingHorizontal: 6,
+  },
+  equipLabel: {
+    color: RPG.textMuted,
+    fontSize: 10,
+    fontStyle: 'italic',
+    paddingRight: 4,
+    minWidth: 60,
+  },
+  equipInput: {
+    flex: 1,
+    color: RPG.text,
+    fontSize: 12,
+    paddingVertical: 8,
+    height: 36,
+    padding: 0,
+    paddingHorizontal: 2,
+  },
+
+  slotBtn: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  slotBtnSpell: {
+    color: RPG.azulLight,
+    fontSize: 16,
+  },
+  slotBtnDomain: {
+    color: RPG.gold,
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+
+  modalBg: {
+    flex: 1,
+    backgroundColor: '#000000bb',
+    justifyContent: 'flex-end',
+  },
+  modalCard: {
+    backgroundColor: RPG.surface,
+    borderTopWidth: 2,
+    borderTopColor: RPG.gold,
+    maxHeight: '80%',
+  },
+  detailContent: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  detailHeader: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    marginBottom: 12,
+  },
+  detailName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 2,
+  },
+  detailMeta: {
+    color: RPG.textMuted,
+    fontSize: 12,
+  },
+  closeBtn: { padding: 4 },
+  closeBtnText: { color: RPG.textMuted, fontSize: 18 },
+  detailStats: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
+    flexWrap: 'wrap',
+  },
+  pill: {
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: RPG.border,
+    backgroundColor: RPG.surfaceAlt,
+    borderRadius: 4,
+  },
+  pillLabel: {
+    color: RPG.textMuted,
+    fontSize: 9,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  pillValue: {
+    color: RPG.text,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  detailEffect: {
+    color: RPG.text,
+    fontSize: 13,
+    lineHeight: 20,
+  },
+
+  domainTitle: {
+    color: RPG.gold,
+    fontSize: 16,
+    fontWeight: 'bold',
+    letterSpacing: 1,
+  },
+  domainCount: {
+    color: RPG.textMuted,
+    fontSize: 12,
+  },
+  domainSpellCard: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    gap: 10,
+    alignItems: 'center',
+  },
+  domainSpellName: {
+    color: RPG.text,
+    fontSize: 14,
+    fontWeight: '600',
+    flex: 1,
+  },
+  domainSpellMeta: {
+    color: RPG.textMuted,
+    fontSize: 11,
+  },
+  grauBadge: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  grauText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+});
