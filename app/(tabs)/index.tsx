@@ -53,6 +53,7 @@ export default function FichaScreen() {
             <View key={k} style={styles.vidaCell}>
               <Text style={styles.vidaIcon}>{vidaIcon(k)}</Text>
               <NumericStepper
+                compact
                 value={c.vida[k]}
                 onChange={v => setVida(k, v)}
                 color={k === 'armadura' || k === 'manto' ? RPG.textMuted : RPG.redLight}
@@ -334,12 +335,12 @@ const styles = StyleSheet.create({
   vidaRow: {
     flexDirection: 'row',
     backgroundColor: RPG.surface,
-    justifyContent: 'space-around',
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: RPG.border,
   },
   vidaCell: {
+    flex: 1,
     alignItems: 'center',
     gap: 4,
   },

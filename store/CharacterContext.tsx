@@ -79,7 +79,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     update(p => ({ ...p, vida: { ...p.vida, [k]: v } }));
   const setMana = (k: keyof Character['mana'], field: 'base' | 'total', v: number) =>
     update(p => ({ ...p, mana: { ...p.mana, [k]: { ...p.mana[k], [field]: v } } }));
-  const setVeneno = (v: number) => update(p => ({ ...p, veneno: Math.max(0, Math.min(8, v)) }));
+  const setVeneno = (v: number) => update(p => ({ ...p, veneno: Math.max(0, Math.min(10, v)) }));
   const setAfinidade = (k: keyof Character['afinidade'], v: number) =>
     update(p => ({ ...p, afinidade: { ...p.afinidade, [k]: Math.max(0, Math.min(100, v)) } }));
 
