@@ -9,7 +9,7 @@ interface CharacterContextType {
   setNome: (v: string) => void;
   setSabedoria: (k: 'acumulada' | 'disponivel', v: number) => void;
   setVida: (k: keyof Character['vida'], v: number) => void;
-  setMana: (k: keyof Character['mana'], v: number) => void;
+  setMana: (k: keyof Character['mana'], field: 'base' | 'total', v: number) => void;
   setVeneno: (v: number) => void;
   setAfinidade: (k: keyof Character['afinidade'], v: number) => void;
   setInstanceIP: (instance: 'corpo' | 'mente' | 'espirito', field: 'ipBase' | 'ipBonus', v: number) => void;
@@ -24,7 +24,8 @@ interface CharacterContextType {
   setDominio: (idx: number, v: string) => void;
   setInventario: (v: string) => void;
   setEquipamento: (k: keyof Character['equipamentos'], v: string) => void;
-  setMagicasReceitas: (v: string) => void;
+  setMagica: (idx: number, v: string) => void;
+  setReceitas: (v: string) => void;
 }
 
 const CharacterContext = createContext<CharacterContextType | null>(null);
@@ -37,6 +38,22 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
       if (data) {
         try {
           const parsed = JSON.parse(data);
+          if (parsed.mana) {
+            for (const k of ['incolor', 'branco', 'verde', 'vermelho', 'preto', 'azul']) {
+              if (typeof parsed.mana[k] === 'number') {
+                parsed.mana[k] = { base: 0, total: parsed.mana[k] };
+              }
+            }
+          }
+          if (parsed.magicasReceitas !== undefined) {
+            parsed.magicas = typeof parsed.magicasReceitas === 'string'
+              ? Array(20).fill('')
+              : parsed.magicasReceitas;
+            delete parsed.magicasReceitas;
+          }
+          if (typeof parsed.magicas === 'string') {
+            parsed.magicas = Array(20).fill('');
+          }
           setCharacter({ ...defaultCharacter, ...parsed });
         } catch {}
       }
@@ -60,8 +77,8 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     update(p => ({ ...p, sabedoria: { ...p.sabedoria, [k]: v } }));
   const setVida = (k: keyof Character['vida'], v: number) =>
     update(p => ({ ...p, vida: { ...p.vida, [k]: v } }));
-  const setMana = (k: keyof Character['mana'], v: number) =>
-    update(p => ({ ...p, mana: { ...p.mana, [k]: v } }));
+  const setMana = (k: keyof Character['mana'], field: 'base' | 'total', v: number) =>
+    update(p => ({ ...p, mana: { ...p.mana, [k]: { ...p.mana[k], [field]: v } } }));
   const setVeneno = (v: number) => update(p => ({ ...p, veneno: Math.max(0, Math.min(8, v)) }));
   const setAfinidade = (k: keyof Character['afinidade'], v: number) =>
     update(p => ({ ...p, afinidade: { ...p.afinidade, [k]: Math.max(0, Math.min(100, v)) } }));
@@ -97,7 +114,13 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
   const setInventario = (v: string) => update(p => ({ ...p, inventario: v }));
   const setEquipamento = (k: keyof Character['equipamentos'], v: string) =>
     update(p => ({ ...p, equipamentos: { ...p.equipamentos, [k]: v } }));
-  const setMagicasReceitas = (v: string) => update(p => ({ ...p, magicasReceitas: v }));
+  const setMagica = (idx: number, v: string) =>
+    update(p => {
+      const entries = [...p.magicas];
+      entries[idx] = v;
+      return { ...p, magicas: entries };
+    });
+  const setReceitas = (v: string) => update(p => ({ ...p, receitas: v }));
 
   // Always render the Provider — with defaults while AsyncStorage is loading,
   // then with persisted data once loaded. Never returns null.
@@ -106,7 +129,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
       character, setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
       setInstanceIP, setAttrDice, setSkill,
       setProficiencias, setHabilidades, setVelocidade, setMemoria, setCanalizacao,
-      setFoco, setDominio, setInventario, setEquipamento, setMagicasReceitas,
+      setFoco, setDominio, setInventario, setEquipamento, setMagica, setReceitas,
     }}>
       {children}
     </CharacterContext.Provider>

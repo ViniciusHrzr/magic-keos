@@ -23,12 +23,12 @@ export interface Character {
   };
 
   mana: {
-    incolor: number;
-    branco: number;
-    verde: number;
-    vermelho: number;
-    preto: number;
-    azul: number;
+    incolor:  { base: number; total: number };
+    branco:   { base: number; total: number };
+    verde:    { base: number; total: number };
+    vermelho: { base: number; total: number };
+    preto:    { base: number; total: number };
+    azul:     { base: number; total: number };
   };
 
   veneno: number;
@@ -101,7 +101,8 @@ export interface Character {
     acessorio2: string;
   };
 
-  magicasReceitas: string;
+  magicas: string[];
+  receitas: string;
 }
 
 const emptyDice: AttrDice = [null, null, null, null, null];
@@ -111,7 +112,14 @@ export const defaultCharacter: Character = {
   nome: '',
   sabedoria: { acumulada: 0, disponivel: 0 },
   vida: { total: 0, necro: 0, atual: 0, armadura: 0, manto: 0 },
-  mana: { incolor: 0, branco: 0, verde: 0, vermelho: 0, preto: 0, azul: 0 },
+  mana: {
+    incolor:  { base: 0, total: 0 },
+    branco:   { base: 0, total: 0 },
+    verde:    { base: 0, total: 0 },
+    vermelho: { base: 0, total: 0 },
+    preto:    { base: 0, total: 0 },
+    azul:     { base: 0, total: 0 },
+  },
   veneno: 0,
   afinidade: { branco: 0, verde: 0, vermelho: 0, preto: 0, azul: 0 },
   corpo: {
@@ -159,5 +167,6 @@ export const defaultCharacter: Character = {
   dominios: Array(12).fill(''),
   inventario: '',
   equipamentos: { arma: '', escudo: '', vestimenta: '', armadura: '', acessorio1: '', acessorio2: '' },
-  magicasReceitas: '',
+  magicas: Array(20).fill(''),
+  receitas: '',
 };

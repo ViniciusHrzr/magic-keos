@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
 import SectionHeader from '@/components/rpg/SectionHeader';
@@ -8,13 +8,15 @@ import NumericStepper from '@/components/rpg/NumericStepper';
 import CheckboxGrid from '@/components/rpg/CheckboxGrid';
 import MemoGrid from '@/components/rpg/MemoGrid';
 import { grimoire, Spell, SpellColor } from '@/data/grimoire';
+import spellImages from '@/data/spellImages';
 
 export default function MagiaScreen() {
   const {
     character: c,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
-    setDominio, setInventario, setEquipamento, setMagicasReceitas,
+    setDominio, setInventario, setEquipamento, setMagica, setReceitas,
   } = useCharacter();
+  const insets = useSafeAreaInsets();
 
   const [viewSpell, setViewSpell] = useState<Spell | null>(null);
   const [viewDomain, setViewDomain] = useState<string | null>(null);
@@ -27,14 +29,15 @@ export default function MagiaScreen() {
   );
 
   return (
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
 
         <View style={styles.titleBar}>
           <Text style={styles.title}>Ficha de Magia</Text>
         </View>
 
-        {/* ── VELOCIDADE + MEMÓRIA ── */}
+        {/* ── VELOCIDADE + CANALIZAÇÃO ── */}
         <View style={styles.twoCol}>
           {/* Velocidade */}
           <View style={{ flex: 1 }}>
@@ -64,6 +67,35 @@ export default function MagiaScreen() {
 
           <View style={styles.colDivider} />
 
+          {/* Canalização */}
+          <View style={{ flex: 1 }}>
+            <SectionHeader title="Canalização" />
+            <View style={styles.balizRow}>
+              <NumericStepper
+                label="base"
+                value={c.canalizacao.base}
+                onChange={v => setCanalizacao({ base: v })}
+                compact
+              />
+              <NumericStepper
+                label="temp"
+                value={c.canalizacao.temp}
+                onChange={v => setCanalizacao({ temp: v })}
+                compact
+                color={RPG.textMuted}
+              />
+            </View>
+            <View style={styles.gridWrap}>
+              <CheckboxGrid
+                boxes={c.canalizacao.boxes}
+                onChange={boxes => setCanalizacao({ boxes })}
+              />
+            </View>
+          </View>
+        </View>
+
+        {/* ── MEMÓRIA + FOCO ── */}
+        <View style={styles.twoCol}>
           {/* Memória */}
           <View style={{ flex: 1 }}>
             <SectionHeader title="Memória" />
@@ -87,35 +119,6 @@ export default function MagiaScreen() {
                 entries={c.memoria.entries}
                 onChange={entries => setMemoria({ entries })}
                 placeholder="feitiço..."
-              />
-            </View>
-          </View>
-        </View>
-
-        {/* ── CANALIZAÇÃO + FOCO ── */}
-        <View style={styles.twoCol}>
-          {/* Canalização */}
-          <View style={{ flex: 1 }}>
-            <SectionHeader title="Canalização" />
-            <View style={styles.balizRow}>
-              <NumericStepper
-                label="base"
-                value={c.canalizacao.base}
-                onChange={v => setCanalizacao({ base: v })}
-                compact
-              />
-              <NumericStepper
-                label="temp"
-                value={c.canalizacao.temp}
-                onChange={v => setCanalizacao({ temp: v })}
-                compact
-                color={RPG.textMuted}
-              />
-            </View>
-            <View style={styles.gridWrap}>
-              <CheckboxGrid
-                boxes={c.canalizacao.boxes}
-                onChange={boxes => setCanalizacao({ boxes })}
               />
             </View>
           </View>
@@ -181,6 +184,42 @@ export default function MagiaScreen() {
           })}
         </View>
 
+        {/* ── MÁGICAS ── */}
+        <SectionHeader title="Mágicas" />
+        <View style={styles.dominiosGrid}>
+          {c.magicas.map((m, i) => {
+            const spell = spellByName(m);
+            return (
+              <View key={i} style={styles.dominioCell}>
+                <TextInput
+                  style={styles.dominioInput}
+                  value={m}
+                  onChangeText={v => setMagica(i, v)}
+                  placeholder={`Mágica ${i + 1}`}
+                  placeholderTextColor={RPG.textDark}
+                />
+                {spell && (
+                  <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
+                    <Text style={styles.slotBtnSpell}>ℹ</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            );
+          })}
+        </View>
+
+        {/* ── RECEITAS ── */}
+        <SectionHeader title="Receitas" />
+        <TextInput
+          style={styles.bigTextArea}
+          value={c.receitas}
+          onChangeText={setReceitas}
+          multiline
+          placeholder="Receitas de alquimia..."
+          placeholderTextColor={RPG.textDark}
+          textAlignVertical="top"
+        />
+
         {/* ── INVENTÁRIO ── */}
         <SectionHeader title="Inventário" />
         <TextInput
@@ -210,25 +249,13 @@ export default function MagiaScreen() {
           ))}
         </View>
 
-        {/* ── MÁGICAS E RECEITAS ── */}
-        <SectionHeader title="Mágicas e Receitas" />
-        <TextInput
-          style={styles.bigTextArea}
-          value={c.magicasReceitas}
-          onChangeText={setMagicasReceitas}
-          multiline
-          placeholder="Mágicas conhecidas, receitas de alquimia..."
-          placeholderTextColor={RPG.textDark}
-          textAlignVertical="top"
-        />
-
         <View style={{ height: 32 }} />
       </ScrollView>
 
       {/* Spell detail modal */}
       <Modal visible={!!viewSpell} transparent animationType="slide" onRequestClose={() => setViewSpell(null)}>
         <View style={styles.modalBg}>
-          <View style={styles.modalCard}>
+          <View style={[styles.modalCard, { paddingBottom: insets.bottom }]}>
             {viewSpell && <SpellDetailView spell={viewSpell} onClose={() => setViewSpell(null)} />}
           </View>
         </View>
@@ -237,7 +264,7 @@ export default function MagiaScreen() {
       {/* Domain expansion modal */}
       <Modal visible={!!viewDomain} transparent animationType="slide" onRequestClose={() => setViewDomain(null)}>
         <View style={styles.modalBg}>
-          <View style={styles.modalCard}>
+          <View style={[styles.modalCard, { paddingBottom: insets.bottom }]}>
             {viewDomain && (
               <DomainView
                 domain={viewDomain}
@@ -250,6 +277,7 @@ export default function MagiaScreen() {
         </View>
       </Modal>
     </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -264,9 +292,11 @@ const GRAU_COLORS = ['#888', RPG.gold, RPG.goldLight, '#fff'];
 
 function SpellDetailView({ spell, onClose }: { spell: Spell; onClose: () => void }) {
   const color = COLOR_HEX[spell.cor];
+  const img = spellImages[spell.nome];
   return (
     <ScrollView contentContainerStyle={styles.detailContent}>
       <View style={[styles.detailHeader, { borderBottomColor: color }]}>
+        {img && <Image source={img} style={styles.spellImg} resizeMode="contain" />}
         <View style={{ flex: 1 }}>
           <Text style={[styles.detailName, { color }]}>{spell.nome}</Text>
           <Text style={styles.detailMeta}>{spell.dominio} · {spell.atributo}</Text>
@@ -494,9 +524,17 @@ const styles = StyleSheet.create({
   },
   detailHeader: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     borderBottomWidth: 1,
     paddingBottom: 10,
     marginBottom: 12,
+    gap: 10,
+  },
+  spellImg: {
+    width: 72,
+    height: 72,
+    borderRadius: 4,
+    backgroundColor: RPG.surfaceAlt,
   },
   detailName: {
     fontSize: 18,

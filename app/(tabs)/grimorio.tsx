@@ -1,19 +1,21 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import {
-  View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, Modal, ScrollView,
+  View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, Modal, ScrollView, Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { grimoire, Spell, SpellColor, SpellType } from '@/data/grimoire';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { grimoire, domains, Spell, SpellColor, SpellType } from '@/data/grimoire';
 import { RPG } from '@/constants/theme';
 import { useCharacter } from '@/store/CharacterContext';
+import spellImages from '@/data/spellImages';
 
 const COLOR_LABELS: Record<SpellColor, string> = {
-  branco: 'Branco',
-  verde: 'Verde',
-  vermelho: 'Vermelho',
-  preto: 'Preto',
-  azul: 'Azul',
+  branco: 'Branco', verde: 'Verde', vermelho: 'Vermelho', preto: 'Preto', azul: 'Azul',
 };
+const TYPE_LABELS_SHORT: Record<SpellType, string> = {
+  '[T]': 'Truque', '[E]': 'Encantamento', '[F]': 'Feitiço', '[C]': 'Criatura',
+};
+const COLORS: SpellColor[] = ['branco', 'verde', 'vermelho', 'preto', 'azul'];
+const TYPES: SpellType[] = ['[T]', '[E]', '[F]', '[C]'];
 
 const COLOR_HEX: Record<SpellColor, string> = {
   branco: RPG.branco,
@@ -31,63 +33,98 @@ const TYPE_LABELS: Record<SpellType, string> = {
 };
 
 const GRAU_COLORS = ['#888', RPG.gold, RPG.goldLight, '#fff'];
-const COLORS: SpellColor[] = ['branco', 'verde', 'vermelho', 'preto', 'azul'];
+
+type DomainGroup = {
+  name: string;
+  spells: Spell[];
+  color: SpellColor;
+};
 
 export default function GrimorioScreen() {
-  const { character: c, setDominio } = useCharacter();
+  const { character: c, setDominio, setMagica } = useCharacter();
+  const insets = useSafeAreaInsets();
   const [search, setSearch] = useState('');
   const [activeColor, setActiveColor] = useState<SpellColor | null>(null);
   const [activeGrau, setActiveGrau] = useState<number | null>(null);
   const [activeType, setActiveType] = useState<SpellType | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<Spell | null>(null);
 
-  const filtered = useMemo(() => {
-    const q = search.toLowerCase().trim();
-    return grimoire.filter(s => {
-      if (activeColor && s.cor !== activeColor) return false;
-      if (activeGrau !== null && s.grau !== activeGrau) return false;
-      if (activeType && s.tipo !== activeType) return false;
-      if (q && !s.nome.toLowerCase().includes(q) && !s.dominio.toLowerCase().includes(q)) return false;
-      return true;
-    });
-  }, [search, activeColor, activeGrau, activeType]);
+  const domainGroups = useMemo<DomainGroup[]>(() =>
+    domains.map(d => ({
+      name: d,
+      spells: grimoire.filter(s => s.dominio === d),
+      color: grimoire.find(s => s.dominio === d)!.cor,
+    })),
+    []
+  );
 
-  const renderSpell = useCallback(({ item }: { item: Spell }) => (
-    <TouchableOpacity style={styles.card} onPress={() => setSelected(item)} activeOpacity={0.75}>
-      <View style={[styles.colorStrip, { backgroundColor: COLOR_HEX[item.cor] }]} />
-      <View style={styles.cardBody}>
-        <View style={styles.cardTop}>
-          <Text style={styles.cardName} numberOfLines={1}>{item.nome}</Text>
-          <View style={styles.badgeRow}>
-            <View style={[styles.gradeBadge, { borderColor: GRAU_COLORS[item.grau] }]}>
-              <Text style={[styles.gradeText, { color: GRAU_COLORS[item.grau] }]}>{item.grau}</Text>
-            </View>
-            <Text style={[styles.typeBadge, typeColor(item.tipo)]}>{item.tipo}</Text>
+  const filteredGroups = useMemo(() => {
+    const q = search.toLowerCase().trim();
+    return domainGroups
+      .map(g => ({
+        ...g,
+        spells: g.spells.filter(s => {
+          if (activeColor && s.cor !== activeColor) return false;
+          if (activeGrau !== null && s.grau !== activeGrau) return false;
+          if (activeType && s.tipo !== activeType) return false;
+          if (q && !s.nome.toLowerCase().includes(q) && !g.name.toLowerCase().includes(q)) return false;
+          return true;
+        }),
+      }))
+      .filter(g => g.spells.length > 0);
+  }, [search, activeColor, activeGrau, activeType, domainGroups]);
+
+  const toggleDomain = useCallback((name: string) => {
+    setExpanded(prev => {
+      const next = new Set(prev);
+      next.has(name) ? next.delete(name) : next.add(name);
+      return next;
+    });
+  }, []);
+
+  const renderDomain = useCallback(({ item }: { item: DomainGroup }) => {
+    const isOpen = expanded.has(item.name);
+    const colorHex = COLOR_HEX[item.color];
+    return (
+      <View style={styles.domainBlock}>
+        <TouchableOpacity style={styles.domainRow} onPress={() => toggleDomain(item.name)} activeOpacity={0.75}>
+          <View style={[styles.colorStrip, { backgroundColor: colorHex }]} />
+          <Text style={[styles.domainName, { color: colorHex }]} numberOfLines={1}>{item.name}</Text>
+          <View style={styles.countBadge}>
+            <Text style={styles.countText}>{item.spells.length}</Text>
           </View>
-        </View>
-        <Text style={styles.cardDomain} numberOfLines={1}>{item.dominio} · {item.atributo}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-          <Text style={styles.cardCustoLabel}>Custo:</Text>
-          <Text style={styles.cardCustoSymbol}>{item.custo || '—'}</Text>
-        </View>
+          <Text style={[styles.chevron, { color: colorHex }]}>{isOpen ? '▲' : '▼'}</Text>
+        </TouchableOpacity>
+        {isOpen && item.spells.map((s, i) => (
+          <TouchableOpacity key={i} style={styles.spellRow} onPress={() => setSelected(s)} activeOpacity={0.75}>
+            <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[s.grau] }]}>
+              <Text style={[styles.grauText, { color: GRAU_COLORS[s.grau] }]}>{s.grau}</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.spellName} numberOfLines={1}>{s.nome}</Text>
+              <Text style={styles.spellMeta}>{TYPE_LABELS[s.tipo]} · {s.atributo}</Text>
+            </View>
+            <Text style={styles.spellCusto}>{s.custo || '—'}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
-    </TouchableOpacity>
-  ), []);
+    );
+  }, [expanded, toggleDomain]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>Grimório</Text>
-        <Text style={styles.count}>{filtered.length} mágicas</Text>
+        <Text style={styles.count}>{grimoire.length} mágicas · {domains.length} domínios</Text>
       </View>
 
-      {/* Search */}
       <View style={styles.searchWrap}>
         <TextInput
           style={styles.search}
           value={search}
           onChangeText={setSearch}
-          placeholder="Buscar por nome ou domínio..."
+          placeholder="Buscar domínio ou mágica..."
           placeholderTextColor={RPG.textDark}
           clearButtonMode="while-editing"
         />
@@ -116,12 +153,10 @@ export default function GrimorioScreen() {
             onPress={() => setActiveGrau(activeGrau === g ? null : g)}
             activeOpacity={0.7}
           >
-            <Text style={[styles.filterText2, activeGrau === g && { color: RPG.gold }]}>
-              Grau {g}
-            </Text>
+            <Text style={[styles.filterText2, activeGrau === g && { color: RPG.gold }]}>Grau {g}</Text>
           </TouchableOpacity>
         ))}
-        {(['[T]', '[E]', '[F]', '[C]'] as SpellType[]).map(t => (
+        {TYPES.map(t => (
           <TouchableOpacity
             key={t}
             style={[styles.filterBtn2, activeType === t && styles.filterBtn2Active]}
@@ -134,26 +169,25 @@ export default function GrimorioScreen() {
       </View>
 
       <FlatList
-        data={filtered}
-        keyExtractor={(_, i) => String(i)}
-        renderItem={renderSpell}
+        data={filteredGroups}
+        keyExtractor={item => item.name}
+        renderItem={renderDomain}
+        extraData={expanded}
         contentContainerStyle={styles.list}
-        initialNumToRender={20}
-        maxToRenderPerBatch={20}
-        windowSize={5}
-        getItemLayout={(_, index) => ({ length: 80, offset: 80 * index, index })}
+        initialNumToRender={30}
       />
 
-      {/* Spell detail modal */}
       <Modal visible={!!selected} transparent animationType="slide" onRequestClose={() => setSelected(null)}>
         <View style={styles.modalBg}>
-          <View style={styles.modalCard}>
+          <View style={[styles.modalCard, { paddingBottom: insets.bottom }]}>
             {selected && (
               <SpellDetail
                 spell={selected}
                 onClose={() => setSelected(null)}
                 dominios={c.dominios}
-                onSetDominio={setDominio}
+                onAddDominio={setDominio}
+                magicas={c.magicas}
+                onAddMagica={setMagica}
               />
             )}
           </View>
@@ -163,43 +197,52 @@ export default function GrimorioScreen() {
   );
 }
 
-function SpellDetail({ spell, onClose, dominios, onSetDominio }: {
+function SpellDetail({ spell, onClose, dominios, onAddDominio, magicas, onAddMagica }: {
   spell: Spell;
   onClose: () => void;
   dominios: string[];
-  onSetDominio: (idx: number, v: string) => void;
+  onAddDominio: (idx: number, v: string) => void;
+  magicas: string[];
+  onAddMagica: (idx: number, v: string) => void;
 }) {
   const [feedback, setFeedback] = useState('');
   const color = COLOR_HEX[spell.cor];
 
   const addDominio = () => {
-    const idx = dominios.slice(0, 3).findIndex(d => !d.trim());
+    if (dominios.some(d => d.trim() === spell.dominio)) {
+      setFeedback('Domínio já está na ficha!');
+      return;
+    }
+    const idx = dominios.findIndex(d => !d.trim());
     if (idx === -1) {
-      setFeedback('Domínios iniciais já estão cheios!');
+      setFeedback('Todos os slots de domínio estão cheios!');
     } else {
-      onSetDominio(idx, spell.dominio);
+      onAddDominio(idx, spell.dominio);
       setFeedback(`Domínio "${spell.dominio}" adicionado!`);
     }
   };
 
-  const addMagia = () => {
-    const slotIdx = dominios.slice(3).findIndex(d => !d.trim());
-    if (slotIdx === -1) {
-      setFeedback('Todos os slots de domínio estão cheios!');
+  const addMagica = () => {
+    const idx = magicas.findIndex(m => !m.trim());
+    if (idx === -1) {
+      setFeedback('Todos os slots de mágicas estão cheios!');
     } else {
-      onSetDominio(3 + slotIdx, spell.nome);
-      setFeedback(`"${spell.nome}" adicionado aos domínios!`);
+      onAddMagica(idx, spell.nome);
+      setFeedback(`"${spell.nome}" adicionada às mágicas!`);
     }
   };
+
+  const img = spellImages[spell.nome];
 
   return (
     <ScrollView contentContainerStyle={styles.detailContent}>
       <View style={[styles.detailHeader, { borderBottomColor: color }]}>
+        {img && (
+          <Image source={img} style={styles.spellImg} resizeMode="contain" />
+        )}
         <View style={{ flex: 1 }}>
           <Text style={[styles.detailName, { color }]}>{spell.nome}</Text>
-          <Text style={styles.detailMeta}>
-            {COLOR_LABELS[spell.cor]} · {spell.dominio} · {spell.atributo}
-          </Text>
+          <Text style={styles.detailMeta}>{spell.dominio} · {spell.atributo}</Text>
         </View>
         <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
           <Text style={styles.closeBtnText}>✕</Text>
@@ -213,10 +256,10 @@ function SpellDetail({ spell, onClose, dominios, onSetDominio }: {
       <Text style={styles.detailEffect}>{spell.efeito}</Text>
       <View style={styles.importRow}>
         <TouchableOpacity style={styles.importBtn} onPress={addDominio} activeOpacity={0.75}>
-          <Text style={styles.importBtnText}>+ Domínio Inicial</Text>
+          <Text style={styles.importBtnText}>+ Domínio</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.importBtn, styles.importBtnAlt]} onPress={addMagia} activeOpacity={0.75}>
-          <Text style={styles.importBtnText}>+ Magia ao Domínio</Text>
+        <TouchableOpacity style={[styles.importBtn, styles.importBtnAlt]} onPress={addMagica} activeOpacity={0.75}>
+          <Text style={[styles.importBtnText, { color: RPG.azulLight }]}>+ Mágica</Text>
         </TouchableOpacity>
       </View>
       {!!feedback && <Text style={styles.feedback}>{feedback}</Text>}
@@ -231,15 +274,6 @@ function StatPill({ label, value, isSymbol }: { label: string; value: string; is
       <Text style={[styles.pillValue, isSymbol && { fontFamily: 'PlanewalkerDings', fontStyle: 'normal', fontSize: 16 }]}>{value}</Text>
     </View>
   );
-}
-
-function typeColor(t: SpellType) {
-  switch (t) {
-    case '[T]': return { color: RPG.incolor };
-    case '[E]': return { color: RPG.azulLight };
-    case '[F]': return { color: RPG.vermelhoLight };
-    case '[C]': return { color: RPG.verdeLight };
-  }
 }
 
 const styles = StyleSheet.create({
@@ -263,10 +297,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     textTransform: 'uppercase',
   },
-  count: {
-    color: RPG.textMuted,
-    fontSize: 12,
-  },
+  count: { color: RPG.textMuted, fontSize: 12 },
 
   searchWrap: {
     padding: 8,
@@ -300,10 +331,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
   },
-  filterText: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
+  filterText: { fontSize: 12, fontWeight: '600' },
   filterBtn2: {
     paddingHorizontal: 8,
     paddingVertical: 3,
@@ -315,52 +343,55 @@ const styles = StyleSheet.create({
     borderColor: RPG.gold,
     backgroundColor: RPG.goldDim + '33',
   },
-  filterText2: {
-    fontSize: 11,
-    color: RPG.textMuted,
-  },
+  filterText2: { fontSize: 11, color: RPG.textMuted },
 
-  list: {
-    padding: 6,
-    gap: 4,
-  },
+  list: { paddingBottom: 16 },
 
-  card: {
+  domainBlock: {
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+  },
+  domainRow: {
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: RPG.surface,
-    borderWidth: 1,
-    borderColor: RPG.border,
-    marginVertical: 2,
-    height: 76,
+    paddingVertical: 12,
+    paddingRight: 14,
+    gap: 10,
   },
   colorStrip: {
     width: 4,
     alignSelf: 'stretch',
   },
-  cardBody: {
+  domainName: {
     flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    justifyContent: 'space-between',
-  },
-  cardTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  cardName: {
-    color: RPG.text,
     fontSize: 14,
     fontFamily: 'serif',
     fontWeight: '600',
-    flex: 1,
+    letterSpacing: 0.5,
   },
-  badgeRow: {
+  countBadge: {
+    backgroundColor: RPG.surfaceAlt,
+    borderWidth: 1,
+    borderColor: RPG.border,
+    borderRadius: 10,
+    paddingHorizontal: 7,
+    paddingVertical: 1,
+  },
+  countText: { color: RPG.textMuted, fontSize: 11 },
+  chevron: { fontSize: 10, fontWeight: 'bold' },
+
+  spellRow: {
     flexDirection: 'row',
-    gap: 4,
     alignItems: 'center',
+    backgroundColor: RPG.bg,
+    paddingVertical: 9,
+    paddingHorizontal: 16,
+    borderTopWidth: 1,
+    borderTopColor: RPG.border,
+    gap: 10,
   },
-  gradeBadge: {
+  grauBadge: {
     width: 20,
     height: 20,
     borderRadius: 10,
@@ -368,27 +399,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  gradeText: {
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-  typeBadge: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  cardDomain: {
-    color: RPG.textMuted,
-    fontSize: 11,
-  },
-  cardCustoLabel: {
-    color: RPG.textMuted,
-    fontSize: 10,
-    fontStyle: 'italic',
-  },
-  cardCustoSymbol: {
+  grauText: { fontSize: 10, fontWeight: 'bold' },
+  spellName: { color: RPG.text, fontSize: 13, fontWeight: '600' },
+  spellMeta: { color: RPG.textMuted, fontSize: 11 },
+  spellCusto: {
     fontFamily: 'PlanewalkerDings',
     fontStyle: 'normal',
-    fontSize: 13,
+    fontSize: 14,
     color: RPG.textMuted,
   },
 
@@ -403,15 +420,20 @@ const styles = StyleSheet.create({
     borderTopColor: RPG.gold,
     maxHeight: '75%',
   },
-  detailContent: {
-    padding: 16,
-    paddingBottom: 32,
-  },
+  detailContent: { padding: 16, paddingBottom: 32 },
   detailHeader: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     borderBottomWidth: 1,
     paddingBottom: 10,
     marginBottom: 12,
+    gap: 10,
+  },
+  spellImg: {
+    width: 72,
+    height: 72,
+    borderRadius: 4,
+    backgroundColor: RPG.surfaceAlt,
   },
   detailName: {
     fontSize: 20,
@@ -419,17 +441,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 2,
   },
-  detailMeta: {
-    color: RPG.textMuted,
-    fontSize: 12,
-  },
-  closeBtn: {
-    padding: 4,
-  },
-  closeBtnText: {
-    color: RPG.textMuted,
-    fontSize: 18,
-  },
+  detailMeta: { color: RPG.textMuted, fontSize: 12 },
+  closeBtn: { padding: 4 },
+  closeBtnText: { color: RPG.textMuted, fontSize: 18 },
   detailStats: {
     flexDirection: 'row',
     gap: 8,
@@ -450,22 +464,14 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
-  pillValue: {
-    color: RPG.text,
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  pillValue: { color: RPG.text, fontSize: 13, fontWeight: '600' },
   detailEffect: {
     color: RPG.text,
     fontSize: 13,
     lineHeight: 20,
     marginBottom: 16,
   },
-  importRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 4,
-  },
+  importRow: { flexDirection: 'row', gap: 8, marginTop: 4 },
   importBtn: {
     flex: 1,
     paddingVertical: 10,
@@ -474,15 +480,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: RPG.surfaceAlt,
   },
-  importBtnAlt: {
-    borderColor: RPG.azulLight,
-  },
-  importBtnText: {
-    color: RPG.gold,
-    fontSize: 12,
-    fontWeight: '600',
-    letterSpacing: 0.5,
-  },
+  importBtnAlt: { borderColor: RPG.azulLight },
+  importBtnText: { color: RPG.gold, fontSize: 12, fontWeight: '600', letterSpacing: 0.5 },
   feedback: {
     marginTop: 10,
     color: RPG.verdeLight,

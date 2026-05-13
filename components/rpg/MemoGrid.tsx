@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   cell: {
-    width: 100,
+    width: '100%',
     height: 34,
     borderWidth: 1,
     borderColor: RPG.border,

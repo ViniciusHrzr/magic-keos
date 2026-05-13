@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   ScrollView, View, Text, TextInput, StyleSheet,
+  KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
@@ -22,8 +23,9 @@ export default function FichaScreen() {
   } = useCharacter();
 
   return (
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
 
         {/* ── HEADER ── */}
         <View style={styles.titleBar}>
@@ -62,12 +64,24 @@ export default function FichaScreen() {
 
         {/* ── MANA ── */}
         <SectionHeader title="Mana" />
-        <View style={styles.manaRow}>
+        <View style={styles.manaTable}>
+          <View style={styles.manaHeaderRow}>
+            <View style={styles.manaColorCol} />
+            <Text style={styles.manaHeaderCell}>Base</Text>
+            <Text style={styles.manaHeaderCell}>Total</Text>
+          </View>
           {manaTypes.map(({ key, label, color, diamondColor }) => (
-            <View key={key} style={styles.manaCell}>
-              <View style={[styles.manaDiamond, { backgroundColor: diamondColor, borderColor: color }]} />
-              <NumericStepper value={c.mana[key]} onChange={v => setMana(key, v)} color={color} />
-              <Text style={[styles.manaLabel, { color }]}>{label}</Text>
+            <View key={key} style={styles.manaTableRow}>
+              <View style={styles.manaColorCol}>
+                <View style={[styles.manaDiamond, { backgroundColor: diamondColor, borderColor: color }]} />
+                <Text style={[styles.manaLabel, { color }]}>{label}</Text>
+              </View>
+              <View style={styles.manaStepperCell}>
+                <NumericStepper compact value={c.mana[key].base} onChange={v => setMana(key, 'base', v)} color={color} />
+              </View>
+              <View style={styles.manaStepperCell}>
+                <NumericStepper compact value={c.mana[key].total} onChange={v => setMana(key, 'total', v)} color={color} />
+              </View>
             </View>
           ))}
         </View>
@@ -174,6 +188,7 @@ export default function FichaScreen() {
         <View style={{ height: 32 }} />
       </ScrollView>
     </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -339,29 +354,56 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  manaRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  manaTable: {
     backgroundColor: RPG.surface,
-    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+  },
+  manaHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.goldDim,
+    marginBottom: 2,
+  },
+  manaHeaderCell: {
+    flex: 1,
+    textAlign: 'center',
+    color: RPG.gold,
+    fontSize: 10,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  manaTableRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: RPG.border,
   },
-  manaCell: {
-    width: '33.33%',
+  manaColorCol: {
+    flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    paddingVertical: 6,
+    gap: 6,
+    width: 70,
+  },
+  manaStepperCell: {
+    flex: 1,
+    alignItems: 'center',
   },
   manaDiamond: {
-    width: 14,
-    height: 14,
+    width: 12,
+    height: 12,
     transform: [{ rotate: '45deg' }],
     borderRadius: 1,
     borderWidth: 1.5,
   },
   manaLabel: {
-    fontSize: 9,
+    fontSize: 11,
     textTransform: 'uppercase',
     letterSpacing: 0.3,
   },
