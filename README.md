@@ -1,50 +1,65 @@
-# Welcome to your Expo app 👋
+# Magic Kéos — Ficha de Personagem
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo mobile de ficha de personagem para o RPG de mesa **Magic Kéos**, desenvolvido em React Native com Expo.
 
-## Get started
+## Funcionalidades
 
-1. Install dependencies
+### Ficha (`/`)
+Ficha completa do personagem com:
+- Nome do personagem
+- **Sabedoria** — acumulada e disponível
+- **Vida** — total, necro, atual, armadura e manto
+- **Mana** — 6 cores (incolor, branco, verde, vermelho, preto, azul), cada uma com valor Base e Total
+- **Veneno** — tracker de slots
+- **Afinidade** — seleção de elemento
+- **Instâncias** — Corpo, Mente e Espírito, cada uma com atributos (dados d4–d12), IP base/bônus e perícias
+- **Proficiências** e **Habilidades** — campos de texto livre
 
-   ```bash
-   npm install
-   ```
+### Magia (`/magia`)
+Ficha de magia com:
+- **Velocidade** e **Canalização** (lado a lado) — stepper base/temp + grid de checkboxes
+- **Memória** e **Foco** (lado a lado) — stepper base/temp + grid de slots de texto
+- **Domínios** — 3 iniciais + slots adicionais; domínios conhecidos do grimório exibem lista expansível de mágicas
+- **Mágicas** — 20 slots; mágicas conhecidas do grimório exibem botão de detalhes
+- **Receitas** — campo de texto livre para receitas de alquimia
+- **Inventário** — campo de texto livre
+- **Equipamentos** — arma, escudo, vestimenta, armadura e 2 acessórios
 
-2. Start the app
+### Grimório (`/grimorio`)
+Catálogo completo de mágicas com:
+- Lista agrupada por **Domínio**, expansível com toque
+- Filtros por **cor** (branco, verde, vermelho, preto, azul), **grau** (1–3) e **tipo**
+- Busca por nome
+- Modal de detalhe com imagem, efeito completo e atributos da mágica
+- Botões para adicionar domínio ou mágica direto à ficha
 
-   ```bash
-   npx expo start
-   ```
+## Dados
+- **736 mágicas** carregadas do grimório oficial de Magic Kéos
+- **736 imagens** das mágicas bundled no app (~4.9 MB, média 6.9 KB por imagem)
+- Persistência local via **AsyncStorage**
 
-In the output, you'll find options to open the app in a
+## Stack
+- [Expo SDK 54](https://expo.dev) / expo-router v6
+- React Native 0.81.5
+- TypeScript
+- react-native-safe-area-context
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Como rodar
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Abre no Expo Go (Android/iOS) ou gera APK via EAS Build:
 
-## Learn more
+```bash
+npx eas build --platform android --profile preview
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Scripts utilitários
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+| Script | Descrição |
+|--------|-----------|
+| `scripts/extract_spell_images.py` | Extrai imagens do `.xlsx` do grimório e comprime com Pillow |
+| `scripts/generate_image_map.py` | Gera `data/spellImages.ts` com os `require()` estáticos para o Metro bundler |
