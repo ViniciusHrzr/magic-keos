@@ -83,9 +83,17 @@ export default function GrimorioScreen() {
     });
   }, []);
 
+  const addDomainToFicha = useCallback((name: string) => {
+    if (c.dominios.some(d => d.trim() === name)) return;
+    const idx = c.dominios.findIndex(d => !d.trim());
+    if (idx === -1) return;
+    setDominio(idx, name);
+  }, [c.dominios, setDominio]);
+
   const renderDomain = useCallback(({ item }: { item: DomainGroup }) => {
     const isOpen = expanded.has(item.name);
     const colorHex = COLOR_HEX[item.color];
+    const inFicha = c.dominios.some(d => d.trim() === item.name);
     return (
       <View style={styles.domainBlock}>
         <TouchableOpacity style={styles.domainRow} onPress={() => toggleDomain(item.name)} activeOpacity={0.75}>
@@ -96,21 +104,35 @@ export default function GrimorioScreen() {
           </View>
           <Text style={[styles.chevron, { color: colorHex }]}>{isOpen ? '▲' : '▼'}</Text>
         </TouchableOpacity>
-        {isOpen && item.spells.map((s, i) => (
-          <TouchableOpacity key={i} style={styles.spellRow} onPress={() => setSelected(s)} activeOpacity={0.75}>
-            <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[s.grau] }]}>
-              <Text style={[styles.grauText, { color: GRAU_COLORS[s.grau] }]}>{s.grau}</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.spellName} numberOfLines={1}>{s.nome}</Text>
-              <Text style={styles.spellMeta}>{TYPE_LABELS[s.tipo]} · {s.atributo}</Text>
-            </View>
-            <Text style={styles.spellCusto}>{s.custo || '—'}</Text>
-          </TouchableOpacity>
-        ))}
+        {isOpen && (
+          <>
+            <TouchableOpacity
+              style={[styles.addDominioRow, inFicha && styles.addDominioRowDone]}
+              onPress={() => addDomainToFicha(item.name)}
+              activeOpacity={inFicha ? 1 : 0.7}
+              disabled={inFicha}
+            >
+              <Text style={[styles.addDominioText, inFicha && styles.addDominioTextDone]}>
+                {inFicha ? '✓ Domínio já está na ficha' : '+ Adicionar Domínio à ficha'}
+              </Text>
+            </TouchableOpacity>
+            {item.spells.map((s, i) => (
+              <TouchableOpacity key={i} style={styles.spellRow} onPress={() => setSelected(s)} activeOpacity={0.75}>
+                <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[s.grau] }]}>
+                  <Text style={[styles.grauText, { color: GRAU_COLORS[s.grau] }]}>{s.grau}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.spellName} numberOfLines={1}>{s.nome}</Text>
+                  <Text style={styles.spellMeta}>{TYPE_LABELS[s.tipo]} · {s.atributo}</Text>
+                </View>
+                <Text style={styles.spellCusto}>{s.custo || '—'}</Text>
+              </TouchableOpacity>
+            ))}
+          </>
+        )}
       </View>
     );
-  }, [expanded, toggleDomain]);
+  }, [expanded, toggleDomain, c.dominios, addDomainToFicha]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -184,8 +206,6 @@ export default function GrimorioScreen() {
               <SpellDetail
                 spell={selected}
                 onClose={() => setSelected(null)}
-                dominios={c.dominios}
-                onAddDominio={setDominio}
                 magicas={c.magicas}
                 onAddMagica={setMagica}
               />
@@ -197,30 +217,14 @@ export default function GrimorioScreen() {
   );
 }
 
-function SpellDetail({ spell, onClose, dominios, onAddDominio, magicas, onAddMagica }: {
+function SpellDetail({ spell, onClose, magicas, onAddMagica }: {
   spell: Spell;
   onClose: () => void;
-  dominios: string[];
-  onAddDominio: (idx: number, v: string) => void;
   magicas: string[];
   onAddMagica: (idx: number, v: string) => void;
 }) {
   const [feedback, setFeedback] = useState('');
   const color = COLOR_HEX[spell.cor];
-
-  const addDominio = () => {
-    if (dominios.some(d => d.trim() === spell.dominio)) {
-      setFeedback('Domínio já está na ficha!');
-      return;
-    }
-    const idx = dominios.findIndex(d => !d.trim());
-    if (idx === -1) {
-      setFeedback('Todos os slots de domínio estão cheios!');
-    } else {
-      onAddDominio(idx, spell.dominio);
-      setFeedback(`Domínio "${spell.dominio}" adicionado!`);
-    }
-  };
 
   const addMagica = () => {
     const idx = magicas.findIndex(m => !m.trim());
@@ -255,9 +259,6 @@ function SpellDetail({ spell, onClose, dominios, onAddDominio, magicas, onAddMag
       </View>
       <Text style={styles.detailEffect}>{spell.efeito}</Text>
       <View style={styles.importRow}>
-        <TouchableOpacity style={styles.importBtn} onPress={addDominio} activeOpacity={0.75}>
-          <Text style={styles.importBtnText}>+ Domínio</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={[styles.importBtn, styles.importBtnAlt]} onPress={addMagica} activeOpacity={0.75}>
           <Text style={[styles.importBtnText, { color: RPG.azulLight }]}>+ Mágica</Text>
         </TouchableOpacity>
@@ -380,6 +381,29 @@ const styles = StyleSheet.create({
   },
   countText: { color: RPG.textMuted, fontSize: 11 },
   chevron: { fontSize: 10, fontWeight: 'bold' },
+
+  addDominioRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: RPG.surfaceAlt,
+    borderTopWidth: 1,
+    borderTopColor: RPG.goldDim,
+  },
+  addDominioRowDone: {
+    borderTopColor: RPG.border,
+  },
+  addDominioText: {
+    color: RPG.gold,
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+  },
+  addDominioTextDone: {
+    color: RPG.textMuted,
+  },
 
   spellRow: {
     flexDirection: 'row',

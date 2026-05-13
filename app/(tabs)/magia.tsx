@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
@@ -360,13 +360,25 @@ function DomainView({ domain, spells, onAddMemoria, onAddFoco, onClose }: {
   onClose: () => void;
 }) {
   const [selected, setSelected] = useState<Spell | null>(null);
+  const scrollRef = useRef<ScrollView>(null);
+  const scrollY = useRef(0);
+
+  const closeSpell = () => {
+    const y = scrollY.current;
+    setSelected(null);
+    requestAnimationFrame(() => scrollRef.current?.scrollTo({ y, animated: false }));
+  };
 
   if (selected) {
-    return <SpellDetailView spell={selected} onClose={() => setSelected(null)} />;
+    return <SpellDetailView spell={selected} onClose={closeSpell} />;
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      ref={scrollRef}
+      onScroll={e => { scrollY.current = e.nativeEvent.contentOffset.y; }}
+      scrollEventThrottle={32}
+    >
       <View style={[styles.detailHeader, { borderBottomColor: RPG.gold, padding: 16, paddingBottom: 12, marginBottom: 0 }]}>
         <View style={{ flex: 1 }}>
           <Text style={styles.domainTitle}>{domain}</Text>
