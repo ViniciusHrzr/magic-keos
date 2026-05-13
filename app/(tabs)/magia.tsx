@@ -28,6 +28,21 @@ export default function MagiaScreen() {
     [viewDomain],
   );
 
+  const addToMemoria = (name: string) => {
+    const idx = c.memoria.entries.findIndex(e => !e.trim());
+    if (idx === -1) return;
+    const next = [...c.memoria.entries];
+    next[idx] = name;
+    setMemoria({ entries: next });
+  };
+  const addToFoco = (name: string) => {
+    const idx = c.foco.entries.findIndex(e => !e.trim());
+    if (idx === -1) return;
+    const next = [...c.foco.entries];
+    next[idx] = name;
+    setFoco({ entries: next });
+  };
+
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -199,9 +214,21 @@ export default function MagiaScreen() {
                   placeholderTextColor={RPG.textDark}
                 />
                 {spell && (
-                  <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
-                    <Text style={styles.slotBtnSpell}>ℹ</Text>
-                  </TouchableOpacity>
+                  <>
+                    {spell.tipo === '[F]' && (
+                      <TouchableOpacity style={styles.pillMem} onPress={() => addToMemoria(m)} activeOpacity={0.7}>
+                        <Text style={styles.pillMemText}>Mem</Text>
+                      </TouchableOpacity>
+                    )}
+                    {(spell.tipo === '[E]' || spell.tipo === '[C]') && (
+                      <TouchableOpacity style={styles.pillFoco} onPress={() => addToFoco(m)} activeOpacity={0.7}>
+                        <Text style={styles.pillFocoText}>Foco</Text>
+                      </TouchableOpacity>
+                    )}
+                    <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
+                      <Text style={styles.slotBtnSpell}>ℹ</Text>
+                    </TouchableOpacity>
+                  </>
                 )}
               </View>
             );
@@ -270,6 +297,8 @@ export default function MagiaScreen() {
                 domain={viewDomain}
                 spells={domainSpells}
                 onViewSpell={s => { setViewDomain(null); setViewSpell(s); }}
+                onAddMemoria={addToMemoria}
+                onAddFoco={addToFoco}
                 onClose={() => setViewDomain(null)}
               />
             )}
@@ -324,10 +353,12 @@ function SpellDetailView({ spell, onClose }: { spell: Spell; onClose: () => void
   );
 }
 
-function DomainView({ domain, spells, onViewSpell, onClose }: {
+function DomainView({ domain, spells, onViewSpell, onAddMemoria, onAddFoco, onClose }: {
   domain: string;
   spells: Spell[];
   onViewSpell: (s: Spell) => void;
+  onAddMemoria: (name: string) => void;
+  onAddFoco: (name: string) => void;
   onClose: () => void;
 }) {
   return (
@@ -342,17 +373,33 @@ function DomainView({ domain, spells, onViewSpell, onClose }: {
         </TouchableOpacity>
       </View>
       {spells.map((item, i) => (
-        <TouchableOpacity key={i} style={styles.domainSpellCard} onPress={() => onViewSpell(item)} activeOpacity={0.7}>
-          <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[item.grau] }]}>
-            <Text style={[styles.grauText, { color: GRAU_COLORS[item.grau] }]}>{item.grau}</Text>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.domainSpellName} numberOfLines={1}>{item.nome}</Text>
-            <Text style={styles.domainSpellMeta}>
-              {item.tipo} · Custo: <Text style={{ fontFamily: 'PlanewalkerDings', fontStyle: 'normal' }}>{item.custo || '—'}</Text>
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View key={i} style={styles.domainSpellCard}>
+          <TouchableOpacity style={styles.domainSpellInfo} onPress={() => onViewSpell(item)} activeOpacity={0.7}>
+            <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[item.grau] }]}>
+              <Text style={[styles.grauText, { color: GRAU_COLORS[item.grau] }]}>{item.grau}</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.domainSpellName} numberOfLines={1}>{item.nome}</Text>
+              <Text style={styles.domainSpellMeta}>
+                {item.tipo} · Custo: <Text style={{ fontFamily: 'PlanewalkerDings', fontStyle: 'normal' }}>{item.custo || '—'}</Text>
+              </Text>
+            </View>
+          </TouchableOpacity>
+          {item.tipo !== '[T]' && (
+            <View style={styles.spellPills}>
+              {item.tipo === '[F]' && (
+                <TouchableOpacity style={styles.pillMem} onPress={() => onAddMemoria(item.nome)} activeOpacity={0.7}>
+                  <Text style={styles.pillMemText}>Mem</Text>
+                </TouchableOpacity>
+              )}
+              {(item.tipo === '[E]' || item.tipo === '[C]') && (
+                <TouchableOpacity style={styles.pillFoco} onPress={() => onAddFoco(item.nome)} activeOpacity={0.7}>
+                  <Text style={styles.pillFocoText}>Foco</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          )}
+        </View>
       ))}
       <View style={{ height: 32 }} />
     </ScrollView>
@@ -619,5 +666,43 @@ const styles = StyleSheet.create({
   grauText: {
     fontSize: 10,
     fontWeight: 'bold',
+  },
+
+  domainSpellInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    gap: 10,
+  },
+  spellPills: {
+    flexDirection: 'row',
+    gap: 4,
+    paddingRight: 10,
+  },
+  pillMem: {
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderWidth: 1,
+    borderColor: RPG.azulLight,
+    borderRadius: 4,
+  },
+  pillMemText: {
+    color: RPG.azulLight,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+  pillFoco: {
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderWidth: 1,
+    borderColor: RPG.goldLight,
+    borderRadius: 4,
+  },
+  pillFocoText: {
+    color: RPG.goldLight,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
 });
