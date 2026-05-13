@@ -47,8 +47,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "bf0125c8-710f-48b5-a116-654be89f7573"
+        "projectId": "da214eef-b349-4ee6-a2cd-c35be4727f10"
       }
-    }
+    },
+    "owner": "harusklan"
   }
 }
