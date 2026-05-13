@@ -296,7 +296,6 @@ export default function MagiaScreen() {
               <DomainView
                 domain={viewDomain}
                 spells={domainSpells}
-                onViewSpell={s => { setViewDomain(null); setViewSpell(s); }}
                 onAddMemoria={addToMemoria}
                 onAddFoco={addToFoco}
                 onClose={() => setViewDomain(null)}
@@ -353,14 +352,19 @@ function SpellDetailView({ spell, onClose }: { spell: Spell; onClose: () => void
   );
 }
 
-function DomainView({ domain, spells, onViewSpell, onAddMemoria, onAddFoco, onClose }: {
+function DomainView({ domain, spells, onAddMemoria, onAddFoco, onClose }: {
   domain: string;
   spells: Spell[];
-  onViewSpell: (s: Spell) => void;
   onAddMemoria: (name: string) => void;
   onAddFoco: (name: string) => void;
   onClose: () => void;
 }) {
+  const [selected, setSelected] = useState<Spell | null>(null);
+
+  if (selected) {
+    return <SpellDetailView spell={selected} onClose={() => setSelected(null)} />;
+  }
+
   return (
     <ScrollView>
       <View style={[styles.detailHeader, { borderBottomColor: RPG.gold, padding: 16, paddingBottom: 12, marginBottom: 0 }]}>
@@ -374,7 +378,7 @@ function DomainView({ domain, spells, onViewSpell, onAddMemoria, onAddFoco, onCl
       </View>
       {spells.map((item, i) => (
         <View key={i} style={styles.domainSpellCard}>
-          <TouchableOpacity style={styles.domainSpellInfo} onPress={() => onViewSpell(item)} activeOpacity={0.7}>
+          <TouchableOpacity style={styles.domainSpellInfo} onPress={() => setSelected(item)} activeOpacity={0.7}>
             <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[item.grau] }]}>
               <Text style={[styles.grauText, { color: GRAU_COLORS[item.grau] }]}>{item.grau}</Text>
             </View>
