@@ -44,12 +44,18 @@
       "typedRoutes": true,
       "reactCompiler": true
     },
+    "owner": "harusklan",
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "da214eef-b349-4ee6-a2cd-c35be4727f10"
+        "projectId": "ba3503a8-46a7-46ff-b98a-dd03d77e5f9e"
       }
     },
-    "owner": "harusklan"
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ba3503a8-46a7-46ff-b98a-dd03d77e5f9e"
+    }
   }
 }
