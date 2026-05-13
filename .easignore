@@ -1,0 +1,12 @@
+# Claude local settings
+.claude/
+
+# Scripts utilitários (não precisam ir pro build)
+scripts/
+
+# Arquivos de referência
+magic keos/
+
+# Misc
+*.log
+.DS_Store
