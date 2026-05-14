@@ -176,7 +176,10 @@ export default function MagiaScreen() {
             const isDomain = !spell && isDomainName(d);
             return (
               <View key={i} style={[styles.dominioCell, i < 3 && styles.dominioInitial]}>
-                {i < 3 && <Text style={styles.dominioInitialLabel}>inicial</Text>}
+                {isDomain
+                  ? <View style={[styles.dominioColorStrip, { backgroundColor: getDomainColor(d) ?? RPG.gold }]} />
+                  : i < 3 && <Text style={styles.dominioInitialLabel}>inicial</Text>
+                }
                 <TextInput
                   style={styles.dominioInput}
                   value={d}
@@ -206,6 +209,18 @@ export default function MagiaScreen() {
             const spell = spellByName(m);
             return (
               <View key={i} style={styles.dominioCell}>
+                {spell && <View style={[styles.dominioColorStrip, { backgroundColor: COLOR_HEX[spell.cor] }]} />}
+                {spell && (
+                  <View style={styles.magicaInfoBlock}>
+                    <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[spell.grau] }]}>
+                      <Text style={[styles.grauText, { color: GRAU_COLORS[spell.grau] }]}>{spell.grau}</Text>
+                    </View>
+                    <Text style={styles.magicaTipo}>{spell.tipo}</Text>
+                    {spell.custo ? (
+                      <Text style={styles.magicaCusto}>{spell.custo}</Text>
+                    ) : null}
+                  </View>
+                )}
                 <TextInput
                   style={styles.dominioInput}
                   value={m}
@@ -316,6 +331,12 @@ const COLOR_HEX: Record<SpellColor, string> = {
   preto: RPG.pretoLight,
   azul: RPG.azulLight,
 };
+
+function getDomainColor(name: string): string | null {
+  const spell = grimoire.find(s => s.dominio === name.trim());
+  if (!spell) return null;
+  return COLOR_HEX[spell.cor];
+}
 const GRAU_COLORS = ['#888', RPG.gold, RPG.goldLight, '#fff'];
 
 function SpellDetailView({ spell, onClose }: { spell: Spell; onClose: () => void }) {
@@ -500,6 +521,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     fontStyle: 'italic',
     letterSpacing: 0.5,
+  },
+  dominioColorStrip: {
+    width: 4,
+    alignSelf: 'stretch',
+  },
+  magicaInfoBlock: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+    gap: 2,
+  },
+  magicaTipo: {
+    color: RPG.textMuted,
+    fontSize: 9,
+    letterSpacing: 0.3,
+  },
+  magicaCusto: {
+    fontFamily: 'PlanewalkerDings',
+    color: RPG.textMuted,
+    fontSize: 11,
+    fontStyle: 'normal',
   },
   dominioInput: {
     flex: 1,

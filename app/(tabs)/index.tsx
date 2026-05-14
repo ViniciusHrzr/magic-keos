@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView, View, Text, TextInput, StyleSheet,
-  KeyboardAvoidingView, Platform,
+  KeyboardAvoidingView, Platform, TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
@@ -12,9 +12,11 @@ import SkillRow from '@/components/rpg/SkillRow';
 import NumericStepper from '@/components/rpg/NumericStepper';
 import VenenoTracker from '@/components/rpg/VenenoTracker';
 import AfinidadeSection from '@/components/rpg/AfinidadeSection';
+import CharacterManager from '@/components/rpg/CharacterManager';
 import { AttrDice, SkillValue } from '@/types/character';
 
 export default function FichaScreen() {
+  const [showManager, setShowManager] = useState(false);
   const {
     character: c,
     setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
@@ -29,7 +31,12 @@ export default function FichaScreen() {
 
         {/* ── HEADER ── */}
         <View style={styles.titleBar}>
-          <Text style={styles.gameTitle}>Magic Kéos</Text>
+          <View style={styles.titleRow}>
+            <Text style={styles.gameTitle}>Magic Kéos</Text>
+            <TouchableOpacity style={styles.fichasBtn} onPress={() => setShowManager(true)} activeOpacity={0.7}>
+              <Text style={styles.fichasBtnText}>Fichas</Text>
+            </TouchableOpacity>
+          </View>
           <TextInput
             style={styles.nameInput}
             value={c.nome}
@@ -188,6 +195,7 @@ export default function FichaScreen() {
 
         <View style={{ height: 32 }} />
       </ScrollView>
+      <CharacterManager visible={showManager} onClose={() => setShowManager(false)} />
     </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -295,13 +303,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
+  titleRow: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   gameTitle: {
+    textAlign: 'center',
     color: RPG.gold,
     fontSize: 20,
     fontFamily: 'serif',
     fontWeight: 'bold',
     letterSpacing: 3,
     textTransform: 'uppercase',
+  },
+  fichasBtn: {
+    position: 'absolute',
+    right: 0,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: RPG.gold,
+    borderRadius: 4,
+  },
+  fichasBtnText: {
+    color: RPG.gold,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
   nameInput: {
     color: RPG.text,
