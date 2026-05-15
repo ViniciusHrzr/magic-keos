@@ -10,6 +10,7 @@ import MemoGrid from '@/components/rpg/MemoGrid';
 import { grimoire, Spell, SpellColor } from '@/data/grimoire';
 import spellImages from '@/data/spellImages';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
+import { COLOR_HEX, GRAU_COLORS } from '@/constants/spell-constants';
 
 export default function MagiaScreen() {
   const {
@@ -331,21 +332,11 @@ export default function MagiaScreen() {
   );
 }
 
-const COLOR_HEX: Record<SpellColor, string> = {
-  branco: RPG.branco,
-  verde: RPG.verdeLight,
-  vermelho: RPG.vermelhoLight,
-  preto: RPG.pretoLight,
-  azul: RPG.azulLight,
-};
-
 function getDomainColor(name: string): string | null {
   const spell = grimoire.find(s => s.dominio === name.trim());
   if (!spell) return null;
   return COLOR_HEX[spell.cor];
 }
-const GRAU_COLORS = ['#888', RPG.gold, RPG.goldLight, '#fff'];
-
 function SpellDetailView({ spell, onClose }: { spell: Spell; onClose: () => void }) {
   const color = COLOR_HEX[spell.cor];
   const img = spellImages[spell.nome];
