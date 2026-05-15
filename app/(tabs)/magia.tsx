@@ -24,6 +24,13 @@ export default function MagiaScreen() {
 
   const [viewSpell, setViewSpell] = useState<Spell | null>(null);
   const [viewDomain, setViewDomain] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showToast = (msg: string) => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast(msg);
+    toastTimer.current = setTimeout(() => setToast(null), 2500);
+  };
 
   const spellByName = (v: string) => grimoire.find(s => s.nome === v.trim());
   const isDomainName = (v: string) => v.trim() !== '' && grimoire.some(s => s.dominio === v.trim());
@@ -33,20 +40,28 @@ export default function MagiaScreen() {
   );
 
   const addToMemoria = (name: string) => {
-    if (c.memoria.entries.some(e => e.trim() === name.trim())) return;
+    if (c.memoria.entries.some(e => e.trim() === name.trim())) {
+      showToast(`"${name}" já está na Memória`);
+      return;
+    }
     const idx = c.memoria.entries.findIndex(e => !e.trim());
-    if (idx === -1) return;
+    if (idx === -1) { showToast('Memória cheia'); return; }
     const next = [...c.memoria.entries];
     next[idx] = name;
     setMemoria({ entries: next });
+    showToast(`"${name}" adicionado à Memória`);
   };
   const addToFoco = (name: string) => {
-    if (c.foco.entries.some(e => e.trim() === name.trim())) return;
+    if (c.foco.entries.some(e => e.trim() === name.trim())) {
+      showToast(`"${name}" já está no Foco`);
+      return;
+    }
     const idx = c.foco.entries.findIndex(e => !e.trim());
-    if (idx === -1) return;
+    if (idx === -1) { showToast('Foco cheio'); return; }
     const next = [...c.foco.entries];
     next[idx] = name;
     setFoco({ entries: next });
+    showToast(`"${name}" adicionado ao Foco`);
   };
 
   if (!isLoaded) return <ActivityIndicator size="large" color={RPG.gold} style={{ flex: 1, backgroundColor: RPG.bg }} />;
@@ -384,6 +399,11 @@ export default function MagiaScreen() {
           </View>
         </View>
       </Modal>
+      {toast !== null && (
+        <View style={styles.toast} pointerEvents="none">
+          <Text style={styles.toastText}>{toast}</Text>
+        </View>
+      )}
     </SafeAreaView>
     </KeyboardAvoidingView>
     </ErrorBoundary>
@@ -742,5 +762,25 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 0.3,
+  },
+  toast: {
+    position: 'absolute',
+    bottom: 24,
+    left: 16,
+    right: 16,
+    backgroundColor: RPG.headerBg,
+    borderRadius: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: RPG.gold,
+    zIndex: 999,
+  },
+  toastText: {
+    color: RPG.gold,
+    fontSize: 12,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
