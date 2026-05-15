@@ -28,12 +28,18 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Ao abrir o app com personagem salvo, a ficha exibe os dados corretos sem flash de estado vazio antes da hidratação completar
   3. Um erro de render em uma tela (ex: campo corrompido) exibe mensagem de erro contida naquela tela sem derrubar as demais abas
   4. Alterar um campo em qualquer tela não causa re-render das telas que não dependem daquele campo
-**Plans**: 3 plans
+**Plans**: 3 (2 waves)
 
-Plans:
+**Wave 1** *(parallel)*
 - [ ] 01-01-PLAN.md — Debounce de escrita e memoização do CharacterContext (FOUND-01, FOUND-04)
 - [ ] 01-02-PLAN.md — Error boundaries globais e por aba (FOUND-03)
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-03-PLAN.md — Loading state de hidratação e guards nas screens (FOUND-02)
+
+**Cross-cutting constraints:**
+- `store/CharacterContext.tsx` modificado por 01-01 e 01-03 — mudanças aditivas e não conflitantes
+- Nenhuma lógica de funcionamento da ficha é alterada (setters, transformações, estrutura do personagem permanecem idênticos)
 
 ### Phase 2: Qualidade da Ficha
 **Goal**: A ficha de personagem rejeita entradas inválidas, exibe glifos de mana corretamente desde o primeiro frame, e os arquivos de tela são navegáveis e reutilizáveis
