@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Character, defaultCharacter, AttrDice, SkillValue } from '@/types/character';
 
@@ -69,6 +69,8 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
   const [allChars, setAllChars] = useState<Record<string, Character>>({});
   const [currentId, setCurrentId] = useState<string>('');
 
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
     const load = async () => {
       try {
@@ -110,48 +112,56 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
   const character: Character = allChars[currentId] ?? defaultCharacter;
 
   const update = useCallback((patch: (prev: Character) => Character) => {
+    // Immediate React state update — no debounce on UI
     setAllChars(prev => {
       const cur = prev[currentId] ?? defaultCharacter;
-      const next = { ...prev, [currentId]: patch(cur) };
-      AsyncStorage.setItem(CHARS_KEY, JSON.stringify(next));
-      return next;
+      return { ...prev, [currentId]: patch(cur) };
     });
+    // Debounced AsyncStorage write — ~500ms after last call
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setAllChars(prev => {
+        AsyncStorage.setItem(CHARS_KEY, JSON.stringify(prev))
+          .catch(err => console.error('AsyncStorage write failed:', err));
+        return prev;
+      });
+    }, 500);
   }, [currentId]);
 
-  const setNome = (v: string) => update(p => ({ ...p, nome: v }));
-  const setSabedoria = (k: 'acumulada' | 'disponivel', v: number) =>
-    update(p => ({ ...p, sabedoria: { ...p.sabedoria, [k]: v } }));
-  const setVida = (k: keyof Character['vida'], v: number) =>
-    update(p => ({ ...p, vida: { ...p.vida, [k]: v } }));
-  const setMana = (k: keyof Character['mana'], field: 'base' | 'total', v: number) =>
-    update(p => ({ ...p, mana: { ...p.mana, [k]: { ...p.mana[k], [field]: v } } }));
-  const setVeneno = (v: number) => update(p => ({ ...p, veneno: Math.max(0, Math.min(10, v)) }));
-  const setAfinidade = (k: keyof Character['afinidade'], v: number) =>
-    update(p => ({ ...p, afinidade: { ...p.afinidade, [k]: Math.max(0, Math.min(100, v)) } }));
-  const setInstanceIP = (instance: 'corpo' | 'mente' | 'espirito', field: 'ipBase' | 'ipBonus', v: number) =>
-    update(p => ({ ...p, [instance]: { ...p[instance], [field]: v } }));
-  const setAttrDice = (instance: 'corpo' | 'mente' | 'espirito', attr: string, dice: AttrDice) =>
-    update(p => ({ ...p, [instance]: { ...p[instance], [attr]: dice } }));
-  const setSkill = (instance: 'corpo' | 'mente' | 'espirito', skill: string, value: SkillValue) =>
-    update(p => ({ ...p, [instance]: { ...p[instance], [skill]: value } }));
-  const setProficiencias = (v: string) => update(p => ({ ...p, proficiencias: v }));
-  const setHabilidades   = (v: string) => update(p => ({ ...p, habilidades: v }));
-  const setVelocidade = (patch: Partial<Character['velocidade']>) =>
-    update(p => ({ ...p, velocidade: { ...p.velocidade, ...patch } }));
-  const setMemoria = (patch: Partial<Character['memoria']>) =>
-    update(p => ({ ...p, memoria: { ...p.memoria, ...patch } }));
-  const setCanalizacao = (patch: Partial<Character['canalizacao']>) =>
-    update(p => ({ ...p, canalizacao: { ...p.canalizacao, ...patch } }));
-  const setFoco = (patch: Partial<Character['foco']>) =>
-    update(p => ({ ...p, foco: { ...p.foco, ...patch } }));
-  const setDominio = (idx: number, v: string) =>
-    update(p => { const d = [...p.dominios]; d[idx] = v; return { ...p, dominios: d }; });
-  const setInventario = (v: string) => update(p => ({ ...p, inventario: v }));
-  const setEquipamento = (k: keyof Character['equipamentos'], v: string) =>
-    update(p => ({ ...p, equipamentos: { ...p.equipamentos, [k]: v } }));
-  const setMagica = (idx: number, v: string) =>
-    update(p => { const m = [...p.magicas]; m[idx] = v; return { ...p, magicas: m }; });
-  const setReceitas = (v: string) => update(p => ({ ...p, receitas: v }));
+  const setNome = useCallback((v: string) => update(p => ({ ...p, nome: v })), [update]);
+  const setSabedoria = useCallback((k: 'acumulada' | 'disponivel', v: number) =>
+    update(p => ({ ...p, sabedoria: { ...p.sabedoria, [k]: v } })), [update]);
+  const setVida = useCallback((k: keyof Character['vida'], v: number) =>
+    update(p => ({ ...p, vida: { ...p.vida, [k]: v } })), [update]);
+  const setMana = useCallback((k: keyof Character['mana'], field: 'base' | 'total', v: number) =>
+    update(p => ({ ...p, mana: { ...p.mana, [k]: { ...p.mana[k], [field]: v } } })), [update]);
+  const setVeneno = useCallback((v: number) => update(p => ({ ...p, veneno: Math.max(0, Math.min(10, v)) })), [update]);
+  const setAfinidade = useCallback((k: keyof Character['afinidade'], v: number) =>
+    update(p => ({ ...p, afinidade: { ...p.afinidade, [k]: Math.max(0, Math.min(100, v)) } })), [update]);
+  const setInstanceIP = useCallback((instance: 'corpo' | 'mente' | 'espirito', field: 'ipBase' | 'ipBonus', v: number) =>
+    update(p => ({ ...p, [instance]: { ...p[instance], [field]: v } })), [update]);
+  const setAttrDice = useCallback((instance: 'corpo' | 'mente' | 'espirito', attr: string, dice: AttrDice) =>
+    update(p => ({ ...p, [instance]: { ...p[instance], [attr]: dice } })), [update]);
+  const setSkill = useCallback((instance: 'corpo' | 'mente' | 'espirito', skill: string, value: SkillValue) =>
+    update(p => ({ ...p, [instance]: { ...p[instance], [skill]: value } })), [update]);
+  const setProficiencias = useCallback((v: string) => update(p => ({ ...p, proficiencias: v })), [update]);
+  const setHabilidades   = useCallback((v: string) => update(p => ({ ...p, habilidades: v })), [update]);
+  const setVelocidade = useCallback((patch: Partial<Character['velocidade']>) =>
+    update(p => ({ ...p, velocidade: { ...p.velocidade, ...patch } })), [update]);
+  const setMemoria = useCallback((patch: Partial<Character['memoria']>) =>
+    update(p => ({ ...p, memoria: { ...p.memoria, ...patch } })), [update]);
+  const setCanalizacao = useCallback((patch: Partial<Character['canalizacao']>) =>
+    update(p => ({ ...p, canalizacao: { ...p.canalizacao, ...patch } })), [update]);
+  const setFoco = useCallback((patch: Partial<Character['foco']>) =>
+    update(p => ({ ...p, foco: { ...p.foco, ...patch } })), [update]);
+  const setDominio = useCallback((idx: number, v: string) =>
+    update(p => { const d = [...p.dominios]; d[idx] = v; return { ...p, dominios: d }; }), [update]);
+  const setInventario = useCallback((v: string) => update(p => ({ ...p, inventario: v })), [update]);
+  const setEquipamento = useCallback((k: keyof Character['equipamentos'], v: string) =>
+    update(p => ({ ...p, equipamentos: { ...p.equipamentos, [k]: v } })), [update]);
+  const setMagica = useCallback((idx: number, v: string) =>
+    update(p => { const m = [...p.magicas]; m[idx] = v; return { ...p, magicas: m }; }), [update]);
+  const setReceitas = useCallback((v: string) => update(p => ({ ...p, receitas: v })), [update]);
 
   const charList = useMemo<CharInfo[]>(() =>
     Object.entries(allChars).map(([id, c]) => ({ id, name: c.nome || 'Sem nome' })),
@@ -160,18 +170,21 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
 
   const switchTo = useCallback((id: string) => {
     setCurrentId(id);
-    AsyncStorage.setItem(CUR_KEY, id);
+    AsyncStorage.setItem(CUR_KEY, id)
+      .catch(err => console.error('AsyncStorage write failed:', err));
   }, []);
 
   const createChar = useCallback(() => {
     const id = genId();
     setAllChars(prev => {
       const next = { ...prev, [id]: { ...defaultCharacter } };
-      AsyncStorage.setItem(CHARS_KEY, JSON.stringify(next));
+      AsyncStorage.setItem(CHARS_KEY, JSON.stringify(next))
+        .catch(err => console.error('AsyncStorage write failed:', err));
       return next;
     });
     setCurrentId(id);
-    AsyncStorage.setItem(CUR_KEY, id);
+    AsyncStorage.setItem(CUR_KEY, id)
+      .catch(err => console.error('AsyncStorage write failed:', err));
   }, []);
 
   const deleteChar = useCallback((id: string) => {
@@ -188,9 +201,11 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
       }
       if (newCur !== currentId) {
         setCurrentId(newCur);
-        AsyncStorage.setItem(CUR_KEY, newCur);
+        AsyncStorage.setItem(CUR_KEY, newCur)
+          .catch(err => console.error('AsyncStorage write failed:', err));
       }
-      AsyncStorage.setItem(CHARS_KEY, JSON.stringify(next));
+      AsyncStorage.setItem(CHARS_KEY, JSON.stringify(next))
+        .catch(err => console.error('AsyncStorage write failed:', err));
       return next;
     });
   }, [currentId]);
@@ -207,27 +222,39 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
       const id = genId();
       setAllChars(prev => {
         const next = { ...prev, [id]: imported };
-        AsyncStorage.setItem(CHARS_KEY, JSON.stringify(next));
+        AsyncStorage.setItem(CHARS_KEY, JSON.stringify(next))
+          .catch(err => console.error('AsyncStorage write failed:', err));
         return next;
       });
       setCurrentId(id);
-      AsyncStorage.setItem(CUR_KEY, id);
+      AsyncStorage.setItem(CUR_KEY, id)
+        .catch(err => console.error('AsyncStorage write failed:', err));
       return true;
     } catch {
       return false;
     }
   }, []);
 
+  const contextValue = useMemo(() => ({
+    character,
+    setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
+    setInstanceIP, setAttrDice, setSkill,
+    setProficiencias, setHabilidades,
+    setVelocidade, setMemoria, setCanalizacao, setFoco,
+    setDominio, setInventario, setEquipamento, setMagica, setReceitas,
+    charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
+  }), [
+    character,
+    setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
+    setInstanceIP, setAttrDice, setSkill,
+    setProficiencias, setHabilidades,
+    setVelocidade, setMemoria, setCanalizacao, setFoco,
+    setDominio, setInventario, setEquipamento, setMagica, setReceitas,
+    charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
+  ]);
+
   return (
-    <CharacterContext.Provider value={{
-      character,
-      setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
-      setInstanceIP, setAttrDice, setSkill,
-      setProficiencias, setHabilidades,
-      setVelocidade, setMemoria, setCanalizacao, setFoco,
-      setDominio, setInventario, setEquipamento, setMagica, setReceitas,
-      charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
-    }}>
+    <CharacterContext.Provider value={contextValue}>
       {children}
     </CharacterContext.Provider>
   );
