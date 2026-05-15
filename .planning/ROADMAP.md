@@ -51,8 +51,17 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Ao lançar o app pela primeira vez, os glifos de custo de mana na ficha de magia aparecem corretamente sem flash de caracteres errados
   4. O arquivo index.tsx tem menos de 300 linhas com InstanceBlock extraído para components/rpg/; grimorio.tsx e magia.tsx têm sub-componentes extraídos
   5. Constantes COLOR_HEX e GRAU_COLORS existem em um único arquivo de constantes importado por magia.tsx e grimorio.tsx; modal.tsx e explore.tsx são removidos ou corrigidos
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 3 plans (1 wave, fully parallel)
+
+**Wave 1** *(parallel — no file overlaps between plans)*
+- [ ] 02-01-PLAN.md — Substituir TextInputs de IP por NumericStepper em InstanceBlock (FICHA-01; FICHA-02 pre-satisfied)
+- [ ] 02-02-PLAN.md — Guard `fontsLoaded` em `_layout.tsx` + deletar `modal.tsx` e `explore.tsx` (FICHA-03, CODE-02, CODE-03; FICHA-04 deferred)
+- [ ] 02-03-PLAN.md — Criar `constants/spell-constants.ts` e importar em `magia.tsx`/`grimorio.tsx` (CODE-01)
+
+**Phase 2 scope notes:**
+- **FICHA-02** (veneno 0–10 clamp) — pre-satisfied by existing `VenenoTracker` component (UI bubble toggle). Referenced in plan frontmatter (02-01) for traceability; no implementation work.
+- **FICHA-04** (InstanceBlock extraction → index.tsx < 300 lines) — explicitly deferred per user (02-CONTEXT.md). Referenced in plan frontmatter (02-02) for traceability; no implementation work. Success Criterion #4 will NOT be fully satisfied at the end of this phase; it remains open for a future phase.
+- **UI hint**: yes — Plans 02-01 and 02-02 produce visible changes (IP steppers, no-flash cold start, tab bar without Explore).
 
 ### Phase 3: Qualidade do Grimório
 **Goal**: O grimório é composto por componentes reutilizáveis e os filtros selecionados pelo jogador persistem enquanto ele navega entre abas durante a sessão
@@ -84,6 +93,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Estabilidade de Fundação | 3/3 | Complete | 2026-05-15 |
-| 2. Qualidade da Ficha | 0/TBD | Not started | - |
+| 2. Qualidade da Ficha | 0/3 | Planned | - |
 | 3. Qualidade do Grimório | 0/TBD | Not started | - |
 | 4. Ferramentas de Mesa | 0/TBD | Not started | - |
