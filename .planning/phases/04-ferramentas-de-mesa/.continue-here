@@ -1,0 +1,81 @@
+# Phase 04 — Planning Checkpoint
+
+## Stopped At
+`/gsd-plan-phase 4` — phase directory created, no PLAN files written yet.
+
+## Revised Scope (user changed from original ROADMAP)
+Original MESA-01/02/03 (dice roller, combat tracker, poison tracker) → REPLACED with:
+1. **"Regras" tab** — 4th tab with in-session rules reference + persisted "Notas" TextInput
+2. **Proficiências structured picker** — replace free-text `c.proficiencias: string` with toggleable chip UI grouped by perícia
+
+## Plans to Write
+
+### 04-01-PLAN.md — Regras tab (Wave 1)
+Files: `types/character.ts`, `store/CharacterContext.tsx`, `app/(tabs)/regras.tsx` (NEW), `app/(tabs)/_layout.tsx`
+
+Data changes:
+- Add `notas: string` to Character interface (default `''`)
+- Add migration: `if (!parsed.notas) parsed.notas = ''`
+- Add `setNotas: (v: string) => void` to context
+
+Regras screen sections (scrollable, static content from GAME_RULES.md §4/§6/§9/§12/§17/§18/§19):
+1. Mecânica de Dados — table: dW/dG/dR/dB/dU mechanics
+2. Testes — difficulty table (5/10/15/20/25/30)
+3. Combate — actions per turn + actions list
+4. Condições — status effects + Veneno markers table
+5. Canalização — channel roll results table
+6. Descanso — rest actions table
+7. Balizadores — quick ref table
+8. "Notas" section at bottom — TextInput connected to `c.notas` via `setNotas`
+
+Tab registration: add to `_layout.tsx` after Grimório with icon `book.pages.fill` or `list.bullet`
+
+### 04-02-PLAN.md — Proficiências picker (Wave 2, depends on 04-01)
+Files: `types/character.ts`, `store/CharacterContext.tsx`, `data/proficiencias.ts` (NEW), `components/rpg/ProficienciasSection.tsx` (NEW), `app/(tabs)/index.tsx`
+
+Data changes:
+- Change `proficiencias: string` → `proficiencias: string[]` in Character interface
+- Change default: `proficiencias: []`
+- Migration: `if (typeof parsed.proficiencias === 'string') parsed.proficiencias = []`
+- Change `setProficiencias` setter: `(v: string[]) => void` (same name, new signature)
+
+New file `data/proficiencias.ts` — structured list:
+```
+CORPO:
+  artesMarciais: [Derrubar, Desarmar, Desviar, Fintar, Imobilizar, "Aparar (reação lv.2)"]
+  atletismo: [Investida, Prontidão, Fôlego, "Disparar (reação lv.1)"]
+  esgrima: ["Armas Leves", "Uma Mão", "Duas Mãos", Especialização, Mestria, "Contra-atacar (reação lv.2)"]
+  furtividade: ["Ataque Furtivo", "Ataque Letal", "Ataque Silencioso", "Esquivar (reação lv.1)"]
+  pontaria: [Arcos, Arremesso, Condutores, Especialização, Mestria, "Mirar (reação lv.2)"]
+MENTE:
+  alquimia: [Herbologia, Mineralogia, Zoologia, "Poções (lv.1)"]
+  criatividade: [Recapitular, Reciclar, Reforçar, Repartir, Replicar, "Solução (lv.1)"]
+  investigacao: ["Selo de Feitiço", Encantamento, Invocação, "Leitura (lv.1)"]
+  mecanica: [Artesão, Feiticeiro, Ferreiro, "Artefatos (lv.1)"]
+  sobrevivencia: [Acampamento, Harmonização, Forrageamento, Manufaturação, Treinamento, "Coleta (lv.1)"]
+ESPÍRITO:
+  comunhao: ["Provocar (ação livre lv.3)"]
+  diplomacia: ["Coordenar (ação livre lv.3)"]
+  expressao: ["Inspirar (ação livre lv.3)"]
+  intimidacao: ["Amedrontar (ação livre lv.3)"]
+  labia: ["Distrair (ação livre lv.3)"]
+```
+
+`ProficienciasSection` component:
+- Props: `selected: string[]`, `onChange: (v: string[]) => void`
+- Renders all perícias as collapsible sections
+- Each proficiência = toggleable chip (selected = gold highlight, deselected = muted)
+- Chip key = `pericia:nome` string (e.g. `"artesMarciais:Derrubar"`)
+- Toggle: if in selected → remove; if not → add
+
+Replace in `index.tsx`:
+- Old: `<TextInput value={c.proficiencias} onChangeText={setProficiencias} ...>`
+- New: `<ProficienciasSection selected={c.proficiencias} onChange={setProficiencias} />`
+
+## Key Context for Planner
+- Pattern refs: NumericStepper.tsx, SpellDetailCard.tsx (component structure)
+- Style tokens: RPG.* from constants/theme.ts
+- Context setter pattern: all setters use `useCallback([update])`
+- Tab icon lib: `@/components/ui/icon-symbol` using SF Symbols names
+- `explore` tab registered with `href: null` to hide — same pattern for any hidden tabs
+- Do NOT break existing `c.proficiencias` users (setter rename not needed — same name, new type)
