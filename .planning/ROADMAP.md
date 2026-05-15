@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Estabilidade de Fundação** - Corrigir debounce, race condition de hidratação, error boundaries e memoização do contexto
 - [x] **Phase 2: Qualidade da Ficha** - Validação de entrada, carregamento de fonte, extração de componentes e limpeza de código morto (completed 2026-05-15)
 - [x] **Phase 3: Qualidade do Grimório** - Extração de componentes do grimório e persistência de filtros durante a sessão (completed 2026-05-15)
-- [ ] **Phase 4: Ferramentas de Mesa** - Aba "Regras" com referência de regras + Notas, e seletor estruturado de Proficiências
+- [x] **Phase 4: Ferramentas de Mesa** - Aba "Regras" com referência de regras + Notas, e seletor estruturado de Proficiências (completed 2026-05-15)
 
 ## Phase Details
 
@@ -98,10 +98,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 **UI hint**: yes
 
 **Wave 1**
-- [ ] 04-01-PLAN.md — Aba Regras com 8 seções + Notas persistente + registro no tab layout (MESA-01)
+- [x] 04-01-PLAN.md — Aba Regras com 8 seções + Notas persistente + registro no tab layout (MESA-01)
 
 **Wave 2** *(blocked on Wave 1 completion — shares types/character.ts and store/CharacterContext.tsx)*
-- [ ] 04-02-PLAN.md — Seletor de Proficiências por chips + migration string→string[] (MESA-02, MESA-03)
+- [x] 04-02-PLAN.md — Seletor de Proficiências por chips + migration string→string[] (MESA-02, MESA-03)
 
 **Cross-cutting constraints:**
 - `types/character.ts` modificado por 04-01 (add notas) e 04-02 (proficiencias string→string[]) — mudanças não conflitantes mas em sequência
@@ -117,4 +117,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Estabilidade de Fundação | 3/3 | Complete | 2026-05-15 |
 | 2. Qualidade da Ficha | 3/3 | Complete   | 2026-05-15 |
 | 3. Qualidade do Grimório | 3/3 | Complete | 2026-05-15 |
-| 4. Ferramentas de Mesa | 0/2 | Planning | - |
+| 4. Ferramentas de Mesa | 2/2 | Complete   | 2026-05-15 |
