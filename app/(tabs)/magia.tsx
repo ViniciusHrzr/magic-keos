@@ -6,7 +6,7 @@ import { RPG } from '@/constants/theme';
 import SectionHeader from '@/components/rpg/SectionHeader';
 import NumericStepper from '@/components/rpg/NumericStepper';
 import CheckboxGrid from '@/components/rpg/CheckboxGrid';
-import MemoGrid from '@/components/rpg/MemoGrid';
+
 import { grimoire, Spell, SpellColor } from '@/data/grimoire';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import SpellDetailCard from '@/components/rpg/SpellDetailCard';
@@ -136,12 +136,36 @@ export default function MagiaScreen() {
                 color={RPG.textMuted}
               />
             </View>
-            <View style={styles.gridWrap}>
-              <MemoGrid
-                entries={c.memoria.entries}
-                onChange={entries => setMemoria({ entries })}
-                placeholder="feitiço..."
-              />
+            <View style={[styles.gridWrap, { gap: 3 }]}>
+              {c.memoria.entries.map((m, i) => {
+                const spell = spellByName(m);
+                return (
+                  <View key={i} style={styles.dominioCell}>
+                    {spell && <View style={[styles.dominioColorStrip, { backgroundColor: COLOR_HEX[spell.cor] }]} />}
+                    {spell && (
+                      <View style={styles.magicaInfoBlock}>
+                        <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[spell.grau] }]}>
+                          <Text style={[styles.grauText, { color: GRAU_COLORS[spell.grau] }]}>{spell.grau}</Text>
+                        </View>
+                        <Text style={styles.magicaTipo}>{spell.tipo}</Text>
+                        {spell.custo ? <Text style={styles.magicaCusto}>{spell.custo}</Text> : null}
+                      </View>
+                    )}
+                    <TextInput
+                      style={styles.dominioInput}
+                      value={m}
+                      onChangeText={v => { const next = [...c.memoria.entries]; next[i] = v; setMemoria({ entries: next }); }}
+                      placeholder="feitiço..."
+                      placeholderTextColor={RPG.textDark}
+                    />
+                    {spell && (
+                      <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
+                        <Text style={styles.slotBtnSpell}>ℹ</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                );
+              })}
             </View>
           </View>
 
@@ -165,12 +189,36 @@ export default function MagiaScreen() {
                 color={RPG.textMuted}
               />
             </View>
-            <View style={styles.gridWrap}>
-              <MemoGrid
-                entries={c.foco.entries}
-                onChange={entries => setFoco({ entries })}
-                placeholder="permanente..."
-              />
+            <View style={[styles.gridWrap, { gap: 3 }]}>
+              {c.foco.entries.map((m, i) => {
+                const spell = spellByName(m);
+                return (
+                  <View key={i} style={styles.dominioCell}>
+                    {spell && <View style={[styles.dominioColorStrip, { backgroundColor: COLOR_HEX[spell.cor] }]} />}
+                    {spell && (
+                      <View style={styles.magicaInfoBlock}>
+                        <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[spell.grau] }]}>
+                          <Text style={[styles.grauText, { color: GRAU_COLORS[spell.grau] }]}>{spell.grau}</Text>
+                        </View>
+                        <Text style={styles.magicaTipo}>{spell.tipo}</Text>
+                        {spell.custo ? <Text style={styles.magicaCusto}>{spell.custo}</Text> : null}
+                      </View>
+                    )}
+                    <TextInput
+                      style={styles.dominioInput}
+                      value={m}
+                      onChangeText={v => { const next = [...c.foco.entries]; next[i] = v; setFoco({ entries: next }); }}
+                      placeholder="permanente..."
+                      placeholderTextColor={RPG.textDark}
+                    />
+                    {spell && (
+                      <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
+                        <Text style={styles.slotBtnSpell}>ℹ</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                );
+              })}
             </View>
           </View>
         </View>
