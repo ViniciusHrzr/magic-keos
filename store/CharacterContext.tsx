@@ -27,6 +27,7 @@ function migrate(raw: any): Character {
   if (typeof parsed.magicas === 'string') {
     parsed.magicas = Array(20).fill('');
   }
+  if (!parsed.notas) parsed.notas = '';
   return { ...defaultCharacter, ...parsed };
 }
 
@@ -46,6 +47,7 @@ interface CharacterContextType {
   setSkill: (instance: 'corpo' | 'mente' | 'espirito', skill: string, value: SkillValue) => void;
   setProficiencias: (v: string) => void;
   setHabilidades: (v: string) => void;
+  setNotas: (v: string) => void;
   setVelocidade: (update: Partial<Character['velocidade']>) => void;
   setMemoria: (update: Partial<Character['memoria']>) => void;
   setCanalizacao: (update: Partial<Character['canalizacao']>) => void;
@@ -150,6 +152,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     update(p => ({ ...p, [instance]: { ...p[instance], [skill]: value } })), [update]);
   const setProficiencias = useCallback((v: string) => update(p => ({ ...p, proficiencias: v })), [update]);
   const setHabilidades   = useCallback((v: string) => update(p => ({ ...p, habilidades: v })), [update]);
+  const setNotas         = useCallback((v: string) => update(p => ({ ...p, notas: v })), [update]);
   const setVelocidade = useCallback((patch: Partial<Character['velocidade']>) =>
     update(p => ({ ...p, velocidade: { ...p.velocidade, ...patch } })), [update]);
   const setMemoria = useCallback((patch: Partial<Character['memoria']>) =>
@@ -244,7 +247,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     isLoaded,
     setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
     setInstanceIP, setAttrDice, setSkill,
-    setProficiencias, setHabilidades,
+    setProficiencias, setHabilidades, setNotas,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
     setDominio, setInventario, setEquipamento, setMagica, setReceitas,
     charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
@@ -252,7 +255,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     character, isLoaded,
     setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
     setInstanceIP, setAttrDice, setSkill,
-    setProficiencias, setHabilidades,
+    setProficiencias, setHabilidades, setNotas,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
     setDominio, setInventario, setEquipamento, setMagica, setReceitas,
     charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,

@@ -82,6 +82,7 @@ export interface Character {
 
   proficiencias: string;
   habilidades: string;
+  notas: string;
 
   velocidade: { base: number; temp: number; boxes: boolean[] };
   memoria: { base: number; temp: number; entries: string[] };
@@ -160,6 +161,7 @@ export const defaultCharacter: Character = {
   },
   proficiencias: '',
   habilidades: '',
+  notas: '',
   velocidade: { base: 0, temp: 0, boxes: Array(15).fill(false) },
   memoria: { base: 0, temp: 0, entries: Array(15).fill('') },
   canalizacao: { base: 0, temp: 0, boxes: Array(15).fill(false) },
