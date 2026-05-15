@@ -71,8 +71,20 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Ao navegar do grimório para a ficha e voltar, os filtros de cor, grau e tipo selecionados anteriormente continuam ativos (sem reset para o estado padrão)
   2. O arquivo grimorio.tsx tem sub-componentes (SpellDetail, StatPill) extraídos para components/rpg/ e importáveis por outras telas
   3. O componente SpellDetailCard compartilhado é usado tanto em magia.tsx quanto em grimorio.tsx, eliminando a duplicação de implementação
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 3 plans (3 waves)
+
+**Wave 1**
+- [ ] 03-01-PLAN.md — Extrair StatPill inline de grimorio.tsx para components/rpg/StatPill.tsx (GRIM-01)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 03-02-PLAN.md — Criar SpellDetailCard, remover SpellDetail de grimorio.tsx e SpellDetailView de magia.tsx (GRIM-01)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 03-03-PLAN.md — Adicionar variáveis module-level para persistência de filtros em grimorio.tsx (GRIM-02)
+
+**Cross-cutting constraints:**
+- `app/(tabs)/grimorio.tsx` modificado pelos 3 planos — execução estritamente sequencial (waves 1→2→3)
+- `detailHeader`, `closeBtn`, `closeBtnText` em `magia.tsx` são compartilhados com `DomainView` — NÃO remover ao extrair `SpellDetailCard`
 
 ### Phase 4: Ferramentas de Mesa
 **Goal**: Jogadores podem rolar dados coloridos, rastrear a ordem de iniciativa e monitorar o nível de veneno de um personagem diretamente no app durante a sessão
@@ -94,5 +106,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Estabilidade de Fundação | 3/3 | Complete | 2026-05-15 |
 | 2. Qualidade da Ficha | 3/3 | Complete   | 2026-05-15 |
-| 3. Qualidade do Grimório | 0/TBD | Not started | - |
+| 3. Qualidade do Grimório | 0/3 | Not started | - |
 | 4. Ferramentas de Mesa | 0/TBD | Not started | - |

@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed plan 01-01 (Wave 1 continuing — 01-02 next)
+status: ready_to_execute
+stopped_at: Phase 03 planned — 3 plans ready to execute
 last_updated: "2026-05-15T10:12:36.037Z"
-last_activity: 2026-05-15 -- Phase 02 marked complete
+last_activity: 2026-05-15 -- Phase 03 planned (3 plans, 3 waves)
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 6
+  total_plans: 9
   completed_plans: 6
   percent: 50
 ---
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-15)
 
 **Core value:** O app precisa ser confiável e rápido durante a sessão de jogo — perder dados ou travar na mesa quebra a imersão.
-**Current focus:** Phase 02 — qualidade-da-ficha
+**Current focus:** Phase 03 — qualidade-do-grimorio
 
 ## Current Position
 
-Phase: 02 — COMPLETE
-Plan: 1 of 3
-Status: Phase 02 complete
-Last activity: 2026-05-15 -- Phase 02 marked complete
+Phase: 03 — READY TO EXECUTE
+Plan: 0 of 3
+Status: Phase 03 planned — ready to execute
+Last activity: 2026-05-15 -- Phase 03 planned (3 plans, 3 waves)
 
 Progress: [███████░░░] 67%
 
