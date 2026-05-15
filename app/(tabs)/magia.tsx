@@ -184,6 +184,11 @@ export default function MagiaScreen() {
                         <Text style={styles.slotBtnSpell}>ℹ</Text>
                       </TouchableOpacity>
                     )}
+                    {m.trim() !== '' && (
+                      <TouchableOpacity style={styles.slotBtnClear} onPress={() => { const next = [...c.memoria.entries]; next[i] = ''; setMemoria({ entries: next }); }} activeOpacity={0.7}>
+                        <Text style={styles.slotBtnClearText}>×</Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 );
               })}
@@ -239,6 +244,11 @@ export default function MagiaScreen() {
                     {spell && (
                       <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
                         <Text style={styles.slotBtnSpell}>ℹ</Text>
+                      </TouchableOpacity>
+                    )}
+                    {m.trim() !== '' && (
+                      <TouchableOpacity style={styles.slotBtnClear} onPress={() => { const next = [...c.foco.entries]; next[i] = ''; setFoco({ entries: next }); }} activeOpacity={0.7}>
+                        <Text style={styles.slotBtnClearText}>×</Text>
                       </TouchableOpacity>
                     )}
                   </View>
@@ -597,6 +607,17 @@ const styles = StyleSheet.create({
     fontSize: 13,
     paddingVertical: 6,
     paddingHorizontal: 8,
+  },
+  slotBtnClear: {
+    paddingHorizontal: 7,
+    paddingVertical: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  slotBtnClearText: {
+    color: RPG.textMuted,
+    fontSize: 16,
+    lineHeight: 18,
   },
   memoInput: {
     fontSize: 11,
