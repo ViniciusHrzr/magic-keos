@@ -122,6 +122,10 @@ export default function HabilidadesSection({ selected, onChange }: Props) {
                     </View>
                     <Text style={styles.slotName} numberOfLines={1}>{hab.nome}</Text>
                     <Text style={styles.slotDesc} numberOfLines={2}>{hab.descricao}</Text>
+                    <View style={styles.slotTesteRow}>
+                      <Text style={styles.slotTesteLabel}>TESTE </Text>
+                      <Text style={styles.slotTesteValue} numberOfLines={1}>{hab.teste}</Text>
+                    </View>
                   </View>
                 ) : (
                   <Text style={styles.slotPlaceholder}>Toque para selecionar…</Text>
@@ -283,6 +287,9 @@ const styles = StyleSheet.create({
   tipoText: { fontSize: 8, fontWeight: '700', letterSpacing: 0.4 },
   slotName: { fontSize: 12, color: RPG.goldLight, fontWeight: '600' },
   slotDesc: { fontSize: 10, color: RPG.textMuted, lineHeight: 14, marginTop: 2 },
+  slotTesteRow: { flexDirection: 'row', marginTop: 2 },
+  slotTesteLabel: { fontSize: 9, color: RPG.gold, fontWeight: '700', letterSpacing: 0.5 },
+  slotTesteValue: { fontSize: 9, color: RPG.textMuted, flex: 1 },
   slotPlaceholder: { flex: 1, fontSize: 12, color: RPG.textDark, fontStyle: 'italic', marginTop: 2 },
   clearBtn: { padding: 4, marginTop: 2 },
   clearText: { color: RPG.textDark, fontSize: 12 },
