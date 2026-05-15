@@ -12,7 +12,7 @@ The app already has a working character sheet, magic screen, and grimoire. This 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Estabilidade de Fundação** - Corrigir debounce, race condition de hidratação, error boundaries e memoização do contexto
+- [x] **Phase 1: Estabilidade de Fundação** - Corrigir debounce, race condition de hidratação, error boundaries e memoização do contexto
 - [ ] **Phase 2: Qualidade da Ficha** - Validação de entrada, carregamento de fonte, extração de componentes e limpeza de código morto
 - [ ] **Phase 3: Qualidade do Grimório** - Extração de componentes do grimório e persistência de filtros durante a sessão
 - [ ] **Phase 4: Ferramentas de Mesa** - Rolador de dados coloridos, rastreador de turno de combate e rastreador visual de veneno
@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 01-02-PLAN.md — Error boundaries globais e por aba (FOUND-03)
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 01-03-PLAN.md — Loading state de hidratação e guards nas screens (FOUND-02)
+- [x] 01-03-PLAN.md — Loading state de hidratação e guards nas screens (FOUND-02)
 
 **Cross-cutting constraints:**
 - `store/CharacterContext.tsx` modificado por 01-01 e 01-03 — mudanças aditivas e não conflitantes
@@ -83,7 +83,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Estabilidade de Fundação | 2/3 | In Progress|  |
+| 1. Estabilidade de Fundação | 3/3 | Complete | 2026-05-15 |
 | 2. Qualidade da Ficha | 0/TBD | Not started | - |
 | 3. Qualidade do Grimório | 0/TBD | Not started | - |
 | 4. Ferramentas de Mesa | 0/TBD | Not started | - |
