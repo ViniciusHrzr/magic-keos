@@ -227,27 +227,17 @@ function InstanceBlock({ title, ipBase, ipBonus, onIpChange, attrs, skills, onDi
         title={title}
         rightContent={
           <View style={styles.ipRow}>
-            <Text style={styles.ipLabel}>IP BASE</Text>
-            <TextInput
-              style={styles.ipInput}
-              value={ipBase === 0 ? '' : String(ipBase)}
-              onChangeText={t => onIpChange('ipBase', parseInt(t) || 0)}
-              keyboardType="numeric"
-              maxLength={3}
-              selectTextOnFocus
-              placeholder="0"
-              placeholderTextColor={RPG.textDark}
+            <NumericStepper
+              label="IP BASE"
+              value={ipBase}
+              onChange={v => onIpChange('ipBase', v)}
+              compact
             />
-            <Text style={[styles.ipLabel, { marginLeft: 8 }]}>BÔNUS</Text>
-            <TextInput
-              style={styles.ipInput}
-              value={ipBonus === 0 ? '' : String(ipBonus)}
-              onChangeText={t => onIpChange('ipBonus', parseInt(t) || 0)}
-              keyboardType="numeric"
-              maxLength={3}
-              selectTextOnFocus
-              placeholder="0"
-              placeholderTextColor={RPG.textDark}
+            <NumericStepper
+              label="BÔNUS"
+              value={ipBonus}
+              onChange={v => onIpChange('ipBonus', v)}
+              compact
             />
           </View>
         }
@@ -484,22 +474,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-  },
-  ipLabel: {
-    color: RPG.textMuted,
-    fontSize: 11,
-    letterSpacing: 1,
-  },
-  ipInput: {
-    color: RPG.goldLight,
-    fontSize: 14,
-    fontWeight: 'bold',
-    width: 36,
-    textAlign: 'center',
-    borderWidth: 1,
-    borderColor: RPG.goldDim,
-    backgroundColor: RPG.headerBg,
-    paddingVertical: 2,
   },
 
   textArea: {
