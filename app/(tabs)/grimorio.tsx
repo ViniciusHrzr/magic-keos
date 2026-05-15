@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import {
-  View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, Modal, ScrollView, Image,
+  View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, Modal, ScrollView, Image, ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { grimoire, domains, Spell, SpellColor, SpellType } from '@/data/grimoire';
@@ -42,7 +42,7 @@ type DomainGroup = {
 };
 
 export default function GrimorioScreen() {
-  const { character: c, setDominio, setMagica } = useCharacter();
+  const { character: c, setDominio, setMagica, isLoaded } = useCharacter();
   const insets = useSafeAreaInsets();
   const [search, setSearch] = useState('');
   const [activeColor, setActiveColor] = useState<SpellColor | null>(null);
@@ -134,6 +134,8 @@ export default function GrimorioScreen() {
       </View>
     );
   }, [expanded, toggleDomain, c.dominios, addDomainToFicha]);
+
+  if (!isLoaded) return <ActivityIndicator size="large" color={RPG.gold} style={{ flex: 1, backgroundColor: RPG.bg }} />;
 
   return (
     <ErrorBoundary>

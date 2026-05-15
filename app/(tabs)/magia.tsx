@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity, Image, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
@@ -16,7 +16,9 @@ export default function MagiaScreen() {
     character: c,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
     setDominio, setInventario, setEquipamento, setMagica, setReceitas,
+    isLoaded,
   } = useCharacter();
+
   const insets = useSafeAreaInsets();
 
   const [viewSpell, setViewSpell] = useState<Spell | null>(null);
@@ -43,6 +45,8 @@ export default function MagiaScreen() {
     next[idx] = name;
     setFoco({ entries: next });
   };
+
+  if (!isLoaded) return <ActivityIndicator size="large" color={RPG.gold} style={{ flex: 1, backgroundColor: RPG.bg }} />;
 
   return (
     <ErrorBoundary>

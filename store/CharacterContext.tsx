@@ -34,6 +34,7 @@ export interface CharInfo { id: string; name: string }
 
 interface CharacterContextType {
   character: Character;
+  isLoaded: boolean;
   setNome: (v: string) => void;
   setSabedoria: (k: 'acumulada' | 'disponivel', v: number) => void;
   setVida: (k: keyof Character['vida'], v: number) => void;
@@ -68,6 +69,7 @@ const CharacterContext = createContext<CharacterContextType | null>(null);
 export function CharacterProvider({ children }: { children: React.ReactNode }) {
   const [allChars, setAllChars] = useState<Record<string, Character>>({});
   const [currentId, setCurrentId] = useState<string>('');
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -97,6 +99,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
           await AsyncStorage.setItem(CUR_KEY, id);
           if (legacyRaw) await AsyncStorage.removeItem(LEGACY_KEY);
         }
+        setIsLoaded(true);
       } catch {
         const id = genId();
         const chars = { [id]: { ...defaultCharacter } };
@@ -104,6 +107,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
         setCurrentId(id);
         await AsyncStorage.setItem(CHARS_KEY, JSON.stringify(chars));
         await AsyncStorage.setItem(CUR_KEY, id);
+        setIsLoaded(true);
       }
     };
     load();
@@ -237,6 +241,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
 
   const contextValue = useMemo(() => ({
     character,
+    isLoaded,
     setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
     setInstanceIP, setAttrDice, setSkill,
     setProficiencias, setHabilidades,
@@ -244,7 +249,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     setDominio, setInventario, setEquipamento, setMagica, setReceitas,
     charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
   }), [
-    character,
+    character, isLoaded,
     setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
     setInstanceIP, setAttrDice, setSkill,
     setProficiencias, setHabilidades,

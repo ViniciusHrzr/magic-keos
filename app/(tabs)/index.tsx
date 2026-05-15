@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   ScrollView, View, Text, TextInput, StyleSheet,
-  KeyboardAvoidingView, Platform, TouchableOpacity,
+  KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
@@ -23,7 +23,10 @@ export default function FichaScreen() {
     setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
     setInstanceIP, setAttrDice, setSkill,
     setProficiencias, setHabilidades,
+    isLoaded,
   } = useCharacter();
+
+  if (!isLoaded) return <ActivityIndicator size="large" color={RPG.gold} style={{ flex: 1, backgroundColor: RPG.bg }} />;
 
   return (
     <ErrorBoundary>
