@@ -26,7 +26,7 @@ export const proficiencias: ProficienciasMap = {
     artesMarciais: {
       label: 'Artes Marciais',
       atributos: ['FOR', 'REF', 'VIG', 'PRE'],
-      descricao: 'Técnicas de combate desarmado e com armas improvisadas. Domina manobras táticas — derrubar, desarmar e imobilizar — sem depender de armas convencionais.',
+      descricao: 'Técnicas de combate desarmado e com armas improvisadas. Domina manobras táticas — derrubar, desarmar e imobilizar — sem depender de armas convencionais. A cada três níveis (1, 4 e 7), o artista marcial se torna proficiente em uma manobra de combate à sua escolha:',
       proficiencias: [
         { nome: 'Derrubar', descricao: 'Joga o oponente ao chão, impondo desvantagem em ataques e impedindo movimentação até se levantar.', teste: 'FOR [Artes Marciais] oposto ao oponente' },
         { nome: 'Desarmar', descricao: 'Retira a arma do oponente com golpe ou torção de pulso preciso.', teste: 'REF [Artes Marciais] oposto ao oponente' },
@@ -39,7 +39,7 @@ export const proficiencias: ProficienciasMap = {
     atletismo: {
       label: 'Atletismo',
       atributos: ['FOR', 'REF', 'VIG'],
-      descricao: 'Capacidades físicas gerais: corrida, salto, escalada e resistência. Define potencial de movimentação em combate e em terreno hostil.',
+      descricao: 'Capacidades físicas gerais: corrida, salto, escalada e resistência. Define potencial de movimentação em combate e em terreno hostil. A partir do segundo nível e a cada 3 níveis (2, 5 e 8), torna-se proficiente em uma técnica de movimentação:',
       proficiencias: [
         { nome: 'Investida', descricao: 'Combina movimentação e ataque em uma única ação, adicionando dano pelo impacto.', teste: 'FOR/REF [Atletismo] — dano adicional pela distância percorrida' },
         { nome: 'Prontidão', descricao: 'Corpo em estado de alerta máximo para agir antes dos outros e ignorar surpresas parciais.', teste: 'VIG [Atletismo] — determina posição na ordem de iniciativa' },
@@ -63,7 +63,7 @@ export const proficiencias: ProficienciasMap = {
     furtividade: {
       label: 'Furtividade',
       atributos: ['REF'],
-      descricao: 'Movimentação silenciosa e ocultação. Base para ataques surpresa, evasão de combate e operações sem ser detectado.',
+      descricao: 'Movimentação silenciosa e ocultação. Base para ataques surpresa, evasão de combate e operações sem ser detectado. A partir do segundo nível e a cada 3 níveis (2, 5 e 8), torna-se proficiente em uma técnica sorrateira:',
       proficiencias: [
         { nome: 'Ataque Furtivo', descricao: 'Golpe surpresa de posição oculta, causando dano adicional significativo.', teste: 'REF [Furtividade] vs. Percepção do alvo — requer posição oculta' },
         { nome: 'Ataque Letal', descricao: 'Mira zonas vitais do alvo para causar condições graves além do dano base.', teste: 'REF [Furtividade] vs. dificuldade — resultado define a condição aplicada' },
@@ -74,7 +74,7 @@ export const proficiencias: ProficienciasMap = {
     pontaria: {
       label: 'Pontaria',
       atributos: ['REF', 'FOR', 'RAZ', 'PRE'],
-      descricao: 'Combate à distância com arcos, arremesso e condutores mágicos. Cada proficiência desbloqueia domínio com um tipo de arma ou técnica específica.',
+      descricao: 'Combate à distância com arcos, arremesso e condutores mágicos. A partir do primeiro nível e a cada três níveis (1, 4 e 7), escolhe um tipo de arma para se tornar proficiente — os bônus desta perícia só são aplicados quando o personagem estiver usando uma arma com a qual tem proficiência.',
       proficiencias: [
         { nome: 'Arcos', descricao: 'Proficiência com arcos curtos (1d6, 18m) e longos (1d8, 30m), sem penalidades de manejo.', teste: 'Passiva — desbloqueia uso sem penalidade' },
         { nome: 'Arremesso', descricao: 'Proficiência com armas de arremesso: adagas e machados (9m), lanças curtas (18m).', teste: 'Passiva — desbloqueia uso sem penalidade' },
@@ -89,7 +89,7 @@ export const proficiencias: ProficienciasMap = {
     alquimia: {
       label: 'Alquimia',
       atributos: ['RAZ'],
-      descricao: 'Criação de substâncias mágicas e químicas: poções, bombas e soros. Requer coleta e conhecimento de matérias-primas por categoria (Herbologia, Mineralogia, Zoologia).',
+      descricao: 'Criação de substâncias mágicas e químicas: poções, bombas e soros. A partir do nível 2 e a cada três níveis em Alquimia (2, 5, 8), pode se tornar proficiente em um tipo de conhecimento para produzir itens.',
       proficiencias: [
         { nome: 'Herbologia', descricao: 'Permite coletar e processar ervas para criar poções de cura, imunidade, estimulantes, danosos ou adaptativos.', teste: 'Passiva — desbloqueia categoria de produção' },
         { nome: 'Mineralogia', descricao: 'Permite trabalhar com minerais para fabricar bombas de área e proteções elementais.', teste: 'Passiva — desbloqueia categoria de produção' },
@@ -100,7 +100,7 @@ export const proficiencias: ProficienciasMap = {
     criatividade: {
       label: 'Criatividade',
       atributos: ['RAZ'],
-      descricao: 'Improviso e adaptação de mágicas em campo. Permite modificar, replicar e potencializar efeitos de formas não convencionais sem reconstruir a conjuração.',
+      descricao: 'Improviso e adaptação de mágicas em campo. A cada três níveis em Criatividade (2, 5, 8), o personagem pode se tornar proficiente em um talento metamágico para alterar suas mágicas conforme a necessidade:',
       proficiencias: [
         { nome: 'Recapitular', descricao: 'Replica mágica já conjurada na mesma cena pagando apenas mana, sem conjurar novamente.', teste: 'Passiva — disponível ao lançar mágica da mesma cena' },
         { nome: 'Reciclar', descricao: 'Altera alvo, área ou duração de mágica já ativa, pagando mana adicional.', teste: 'Passiva — aplicado ao modificar mágica ativa' },
@@ -113,7 +113,7 @@ export const proficiencias: ProficienciasMap = {
     investigacao: {
       label: 'Investigação',
       atributos: ['RAZ', 'SEN', 'CON'],
-      descricao: 'Pesquisa e análise de fenômenos mágicos. Base para aprender feitiços externos, criar selos e dominar técnicas de invocação de criaturas.',
+      descricao: 'Pesquisa e análise de fenômenos mágicos. A cada três níveis a partir do segundo (2, 5, 8) de Investigação, o personagem torna-se proficiente na produção de um tipo de escrita mágica:',
       proficiencias: [
         { nome: 'Selo de Feitiço', descricao: 'Inscreve mágicas em superfícies para disparar automaticamente quando ativadas.', teste: 'RAZ [Investigação] — dificuldade varia com o grau do feitiço inscrito' },
         { nome: 'Encantamento', descricao: 'Estuda e absorve feitiços de fontes externas: grimórios, artefatos ou mágicas observadas.', teste: 'RAZ [Investigação] oposto à complexidade da fonte' },
@@ -124,7 +124,7 @@ export const proficiencias: ProficienciasMap = {
     mecanica: {
       label: 'Mecânica',
       atributos: ['RAZ', 'CON'],
-      descricao: 'Construção e reparo de objetos e artefatos mágicos. Divide-se em três ofícios: Artesão (objetos/acessórios), Feiticeiro (condutores mágicos) e Ferreiro (armas/armaduras).',
+      descricao: 'Construção e reparo de objetos e artefatos mágicos. No nível 1, pode utilizar e reparar artefatos variados. A partir do segundo nível e a cada três níveis (2, 5, 8) em Mecânica, adquire proficiência na manufatura de artefatos de um tipo:.',
       proficiencias: [
         { nome: 'Artesão', descricao: 'Fabrica objetos, acessórios e joias com durabilidade e até 3 melhorias elementais.', teste: 'RAZ [Mecânica] no descanso — falha: 0,5 etapa · 10+: 1 etapa · 20+: 2 etapas' },
         { nome: 'Feiticeiro', descricao: 'Cria condutores mágicos encantados: varinhas de 1 mão (1d4, 9m) e cajados de 2 mãos (1d6, 18m).', teste: 'RAZ [Mecânica] no descanso — falha: 0,5 etapa · 10+: 1 etapa · 20+: 2 etapas' },
@@ -135,7 +135,7 @@ export const proficiencias: ProficienciasMap = {
     sobrevivencia: {
       label: 'Sobrevivência',
       atributos: ['RAZ', 'SEN'],
-      descricao: 'Subsistência em ambientes hostis: coleta, acampamento, harmonização com o terreno e treinamento. Essencial para grupos em expedições longas.',
+      descricao: 'Subsistência em ambientes hostis. A partir do segundo nível e a cada três níveis (2, 5, 8) em Sobrevivência, torna-se especialista em um tipo de descanso, podendo somar seu bônus dessa perícia no teste realizado.',
       proficiencias: [
         { nome: 'Acampamento', descricao: 'Prepara abrigos que melhoram a recuperação de vida e recursos durante o descanso.', teste: 'RAZ [Sobrevivência] — melhora os modificadores das ações de descanso' },
         { nome: 'Harmonização', descricao: 'Sincroniza com o terreno para obter bônus nos modificadores de canalização de mana.', teste: 'Passiva — melhora modificador de ambiente para Canalizar' },
