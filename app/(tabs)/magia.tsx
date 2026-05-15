@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity, Image, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Text, TextInput, StyleSheet, Modal, TouchableOpacity, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
@@ -8,8 +8,8 @@ import NumericStepper from '@/components/rpg/NumericStepper';
 import CheckboxGrid from '@/components/rpg/CheckboxGrid';
 import MemoGrid from '@/components/rpg/MemoGrid';
 import { grimoire, Spell, SpellColor } from '@/data/grimoire';
-import spellImages from '@/data/spellImages';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
+import SpellDetailCard from '@/components/rpg/SpellDetailCard';
 import { COLOR_HEX, GRAU_COLORS } from '@/constants/spell-constants';
 
 export default function MagiaScreen() {
@@ -305,7 +305,7 @@ export default function MagiaScreen() {
       <Modal visible={!!viewSpell} transparent animationType="slide" onRequestClose={() => setViewSpell(null)}>
         <View style={styles.modalBg}>
           <View style={[styles.modalCard, { paddingBottom: insets.bottom }]}>
-            {viewSpell && <SpellDetailView spell={viewSpell} onClose={() => setViewSpell(null)} />}
+            {viewSpell && <SpellDetailCard spell={viewSpell} onClose={() => setViewSpell(null)} />}
           </View>
         </View>
       </Modal>
@@ -337,39 +337,6 @@ function getDomainColor(name: string): string | null {
   if (!spell) return null;
   return COLOR_HEX[spell.cor];
 }
-function SpellDetailView({ spell, onClose }: { spell: Spell; onClose: () => void }) {
-  const color = COLOR_HEX[spell.cor];
-  const img = spellImages[spell.nome];
-  return (
-    <ScrollView contentContainerStyle={styles.detailContent}>
-      <View style={[styles.detailHeader, { borderBottomColor: color }]}>
-        {img && <Image source={img} style={styles.spellImg} resizeMode="contain" />}
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.detailName, { color }]}>{spell.nome}</Text>
-          <Text style={styles.detailMeta}>{spell.dominio} · {spell.atributo}</Text>
-        </View>
-        <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-          <Text style={styles.closeBtnText}>✕</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.detailStats}>
-        <View style={styles.pill}>
-          <Text style={styles.pillLabel}>Grau</Text>
-          <Text style={styles.pillValue}>{spell.grau}</Text>
-        </View>
-        <View style={styles.pill}>
-          <Text style={styles.pillLabel}>Tipo</Text>
-          <Text style={styles.pillValue}>{spell.tipo}</Text>
-        </View>
-        <View style={styles.pill}>
-          <Text style={styles.pillLabel}>Custo</Text>
-          <Text style={[styles.pillValue, { fontFamily: 'PlanewalkerDings', fontStyle: 'normal' }]}>{spell.custo || '—'}</Text>
-        </View>
-      </View>
-      <Text style={styles.detailEffect}>{spell.efeito}</Text>
-    </ScrollView>
-  );
-}
 
 function DomainView({ domain, spells, onAddMemoria, onAddFoco, onClose }: {
   domain: string;
@@ -389,7 +356,7 @@ function DomainView({ domain, spells, onAddMemoria, onAddFoco, onClose }: {
   };
 
   if (selected) {
-    return <SpellDetailView spell={selected} onClose={closeSpell} />;
+    return <SpellDetailCard spell={selected} onClose={closeSpell} />;
   }
 
   return (
@@ -621,10 +588,6 @@ const styles = StyleSheet.create({
     borderTopColor: RPG.gold,
     maxHeight: '80%',
   },
-  detailContent: {
-    padding: 16,
-    paddingBottom: 32,
-  },
   detailHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -633,55 +596,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     gap: 10,
   },
-  spellImg: {
-    width: 72,
-    height: 72,
-    borderRadius: 4,
-    backgroundColor: RPG.surfaceAlt,
-  },
-  detailName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 2,
-  },
-  detailMeta: {
-    color: RPG.textMuted,
-    fontSize: 12,
-  },
   closeBtn: { padding: 4 },
   closeBtnText: { color: RPG.textMuted, fontSize: 18 },
-  detailStats: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 12,
-    flexWrap: 'wrap',
-  },
-  pill: {
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: RPG.border,
-    backgroundColor: RPG.surfaceAlt,
-    borderRadius: 4,
-  },
-  pillLabel: {
-    color: RPG.textMuted,
-    fontSize: 9,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  pillValue: {
-    color: RPG.text,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  detailEffect: {
-    color: RPG.text,
-    fontSize: 13,
-    lineHeight: 20,
-  },
-
   domainTitle: {
     color: RPG.gold,
     fontSize: 16,

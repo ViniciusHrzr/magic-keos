@@ -9,6 +9,8 @@ import { useCharacter } from '@/store/CharacterContext';
 import spellImages from '@/data/spellImages';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import { COLOR_HEX, GRAU_COLORS } from '@/constants/spell-constants';
+import StatPill from '@/components/rpg/StatPill';
+import SpellDetailCard from '@/components/rpg/SpellDetailCard';
 
 const COLOR_LABELS: Record<SpellColor, string> = {
   branco: 'Branco', verde: 'Verde', vermelho: 'Vermelho', preto: 'Preto', azul: 'Azul',
@@ -198,7 +200,7 @@ export default function GrimorioScreen() {
         <View style={styles.modalBg}>
           <View style={[styles.modalCard, { paddingBottom: insets.bottom }]}>
             {selected && (
-              <SpellDetail
+              <SpellDetailCard
                 spell={selected}
                 onClose={() => setSelected(null)}
                 magicas={c.magicas}
@@ -213,65 +215,6 @@ export default function GrimorioScreen() {
   );
 }
 
-function SpellDetail({ spell, onClose, magicas, onAddMagica }: {
-  spell: Spell;
-  onClose: () => void;
-  magicas: string[];
-  onAddMagica: (idx: number, v: string) => void;
-}) {
-  const [feedback, setFeedback] = useState('');
-  const color = COLOR_HEX[spell.cor];
-
-  const addMagica = () => {
-    const idx = magicas.findIndex(m => !m.trim());
-    if (idx === -1) {
-      setFeedback('Todos os slots de mágicas estão cheios!');
-    } else {
-      onAddMagica(idx, spell.nome);
-      setFeedback(`"${spell.nome}" adicionada às mágicas!`);
-    }
-  };
-
-  const img = spellImages[spell.nome];
-
-  return (
-    <ScrollView contentContainerStyle={styles.detailContent}>
-      <View style={[styles.detailHeader, { borderBottomColor: color }]}>
-        {img && (
-          <Image source={img} style={styles.spellImg} resizeMode="contain" />
-        )}
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.detailName, { color }]}>{spell.nome}</Text>
-          <Text style={styles.detailMeta}>{spell.dominio} · {spell.atributo}</Text>
-        </View>
-        <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-          <Text style={styles.closeBtnText}>✕</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.detailStats}>
-        <StatPill label="Grau" value={String(spell.grau)} />
-        <StatPill label="Tipo" value={TYPE_LABELS[spell.tipo]} />
-        <StatPill label="Custo" value={spell.custo || '—'} isSymbol />
-      </View>
-      <Text style={styles.detailEffect}>{spell.efeito}</Text>
-      <View style={styles.importRow}>
-        <TouchableOpacity style={[styles.importBtn, styles.importBtnAlt]} onPress={addMagica} activeOpacity={0.75}>
-          <Text style={[styles.importBtnText, { color: RPG.azulLight }]}>+ Mágica</Text>
-        </TouchableOpacity>
-      </View>
-      {!!feedback && <Text style={styles.feedback}>{feedback}</Text>}
-    </ScrollView>
-  );
-}
-
-function StatPill({ label, value, isSymbol }: { label: string; value: string; isSymbol?: boolean }) {
-  return (
-    <View style={styles.pill}>
-      <Text style={styles.pillLabel}>{label}</Text>
-      <Text style={[styles.pillValue, isSymbol && { fontFamily: 'PlanewalkerDings', fontStyle: 'normal', fontSize: 16 }]}>{value}</Text>
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: RPG.bg },
@@ -439,74 +382,5 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderTopColor: RPG.gold,
     maxHeight: '75%',
-  },
-  detailContent: { padding: 16, paddingBottom: 32 },
-  detailHeader: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    borderBottomWidth: 1,
-    paddingBottom: 10,
-    marginBottom: 12,
-    gap: 10,
-  },
-  spellImg: {
-    width: 72,
-    height: 72,
-    borderRadius: 4,
-    backgroundColor: RPG.surfaceAlt,
-  },
-  detailName: {
-    fontSize: 20,
-    fontFamily: 'serif',
-    fontWeight: 'bold',
-    marginBottom: 2,
-  },
-  detailMeta: { color: RPG.textMuted, fontSize: 12 },
-  closeBtn: { padding: 4 },
-  closeBtnText: { color: RPG.textMuted, fontSize: 18 },
-  detailStats: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 12,
-  },
-  pill: {
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: RPG.border,
-    backgroundColor: RPG.surfaceAlt,
-    borderRadius: 4,
-  },
-  pillLabel: {
-    color: RPG.textMuted,
-    fontSize: 9,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  pillValue: { color: RPG.text, fontSize: 13, fontWeight: '600' },
-  detailEffect: {
-    color: RPG.text,
-    fontSize: 13,
-    lineHeight: 20,
-    marginBottom: 16,
-  },
-  importRow: { flexDirection: 'row', gap: 8, marginTop: 4 },
-  importBtn: {
-    flex: 1,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: RPG.gold,
-    alignItems: 'center',
-    backgroundColor: RPG.surfaceAlt,
-  },
-  importBtnAlt: { borderColor: RPG.azulLight },
-  importBtnText: { color: RPG.gold, fontSize: 12, fontWeight: '600', letterSpacing: 0.5 },
-  feedback: {
-    marginTop: 10,
-    color: RPG.verdeLight,
-    fontSize: 12,
-    textAlign: 'center',
-    fontStyle: 'italic',
   },
 });
