@@ -8,6 +8,7 @@ import { RPG } from '@/constants/theme';
 import { useCharacter } from '@/store/CharacterContext';
 import spellImages from '@/data/spellImages';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
+import { COLOR_HEX, GRAU_COLORS } from '@/constants/spell-constants';
 
 const COLOR_LABELS: Record<SpellColor, string> = {
   branco: 'Branco', verde: 'Verde', vermelho: 'Vermelho', preto: 'Preto', azul: 'Azul',
@@ -18,22 +19,12 @@ const TYPE_LABELS_SHORT: Record<SpellType, string> = {
 const COLORS: SpellColor[] = ['branco', 'verde', 'vermelho', 'preto', 'azul'];
 const TYPES: SpellType[] = ['[T]', '[E]', '[F]', '[C]'];
 
-const COLOR_HEX: Record<SpellColor, string> = {
-  branco: RPG.branco,
-  verde: RPG.verdeLight,
-  vermelho: RPG.vermelhoLight,
-  preto: RPG.pretoLight,
-  azul: RPG.azulLight,
-};
-
 const TYPE_LABELS: Record<SpellType, string> = {
   '[T]': 'Truque',
   '[E]': 'Encantamento',
   '[F]': 'Feitiço',
   '[C]': 'Criatura',
 };
-
-const GRAU_COLORS = ['#888', RPG.gold, RPG.goldLight, '#fff'];
 
 type DomainGroup = {
   name: string;
