@@ -33,6 +33,7 @@ export default function MagiaScreen() {
   );
 
   const addToMemoria = (name: string) => {
+    if (c.memoria.entries.some(e => e.trim() === name.trim())) return;
     const idx = c.memoria.entries.findIndex(e => !e.trim());
     if (idx === -1) return;
     const next = [...c.memoria.entries];
@@ -40,6 +41,7 @@ export default function MagiaScreen() {
     setMemoria({ entries: next });
   };
   const addToFoco = (name: string) => {
+    if (c.foco.entries.some(e => e.trim() === name.trim())) return;
     const idx = c.foco.entries.findIndex(e => !e.trim());
     if (idx === -1) return;
     const next = [...c.foco.entries];
@@ -140,7 +142,7 @@ export default function MagiaScreen() {
               {c.memoria.entries.map((m, i) => {
                 const spell = spellByName(m);
                 return (
-                  <View key={i} style={styles.dominioCell}>
+                  <View key={i} style={[styles.dominioCell, styles.memoDominioCell]}>
                     {spell && <View style={[styles.dominioColorStrip, { backgroundColor: COLOR_HEX[spell.cor] }]} />}
                     {spell && (
                       <View style={styles.magicaInfoBlock}>
@@ -152,11 +154,15 @@ export default function MagiaScreen() {
                       </View>
                     )}
                     <TextInput
-                      style={styles.dominioInput}
+                      style={[styles.dominioInput, styles.memoInput]}
                       value={m}
-                      onChangeText={v => { const next = [...c.memoria.entries]; next[i] = v; setMemoria({ entries: next }); }}
+                      onChangeText={v => {
+                        if (v.trim() && c.memoria.entries.some((e, j) => j !== i && e.trim() === v.trim())) return;
+                        const next = [...c.memoria.entries]; next[i] = v; setMemoria({ entries: next });
+                      }}
                       placeholder="feitiço..."
                       placeholderTextColor={RPG.textDark}
+                      multiline
                     />
                     {spell && (
                       <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
@@ -193,7 +199,7 @@ export default function MagiaScreen() {
               {c.foco.entries.map((m, i) => {
                 const spell = spellByName(m);
                 return (
-                  <View key={i} style={styles.dominioCell}>
+                  <View key={i} style={[styles.dominioCell, styles.memoDominioCell]}>
                     {spell && <View style={[styles.dominioColorStrip, { backgroundColor: COLOR_HEX[spell.cor] }]} />}
                     {spell && (
                       <View style={styles.magicaInfoBlock}>
@@ -205,11 +211,15 @@ export default function MagiaScreen() {
                       </View>
                     )}
                     <TextInput
-                      style={styles.dominioInput}
+                      style={[styles.dominioInput, styles.memoInput]}
                       value={m}
-                      onChangeText={v => { const next = [...c.foco.entries]; next[i] = v; setFoco({ entries: next }); }}
+                      onChangeText={v => {
+                        if (v.trim() && c.foco.entries.some((e, j) => j !== i && e.trim() === v.trim())) return;
+                        const next = [...c.foco.entries]; next[i] = v; setFoco({ entries: next });
+                      }}
                       placeholder="permanente..."
                       placeholderTextColor={RPG.textDark}
+                      multiline
                     />
                     {spell && (
                       <TouchableOpacity style={styles.slotBtn} onPress={() => setViewSpell(spell)} activeOpacity={0.7}>
@@ -562,6 +572,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     paddingVertical: 6,
     paddingHorizontal: 8,
+  },
+  memoInput: {
+    fontSize: 11,
+    paddingVertical: 4,
+    textAlignVertical: 'top',
+  },
+  memoDominioCell: {
+    alignItems: 'flex-start',
   },
 
   bigTextArea: {
