@@ -1,11 +1,17 @@
-import React, { useState, useMemo } from 'react';
-import {
-  View, Text, TouchableOpacity, StyleSheet, Modal,
-  TextInput, ScrollView, SafeAreaView,
-} from 'react-native';
-import { RPG } from '@/constants/theme';
 import SectionHeader from '@/components/rpg/SectionHeader';
-import { proficiencias, periciaOrdem, PericiaKey, InstanciaKey } from '@/data/proficiencias';
+import { RPG } from '@/constants/theme';
+import { InstanciaKey, PericiaKey, periciaOrdem, proficiencias } from '@/data/proficiencias';
+import React, { useMemo, useState } from 'react';
+import {
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface Props {
   selected: string[];
@@ -23,7 +29,7 @@ export default function ProficienciasSection({ selected, onChange }: Props) {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<Set<PericiaKey>>(new Set());
 
-  const slotCount = Math.max(5, selected.length + 1);
+  const slotCount = Math.max(3, selected.length + 1);
 
   const openModal = (i: number) => { setSearch(''); setActiveSlot(i); };
   const closeModal = () => setActiveSlot(null);
