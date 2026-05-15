@@ -22,6 +22,7 @@ const MAPPING = {
   'sparkles': 'auto-awesome',
   'book.fill': 'menu-book',
   'list.bullet': 'list',
+  'square.and.pencil': 'edit-note',
 } as IconMapping;
 
 /**
