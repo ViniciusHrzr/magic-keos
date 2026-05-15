@@ -67,7 +67,13 @@ export default function ProficienciasSection({ selected, onChange }: Props) {
     const nome = key.slice(colonIdx + 1);
     const ordem = periciaOrdem.find(o => o.periciaKey === pk);
     const data = ordem ? proficiencias[ordem.instancia][pk] : undefined;
-    return { periLabel: data?.label ?? pk, nome };
+    const prof = data?.proficiencias.find(p => p.nome === nome);
+    return {
+      periLabel: data?.label ?? pk,
+      nome,
+      descricao: prof?.descricao,
+      teste: prof?.teste,
+    };
   };
 
   const filtered = useMemo(() => {
@@ -76,7 +82,8 @@ export default function ProficienciasSection({ selected, onChange }: Props) {
       instancia: InstanciaKey;
       periciaKey: PericiaKey;
       label: string;
-      profs: Array<{ nome: string; descricao: string }>;
+      atributos: string[];
+      profs: Array<{ nome: string; descricao: string; teste: string; requisito?: string }>;
     }> = [];
     for (const { instancia, periciaKey } of periciaOrdem) {
       const data = proficiencias[instancia][periciaKey];
@@ -89,7 +96,7 @@ export default function ProficienciasSection({ selected, onChange }: Props) {
           )
         : data.proficiencias;
       if (!profs.length) continue;
-      results.push({ instancia, periciaKey, label: data.label, profs });
+      results.push({ instancia, periciaKey, label: data.label, atributos: data.atributos, profs });
     }
     return results;
   }, [search]);
@@ -120,6 +127,9 @@ export default function ProficienciasSection({ selected, onChange }: Props) {
                   <View style={styles.slotContent}>
                     <Text style={styles.slotPeriLabel}>{disp.periLabel}</Text>
                     <Text style={styles.slotName} numberOfLines={1}>{disp.nome}</Text>
+                    {disp.descricao && (
+                      <Text style={styles.slotDesc} numberOfLines={2}>{disp.descricao}</Text>
+                    )}
                   </View>
                 ) : (
                   <Text style={styles.slotPlaceholder}>Toque para selecionar…</Text>
@@ -162,9 +172,20 @@ export default function ProficienciasSection({ selected, onChange }: Props) {
             {filtered.map(section => (
               <View key={section.periciaKey}>
                 <View style={styles.periHeader}>
-                  <Text style={styles.periInstancia}>{INSTANCIA_LABEL[section.instancia]}</Text>
-                  <Text style={styles.periLabel}>{section.label}</Text>
+                  <View style={styles.periHeaderTop}>
+                    <Text style={styles.periInstancia}>{INSTANCIA_LABEL[section.instancia]}</Text>
+                    <Text style={styles.periLabel}>{section.label}</Text>
+                  </View>
+                  <View style={styles.periAtributosRow}>
+                    {section.atributos.map(a => (
+                      <View key={a} style={styles.atributoTag}>
+                        <Text style={styles.atributoText}>{a}</Text>
+                      </View>
+                    ))}
+                    <Text style={styles.periCustoHint}>· 1 SAB/nível · máx. 10</Text>
+                  </View>
                 </View>
+
                 {section.profs.map(prof => {
                   const key = `${section.periciaKey}:${prof.nome}`;
                   const isCurrent = key === modalCurrentKey;
@@ -181,18 +202,29 @@ export default function ProficienciasSection({ selected, onChange }: Props) {
                       activeOpacity={0.7}
                     >
                       <View style={styles.profInfo}>
-                        <Text
-                          style={[
-                            styles.profName,
-                            isCurrent && styles.profNameCurrent,
-                            isElsewhere && styles.profNameElsewhere,
-                          ]}
-                        >
-                          {prof.nome}
-                        </Text>
+                        <View style={styles.profNameRow}>
+                          <Text
+                            style={[
+                              styles.profName,
+                              isCurrent && styles.profNameCurrent,
+                              isElsewhere && styles.profNameElsewhere,
+                            ]}
+                          >
+                            {prof.nome}
+                          </Text>
+                          {prof.requisito && (
+                            <View style={styles.reqTag}>
+                              <Text style={styles.reqText}>{prof.requisito}</Text>
+                            </View>
+                          )}
+                        </View>
                         <Text style={[styles.profDesc, isElsewhere && styles.profDescElsewhere]}>
                           {prof.descricao}
                         </Text>
+                        <View style={styles.testeRow}>
+                          <Text style={styles.testeLabel}>TESTE </Text>
+                          <Text style={styles.testeValue}>{prof.teste}</Text>
+                        </View>
                       </View>
                       {isCurrent && <Text style={styles.checkMark}>✓</Text>}
                       {isElsewhere && <Text style={styles.elsewhereTag}>em uso</Text>}
@@ -218,13 +250,13 @@ const styles = StyleSheet.create({
   },
   slotRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 6,
   },
   slot: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
@@ -245,26 +277,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 2,
+    flexShrink: 0,
   },
-  badgeFilled: {
-    backgroundColor: RPG.goldDim,
-  },
-  badgeEmpty: {
-    backgroundColor: RPG.border,
-  },
-  badgeNum: {
-    fontSize: 10,
-    fontWeight: '700',
-  },
-  badgeNumFilled: {
-    color: RPG.goldLight,
-  },
-  badgeNumEmpty: {
-    color: RPG.textMuted,
-  },
-  slotContent: {
-    flex: 1,
-  },
+  badgeFilled: { backgroundColor: RPG.goldDim },
+  badgeEmpty: { backgroundColor: RPG.border },
+  badgeNum: { fontSize: 10, fontWeight: '700' },
+  badgeNumFilled: { color: RPG.goldLight },
+  badgeNumEmpty: { color: RPG.textMuted },
+  slotContent: { flex: 1, gap: 2 },
   slotPeriLabel: {
     fontSize: 9,
     color: RPG.textMuted,
@@ -276,27 +297,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: RPG.goldLight,
     fontWeight: '600',
-    marginTop: 1,
+  },
+  slotDesc: {
+    fontSize: 10,
+    color: RPG.textMuted,
+    lineHeight: 14,
+    marginTop: 2,
   },
   slotPlaceholder: {
     flex: 1,
     fontSize: 12,
     color: RPG.textDark,
     fontStyle: 'italic',
+    marginTop: 2,
   },
-  clearBtn: {
-    padding: 4,
-  },
-  clearText: {
-    color: RPG.textDark,
-    fontSize: 12,
-  },
+  clearBtn: { padding: 4, marginTop: 2 },
+  clearText: { color: RPG.textDark, fontSize: 12 },
 
   // Modal
-  modal: {
-    flex: 1,
-    backgroundColor: RPG.bg,
-  },
+  modal: { flex: 1, backgroundColor: RPG.bg },
   modalHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -306,16 +325,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: RPG.border,
   },
-  modalTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: RPG.gold,
-    letterSpacing: 0.5,
-  },
-  modalClose: {
-    fontSize: 16,
-    color: RPG.textMuted,
-  },
+  modalTitle: { fontSize: 16, fontWeight: '700', color: RPG.gold, letterSpacing: 0.5 },
+  modalClose: { fontSize: 16, color: RPG.textMuted },
   searchWrap: {
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -332,17 +343,16 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: RPG.text,
   },
-  list: {
-    flex: 1,
-  },
+  list: { flex: 1 },
   periHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
     paddingHorizontal: 14,
     paddingTop: 16,
-    paddingBottom: 6,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+    gap: 6,
   },
+  periHeaderTop: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   periInstancia: {
     fontSize: 8,
     fontWeight: '700',
@@ -355,55 +365,49 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: RPG.border,
   },
-  periLabel: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: RPG.gold,
-    letterSpacing: 0.3,
+  periLabel: { fontSize: 14, fontWeight: '700', color: RPG.gold, letterSpacing: 0.3 },
+  periAtributosRow: { flexDirection: 'row', alignItems: 'center', gap: 4, flexWrap: 'wrap' },
+  atributoTag: {
+    backgroundColor: RPG.goldDim + '33',
+    borderWidth: 1,
+    borderColor: RPG.goldDim,
+    borderRadius: 4,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
   },
+  atributoText: { fontSize: 9, color: RPG.gold, fontWeight: '700', letterSpacing: 0.5 },
+  periCustoHint: { fontSize: 9, color: RPG.textDark, marginLeft: 2 },
   profRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: RPG.border + '55',
+    borderBottomColor: RPG.border + '44',
     gap: 10,
   },
-  profRowCurrent: {
-    backgroundColor: RPG.goldDim + '22',
+  profRowCurrent: { backgroundColor: RPG.goldDim + '22' },
+  profRowElsewhere: { opacity: 0.4 },
+  profInfo: { flex: 1, gap: 4 },
+  profNameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' },
+  profName: { fontSize: 13, color: RPG.text, fontWeight: '600' },
+  profNameCurrent: { color: RPG.goldLight },
+  profNameElsewhere: { color: RPG.textMuted },
+  reqTag: {
+    backgroundColor: RPG.surfaceAlt,
+    borderWidth: 1,
+    borderColor: RPG.border,
+    borderRadius: 3,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
   },
-  profRowElsewhere: {
-    opacity: 0.45,
-  },
-  profInfo: {
-    flex: 1,
-    gap: 3,
-  },
-  profName: {
-    fontSize: 13,
-    color: RPG.text,
-    fontWeight: '600',
-  },
-  profNameCurrent: {
-    color: RPG.goldLight,
-  },
-  profNameElsewhere: {
-    color: RPG.textMuted,
-  },
-  profDesc: {
-    fontSize: 11,
-    color: RPG.textMuted,
-    lineHeight: 15,
-  },
-  profDescElsewhere: {
-    color: RPG.textDark,
-  },
-  checkMark: {
-    fontSize: 16,
-    color: RPG.gold,
-    fontWeight: '700',
-  },
+  reqText: { fontSize: 9, color: RPG.textMuted, fontWeight: '600' },
+  profDesc: { fontSize: 11, color: RPG.textMuted, lineHeight: 16 },
+  profDescElsewhere: { color: RPG.textDark },
+  testeRow: { flexDirection: 'row', flexWrap: 'wrap' },
+  testeLabel: { fontSize: 9, color: RPG.gold, fontWeight: '700', letterSpacing: 0.6 },
+  testeValue: { fontSize: 9, color: RPG.textMuted, flex: 1 },
+  checkMark: { fontSize: 16, color: RPG.gold, fontWeight: '700', marginTop: 2 },
   elsewhereTag: {
     fontSize: 9,
     color: RPG.textDark,
@@ -414,8 +418,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     paddingHorizontal: 4,
     paddingVertical: 2,
+    marginTop: 2,
   },
-  listBottom: {
-    height: 40,
-  },
+  listBottom: { height: 40 },
 });

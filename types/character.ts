@@ -81,7 +81,7 @@ export interface Character {
   };
 
   proficiencias: string[];
-  habilidades: string;
+  habilidades: string[];
   notas: string;
 
   velocidade: { base: number; temp: number; boxes: boolean[] };
@@ -160,7 +160,7 @@ export const defaultCharacter: Character = {
     labia: { ...emptySkill },
   },
   proficiencias: [],
-  habilidades: '',
+  habilidades: [],
   notas: '',
   velocidade: { base: 0, temp: 0, boxes: Array(15).fill(false) },
   memoria: { base: 0, temp: 0, entries: Array(15).fill('') },

@@ -16,6 +16,7 @@ import CharacterManager from '@/components/rpg/CharacterManager';
 import { AttrDice, SkillValue } from '@/types/character';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import ProficienciasSection from '@/components/rpg/ProficienciasSection';
+import HabilidadesSection from '@/components/rpg/HabilidadesSection';
 
 export default function FichaScreen() {
   const [showManager, setShowManager] = useState(false);
@@ -179,16 +180,7 @@ export default function FichaScreen() {
         <ProficienciasSection selected={c.proficiencias} onChange={setProficiencias} />
 
         {/* ── HABILIDADES ── */}
-        <SectionHeader title="Habilidades" />
-        <TextInput
-          style={styles.textArea}
-          value={c.habilidades}
-          onChangeText={setHabilidades}
-          multiline
-          placeholder="Liste as habilidades do personagem..."
-          placeholderTextColor={RPG.textDark}
-          textAlignVertical="top"
-        />
+        <HabilidadesSection selected={c.habilidades} onChange={setHabilidades} />
 
         <View style={{ height: 32 }} />
       </ScrollView>
