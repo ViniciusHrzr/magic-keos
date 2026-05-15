@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Estabilidade de Fundação** - Corrigir debounce, race condition de hidratação, error boundaries e memoização do contexto
 - [x] **Phase 2: Qualidade da Ficha** - Validação de entrada, carregamento de fonte, extração de componentes e limpeza de código morto (completed 2026-05-15)
-- [ ] **Phase 3: Qualidade do Grimório** - Extração de componentes do grimório e persistência de filtros durante a sessão
+- [x] **Phase 3: Qualidade do Grimório** - Extração de componentes do grimório e persistência de filtros durante a sessão (completed 2026-05-15)
 - [ ] **Phase 4: Ferramentas de Mesa** - Rolador de dados coloridos, rastreador de turno de combate e rastreador visual de veneno
 
 ## Phase Details
@@ -74,13 +74,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans (3 waves)
 
 **Wave 1**
-- [ ] 03-01-PLAN.md — Extrair StatPill inline de grimorio.tsx para components/rpg/StatPill.tsx (GRIM-01)
+- [x] 03-01-PLAN.md — Extrair StatPill inline de grimorio.tsx para components/rpg/StatPill.tsx (GRIM-01)
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 03-02-PLAN.md — Criar SpellDetailCard, remover SpellDetail de grimorio.tsx e SpellDetailView de magia.tsx (GRIM-01)
+- [x] 03-02-PLAN.md — Criar SpellDetailCard, remover SpellDetail de grimorio.tsx e SpellDetailView de magia.tsx (GRIM-01)
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 03-03-PLAN.md — Adicionar variáveis module-level para persistência de filtros em grimorio.tsx (GRIM-02)
+- [x] 03-03-PLAN.md — Adicionar variáveis module-level para persistência de filtros em grimorio.tsx (GRIM-02)
 
 **Cross-cutting constraints:**
 - `app/(tabs)/grimorio.tsx` modificado pelos 3 planos — execução estritamente sequencial (waves 1→2→3)
@@ -106,5 +106,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Estabilidade de Fundação | 3/3 | Complete | 2026-05-15 |
 | 2. Qualidade da Ficha | 3/3 | Complete   | 2026-05-15 |
-| 3. Qualidade do Grimório | 0/3 | Not started | - |
+| 3. Qualidade do Grimório | 3/3 | Complete | 2026-05-15 |
 | 4. Ferramentas de Mesa | 0/TBD | Not started | - |
