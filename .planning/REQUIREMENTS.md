@@ -49,10 +49,21 @@
 
 ## Traceability
 
-| Requirement | Phase |
-|-------------|-------|
-| FOUND-01–04 | Fase 1 |
-| FICHA-01–04 | Fase 2 |
-| GRIM-01–02 | Fase 2 |
-| MESA-01–03 | Fase 3 |
-| CODE-01–03 | Fase 2 |
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FICHA-01 | Phase 2 | Pending |
+| FICHA-02 | Phase 2 | Pending |
+| FICHA-03 | Phase 2 | Pending |
+| FICHA-04 | Phase 2 | Pending |
+| CODE-01 | Phase 2 | Pending |
+| CODE-02 | Phase 2 | Pending |
+| CODE-03 | Phase 2 | Pending |
+| GRIM-01 | Phase 3 | Pending |
+| GRIM-02 | Phase 3 | Pending |
+| MESA-01 | Phase 4 | Pending |
+| MESA-02 | Phase 4 | Pending |
+| MESA-03 | Phase 4 | Pending |
