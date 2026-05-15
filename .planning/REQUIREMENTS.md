@@ -23,9 +23,9 @@
 
 ### Features de Mesa (MESA)
 
-- [ ] **MESA-01**: Rolador de dados que suporta as 5 cores (dW/dG/dR/dB/dU) com mecânicas especiais de cada cor
-- [ ] **MESA-02**: Rastreador de turno de combate (ordem de iniciativa, marcador de turno atual)
-- [ ] **MESA-03**: Calculadora de veneno (tracker visual 0–10 com efeitos por nível)
+- [ ] **MESA-01**: Aba "Regras" com referência in-session de mecânicas (dados, testes, combate, condições, canalização, descanso, balizadores) e campo "Notas" persistente
+- [ ] **MESA-02**: Seletor de Proficiências estruturado (chips togláveis agrupados por perícia CORPO/MENTE/ESPÍRITO) substituindo o campo de texto livre
+- [ ] **MESA-03**: Migração automática de `proficiencias: string` → `proficiencias: string[]` sem perda de dados para personagens existentes
 
 ### Qualidade de Código (CODE)
 
@@ -35,6 +35,9 @@
 
 ## v2 Requirements (Deferred)
 
+- Rolador de dados coloridos (dW/dG/dR/dB/dU com mecânicas especiais) — diferido de v1 Phase 4
+- Rastreador de turno de combate (ordem de iniciativa, marcador de turno) — diferido de v1 Phase 4
+- Calculadora de veneno (tracker visual 0–10 com efeitos por nível) — diferido de v1 Phase 4
 - Calculadora de evolução de personagem (afinidade de cor → nova identidade)
 - Rastreador de cena completo (HP de inimigos, criaturas em campo, condições)
 - Modo offline-first com sync posterior
