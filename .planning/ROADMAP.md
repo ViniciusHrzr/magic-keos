@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Estabilidade de Fundação** - Corrigir debounce, race condition de hidratação, error boundaries e memoização do contexto
 - [x] **Phase 2: Qualidade da Ficha** - Validação de entrada, carregamento de fonte, extração de componentes e limpeza de código morto (completed 2026-05-15)
 - [x] **Phase 3: Qualidade do Grimório** - Extração de componentes do grimório e persistência de filtros durante a sessão (completed 2026-05-15)
-- [ ] **Phase 4: Ferramentas de Mesa** - Rolador de dados coloridos, rastreador de turno de combate e rastreador visual de veneno
+- [ ] **Phase 4: Ferramentas de Mesa** - Aba "Regras" com referência de regras + Notas, e seletor estruturado de Proficiências
 
 ## Phase Details
 
@@ -87,15 +87,25 @@ Decimal phases appear between their surrounding integers in numeric order.
 - `detailHeader`, `closeBtn`, `closeBtnText` em `magia.tsx` são compartilhados com `DomainView` — NÃO remover ao extrair `SpellDetailCard`
 
 ### Phase 4: Ferramentas de Mesa
-**Goal**: Jogadores podem rolar dados coloridos, rastrear a ordem de iniciativa e monitorar o nível de veneno de um personagem diretamente no app durante a sessão
+**Goal**: Jogadores têm acesso a uma referência de regras in-session com notas persistentes, e podem selecionar proficiências do personagem através de uma UI de chips estruturada
 **Depends on**: Phase 3
 **Requirements**: MESA-01, MESA-02, MESA-03
 **Success Criteria** (what must be TRUE):
-  1. O jogador pode selecionar uma combinação de dados coloridos (dW/dG/dR/dB/dU) e rolar, vendo o resultado com as mecânicas especiais de cada cor aplicadas
-  2. O jogador pode adicionar personagens à fila de iniciativa, marcar o turno atual e avançar para o próximo turno durante combate
-  3. O jogador pode ajustar o nível de veneno de 0 a 10 no rastreador visual e ver os efeitos correspondentes a cada nível exibidos na tela
-**Plans**: TBD
+  1. A aba "Regras" exibe 7 seções de referência (dados, testes, combate, condições, canalização, descanso, balizadores) e um campo "Notas" que persiste entre sessões
+  2. O campo Proficiências na ficha apresenta chips togláveis agrupados por perícia (CORPO/MENTE/ESPÍRITO); selecionar/deselecionar um chip atualiza `c.proficiencias[]` imediatamente
+  3. Personagens existentes com `proficiencias: string` migram automaticamente para `proficiencias: []` sem perda de dados
+**Plans**: 2 plans (2 waves)
 **UI hint**: yes
+
+**Wave 1**
+- [ ] 04-01-PLAN.md — Aba Regras com 8 seções + Notas persistente + registro no tab layout (MESA-01)
+
+**Wave 2** *(blocked on Wave 1 completion — shares types/character.ts and store/CharacterContext.tsx)*
+- [ ] 04-02-PLAN.md — Seletor de Proficiências por chips + migration string→string[] (MESA-02, MESA-03)
+
+**Cross-cutting constraints:**
+- `types/character.ts` modificado por 04-01 (add notas) e 04-02 (proficiencias string→string[]) — mudanças não conflitantes mas em sequência
+- `store/CharacterContext.tsx` modificado por 04-01 (setNotas + migration guard) e 04-02 (setProficiencias signature change + migration guard) — execução sequencial obrigatória
 
 ## Progress
 
@@ -107,4 +117,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Estabilidade de Fundação | 3/3 | Complete | 2026-05-15 |
 | 2. Qualidade da Ficha | 3/3 | Complete   | 2026-05-15 |
 | 3. Qualidade do Grimório | 3/3 | Complete | 2026-05-15 |
-| 4. Ferramentas de Mesa | 0/TBD | Not started | - |
+| 4. Ferramentas de Mesa | 0/2 | Planning | - |
