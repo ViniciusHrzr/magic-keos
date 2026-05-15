@@ -34,13 +34,18 @@ type DomainGroup = {
   color: SpellColor;
 };
 
+let _search = '';
+let _activeColor: SpellColor | null = null;
+let _activeGrau: number | null = null;
+let _activeType: SpellType | null = null;
+
 export default function GrimorioScreen() {
   const { character: c, setDominio, setMagica, isLoaded } = useCharacter();
   const insets = useSafeAreaInsets();
-  const [search, setSearch] = useState('');
-  const [activeColor, setActiveColor] = useState<SpellColor | null>(null);
-  const [activeGrau, setActiveGrau] = useState<number | null>(null);
-  const [activeType, setActiveType] = useState<SpellType | null>(null);
+  const [search, setSearch] = useState(_search);
+  const [activeColor, setActiveColor] = useState<SpellColor | null>(_activeColor);
+  const [activeGrau, setActiveGrau] = useState<number | null>(_activeGrau);
+  const [activeType, setActiveType] = useState<SpellType | null>(_activeType);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<Spell | null>(null);
 
@@ -142,7 +147,7 @@ export default function GrimorioScreen() {
         <TextInput
           style={styles.search}
           value={search}
-          onChangeText={setSearch}
+          onChangeText={v => { _search = v; setSearch(v); }}
           placeholder="Buscar domínio ou mágica..."
           placeholderTextColor={RPG.textDark}
           clearButtonMode="while-editing"
@@ -155,7 +160,7 @@ export default function GrimorioScreen() {
           <TouchableOpacity
             key={c}
             style={[styles.filterBtn, { borderColor: COLOR_HEX[c] }, activeColor === c && { backgroundColor: COLOR_HEX[c] + '33' }]}
-            onPress={() => setActiveColor(activeColor === c ? null : c)}
+            onPress={() => { const next = activeColor === c ? null : c; _activeColor = next; setActiveColor(next); }}
             activeOpacity={0.7}
           >
             <Text style={[styles.filterText, { color: COLOR_HEX[c] }]}>{COLOR_LABELS[c]}</Text>
@@ -169,7 +174,7 @@ export default function GrimorioScreen() {
           <TouchableOpacity
             key={g}
             style={[styles.filterBtn2, activeGrau === g && styles.filterBtn2Active]}
-            onPress={() => setActiveGrau(activeGrau === g ? null : g)}
+            onPress={() => { const next = activeGrau === g ? null : g; _activeGrau = next; setActiveGrau(next); }}
             activeOpacity={0.7}
           >
             <Text style={[styles.filterText2, activeGrau === g && { color: RPG.gold }]}>Grau {g}</Text>
@@ -179,7 +184,7 @@ export default function GrimorioScreen() {
           <TouchableOpacity
             key={t}
             style={[styles.filterBtn2, activeType === t && styles.filterBtn2Active]}
-            onPress={() => setActiveType(activeType === t ? null : t)}
+            onPress={() => { const next = activeType === t ? null : t; _activeType = next; setActiveType(next); }}
             activeOpacity={0.7}
           >
             <Text style={[styles.filterText2, activeType === t && { color: RPG.gold }]}>{t}</Text>
