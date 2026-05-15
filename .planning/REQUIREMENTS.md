@@ -6,7 +6,7 @@
 
 - [ ] **FOUND-01**: App persiste dados sem perda ao digitar (debounce no AsyncStorage)
 - [ ] **FOUND-02**: App hidrata sem race condition (loading state antes de renderizar ficha)
-- [ ] **FOUND-03**: Crashes de contexto isolados por error boundaries (não derruba app inteiro)
+- [x] **FOUND-03**: Crashes de contexto isolados por error boundaries (não derruba app inteiro)
 - [ ] **FOUND-04**: CharacterContext memoizado (sem re-renders desnecessários)
 
 ### Qualidade da Ficha (FICHA)
@@ -53,7 +53,7 @@
 |-------------|-------|--------|
 | FOUND-01 | Phase 1 | Pending |
 | FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Complete |
 | FOUND-04 | Phase 1 | Pending |
 | FICHA-01 | Phase 2 | Pending |
 | FICHA-02 | Phase 2 | Pending |
