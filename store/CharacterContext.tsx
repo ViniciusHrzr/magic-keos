@@ -27,6 +27,7 @@ function migrate(raw: any): Character {
   if (typeof parsed.magicas === 'string') {
     parsed.magicas = Array(20).fill('');
   }
+  if (typeof parsed.proficiencias === 'string') parsed.proficiencias = [];
   if (!parsed.notas) parsed.notas = '';
   return { ...defaultCharacter, ...parsed };
 }
@@ -45,7 +46,7 @@ interface CharacterContextType {
   setInstanceIP: (instance: 'corpo' | 'mente' | 'espirito', field: 'ipBase' | 'ipBonus', v: number) => void;
   setAttrDice: (instance: 'corpo' | 'mente' | 'espirito', attr: string, dice: AttrDice) => void;
   setSkill: (instance: 'corpo' | 'mente' | 'espirito', skill: string, value: SkillValue) => void;
-  setProficiencias: (v: string) => void;
+  setProficiencias: (v: string[]) => void;
   setHabilidades: (v: string) => void;
   setNotas: (v: string) => void;
   setVelocidade: (update: Partial<Character['velocidade']>) => void;
@@ -150,7 +151,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     update(p => ({ ...p, [instance]: { ...p[instance], [attr]: dice } })), [update]);
   const setSkill = useCallback((instance: 'corpo' | 'mente' | 'espirito', skill: string, value: SkillValue) =>
     update(p => ({ ...p, [instance]: { ...p[instance], [skill]: value } })), [update]);
-  const setProficiencias = useCallback((v: string) => update(p => ({ ...p, proficiencias: v })), [update]);
+  const setProficiencias = useCallback((v: string[]) => update(p => ({ ...p, proficiencias: v })), [update]);
   const setHabilidades   = useCallback((v: string) => update(p => ({ ...p, habilidades: v })), [update]);
   const setNotas         = useCallback((v: string) => update(p => ({ ...p, notas: v })), [update]);
   const setVelocidade = useCallback((patch: Partial<Character['velocidade']>) =>
