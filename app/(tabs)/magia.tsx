@@ -9,6 +9,7 @@ import CheckboxGrid from '@/components/rpg/CheckboxGrid';
 import MemoGrid from '@/components/rpg/MemoGrid';
 import { grimoire, Spell, SpellColor } from '@/data/grimoire';
 import spellImages from '@/data/spellImages';
+import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 
 export default function MagiaScreen() {
   const {
@@ -44,6 +45,7 @@ export default function MagiaScreen() {
   };
 
   return (
+    <ErrorBoundary>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
@@ -321,6 +323,7 @@ export default function MagiaScreen() {
       </Modal>
     </SafeAreaView>
     </KeyboardAvoidingView>
+    </ErrorBoundary>
   );
 }
 

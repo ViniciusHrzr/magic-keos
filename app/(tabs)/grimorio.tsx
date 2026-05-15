@@ -7,6 +7,7 @@ import { grimoire, domains, Spell, SpellColor, SpellType } from '@/data/grimoire
 import { RPG } from '@/constants/theme';
 import { useCharacter } from '@/store/CharacterContext';
 import spellImages from '@/data/spellImages';
+import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 
 const COLOR_LABELS: Record<SpellColor, string> = {
   branco: 'Branco', verde: 'Verde', vermelho: 'Vermelho', preto: 'Preto', azul: 'Azul',
@@ -135,6 +136,7 @@ export default function GrimorioScreen() {
   }, [expanded, toggleDomain, c.dominios, addDomainToFicha]);
 
   return (
+    <ErrorBoundary>
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>Grimório</Text>
@@ -214,6 +216,7 @@ export default function GrimorioScreen() {
         </View>
       </Modal>
     </SafeAreaView>
+    </ErrorBoundary>
   );
 }
 

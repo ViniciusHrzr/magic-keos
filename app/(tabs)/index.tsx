@@ -14,6 +14,7 @@ import VenenoTracker from '@/components/rpg/VenenoTracker';
 import AfinidadeSection from '@/components/rpg/AfinidadeSection';
 import CharacterManager from '@/components/rpg/CharacterManager';
 import { AttrDice, SkillValue } from '@/types/character';
+import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 
 export default function FichaScreen() {
   const [showManager, setShowManager] = useState(false);
@@ -25,6 +26,7 @@ export default function FichaScreen() {
   } = useCharacter();
 
   return (
+    <ErrorBoundary>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
@@ -198,6 +200,7 @@ export default function FichaScreen() {
       <CharacterManager visible={showManager} onClose={() => setShowManager(false)} />
     </SafeAreaView>
     </KeyboardAvoidingView>
+    </ErrorBoundary>
   );
 }
 
