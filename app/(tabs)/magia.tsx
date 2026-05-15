@@ -397,6 +397,11 @@ export default function MagiaScreen() {
               />
             )}
           </View>
+          {toast !== null && (
+            <View style={styles.toast} pointerEvents="none">
+              <Text style={styles.toastText}>{toast}</Text>
+            </View>
+          )}
         </View>
       </Modal>
       {toast !== null && (
