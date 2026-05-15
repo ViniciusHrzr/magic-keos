@@ -15,6 +15,7 @@ import AfinidadeSection from '@/components/rpg/AfinidadeSection';
 import CharacterManager from '@/components/rpg/CharacterManager';
 import { AttrDice, SkillValue } from '@/types/character';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
+import ProficienciasSection from '@/components/rpg/ProficienciasSection';
 
 export default function FichaScreen() {
   const [showManager, setShowManager] = useState(false);
@@ -175,16 +176,7 @@ export default function FichaScreen() {
         />
 
         {/* ── PROFICIÊNCIAS ── */}
-        <SectionHeader title="Proficiências" />
-        <TextInput
-          style={styles.textArea}
-          value={c.proficiencias}
-          onChangeText={setProficiencias}
-          multiline
-          placeholder="Liste as proficiências do personagem..."
-          placeholderTextColor={RPG.textDark}
-          textAlignVertical="top"
-        />
+        <ProficienciasSection selected={c.proficiencias} onChange={setProficiencias} />
 
         {/* ── HABILIDADES ── */}
         <SectionHeader title="Habilidades" />
