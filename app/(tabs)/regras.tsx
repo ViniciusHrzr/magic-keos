@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
+import { proficiencias, periciaOrdem } from '@/data/proficiencias';
 
 // ---------------------------------------------------------------------------
 // Base table helpers
@@ -53,6 +54,32 @@ function Sub({ text }: { text: string }) {
 
 function Note({ text }: { text: string }) {
   return <Text style={styles.sectionIntro}>{text}</Text>;
+}
+
+function ProfBlock({ nome, desc, teste, req }: { nome: string; desc: string; teste: string; req?: string }) {
+  return (
+    <View style={styles.profBlock}>
+      <View style={styles.profHeader}>
+        <Text style={styles.profNome}>{nome}</Text>
+        {req ? <Text style={styles.profReq}>{req}</Text> : null}
+      </View>
+      <Text style={styles.profDesc}>{desc}</Text>
+      <Text style={styles.profTeste}>Teste: {teste}</Text>
+    </View>
+  );
+}
+
+function HabBlock({ nome, prereq, custo, efeito }: { nome: string; prereq: string; custo: string; efeito: string }) {
+  return (
+    <View style={styles.habBlock}>
+      <View style={styles.habHeader}>
+        <Text style={styles.habNome}>{nome}</Text>
+        <Text style={styles.habCusto}>{custo} SAB</Text>
+      </View>
+      <Text style={styles.habPrereq}>Req: {prereq}</Text>
+      <Text style={styles.habEfeito}>{efeito}</Text>
+    </View>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -164,52 +191,50 @@ export default function RegrasScreen() {
           {/* ── 4. PERÍCIAS ── */}
           <Section num="4" title="Perícias">
             <Note text="Custo: 1 SAB para nível 1, +N por nível seguinte (total lv.10 = 55 pts). Abrir domínio concede nível 1 na perícia-chave." />
-            <Sub text="CORPO" />
-            <TH cols={['Perícia', 'Atributos', 'Proficiências / Reação']} widths={[1, 0.8, 2.2]} />
-            <R3 a="Artes Marciais" b="FOR REF VIG PRE" c="Derrubar, Desarmar, Desviar, Fintar, Imobilizar · Aparar (reação, lv.2)" />
-            <R3 a="Atletismo" b="FOR REF VIG" c="Investida, Prontidão, Fôlego · Disparar (reação, lv.1)" />
-            <R3 a="Esgrima" b="FOR REF" c="Armas Leves, Uma Mão, Duas Mãos, Especialização, Mestria · Contra-atacar (reação, lv.2)" />
-            <R3 a="Furtividade" b="REF" c="Ataque Furtivo, Ataque Letal, Ataque Silencioso · Esquivar (reação, lv.1)" />
-            <R3 a="Pontaria" b="REF FOR RAZ PRE" c="Arcos, Arremesso, Condutores, Especialização, Mestria · Mirar (reação, lv.2)" />
-            <Sub text="MENTE" />
-            <R3 a="Alquimia" b="RAZ" c="Herbologia, Mineralogia, Zoologia · Poções (lv.1)" />
-            <R3 a="Criatividade" b="RAZ" c="Recapitular, Reciclar, Reforçar, Repartir, Replicar · Solução (lv.1)" />
-            <R3 a="Investigação" b="RAZ SEN CON" c="Selo de Feitiço, Encantamento, Invocação · Leitura (lv.1)" />
-            <R3 a="Mecânica" b="RAZ CON" c="Artesão, Feiticeiro, Ferreiro · Artefatos (lv.1)" />
-            <R3 a="Sobrevivência" b="RAZ SEN" c="Acampamento, Harmonização, Forrageamento, Manufaturação, Treinamento · Coleta (lv.1)" />
-            <Sub text="ESPÍRITO" />
-            <R3 a="Comunhão" b="PRE INT VON" c="Provocar (ação livre, lv.3)" />
-            <R3 a="Diplomacia" b="PRE INT VON" c="Coordenar (ação livre, lv.3)" />
-            <R3 a="Expressão" b="PRE INT VON" c="Inspirar (ação livre, lv.3)" />
-            <R3 a="Intimidação" b="PRE INT VON" c="Amedrontar (ação livre, lv.3)" />
-            <R3 a="Lábia" b="PRE INT VON" c="Distrair (ação livre, lv.3)" />
+            {(() => {
+              let lastInst = '';
+              return periciaOrdem.map(({ instancia, periciaKey }) => {
+                const p = proficiencias[instancia][periciaKey]!;
+                const showInst = instancia !== lastInst;
+                lastInst = instancia;
+                return (
+                  <View key={periciaKey}>
+                    {showInst && <Sub text={instancia.toUpperCase()} />}
+                    <Text style={styles.periciaLabel}>{p.label} · <Text style={styles.periciaAtrs}>{p.atributos.join(' · ')}</Text></Text>
+                    <Note text={p.descricao} />
+                    {p.proficiencias.map((pr, j) => (
+                      <ProfBlock key={j} nome={pr.nome} desc={pr.descricao} teste={pr.teste} req={pr.requisito} />
+                    ))}
+                  </View>
+                );
+              });
+            })()}
           </Section>
 
           {/* ── 5. HABILIDADES ── */}
           <Section num="5" title="Habilidades">
             <Note text="Adquiridas com Sabedoria. Requerem pré-requisitos. Concedem reações especiais ou bônus fixos." />
             <Sub text="Corporais" />
-            <TH cols={['Habilidade', 'Custo', 'Efeito / Reação']} widths={[1.2, 0.8, 2]} />
-            <R3 a="Alcance" b="5 SAB" c="Impedir [1]: ataque à distância quando alvo se move. Req: REF(2) + Pont(+5)" />
-            <R3 a="Ameaçar" b="5 SAB" c="Passiva: alvo engajado não pode reagir. Req: REF(2) + Furt(+5)" />
-            <R3 a="Atropelar" b="5/10/15" c="Passiva: +1dX dano, distribuível em adjacentes. Req: FOR(3) + AM/Esg(+5)" />
-            <R3 a="Destreza" b="2/3/4/5" c="Passiva: dano desarmado sobe (dW I–V). Req: FOR + AM(+2/4/6/8)" />
-            <R3 a="Golpe Duplo" b="5 SAB" c="Passiva: dois ataques consecutivos. Req: REF(3) + AM/Esg/Pont(+5)" />
-            <R3 a="Iniciativa" b="5 SAB" c="Impugnar [1]: ataca antes do atacante. Req: REF(2) + Esgrima(+5)" />
-            <R3 a="Ímpeto" b="5 SAB" c="Passiva: age primeiro + Velocidade para ações padrão. Req: REF(2) + Atletismo(+5)" />
-            <R3 a="Vigilância" b="5 SAB" c="Passiva: reações ilimitadas (custa 1 ação cada). Req: REF(2) + Perícia Corp(+5)" />
+            <HabBlock nome="Alcance" prereq="REF(2); Pontaria(+5)" custo="5" efeito="Impedir [1]: ataque à distância quando alvo se move" />
+            <HabBlock nome="Ameaçar" prereq="REF(2); Furtividade(+5)" custo="5" efeito="— (passiva): alvo engajado não pode reagir" />
+            <HabBlock nome="Atropelar" prereq="FOR(3); AM(+5) ou Esg(+5)" custo="5/10/15" efeito="— (passiva): +1dX dano, distribuível em adjacentes" />
+            <HabBlock nome="Destreza" prereq="FOR; AM(+2/+4/+6/+8)" custo="2/3/4/5" efeito="— (passiva): dano desarmado sobe (dW I–V)" />
+            <HabBlock nome="Golpe Duplo" prereq="REF(3); AM/Esg/Pont(+5)" custo="5" efeito="— (passiva): dois ataques consecutivos" />
+            <HabBlock nome="Iniciativa" prereq="REF(2); Esgrima(+5)" custo="5" efeito="Impugnar [1]: ataca antes do atacante" />
+            <HabBlock nome="Ímpeto" prereq="REF(2); Atletismo(+5)" custo="5" efeito="— (passiva): age primeiro + Velocidade para ações padrão" />
+            <HabBlock nome="Vigilância" prereq="REF(2); Perícia Corporal(+5)" custo="5" efeito="— (passiva): reações ilimitadas (custa 1 ação cada)" />
             <Sub text="Mentais" />
-            <R3 a="Fetiche" b="5/10/15" c="Reforça mágicas de 1 domínio sem custo de mana (até 3 fetiches). Req: SEN+CON(1) + Cria(+5)" />
-            <R3 a="Grimório" b="5 + 1/3/6" c="Aprende mágicas fora do domínio autodidata. Req: RAZ+CON(1) + Inv(+5)" />
-            <R3 a="Mixologia" b="5 + 1/3" c="Cria poções mágicas personalizadas. Req: RAZ+SEN(1) + Alq(+5)" />
-            <R3 a="Modelagem" b="5 + 1–7" c="Cria criatura artefato que ressurge na cena. Req: RAZ+CON(1) + Mec(+5)" />
-            <R3 a="Travessia" b="5/10/15" c="Vantagem em todos os testes no terreno escolhido. Req: SEN+CON(1) + Sob(+5)" />
+            <HabBlock nome="Fetiche" prereq="SEN(1)+CON(1); Criatividade(+5)" custo="5/10/15" efeito="Reforça mágicas de 1 domínio sem custo de mana (até 3 fetiches)" />
+            <HabBlock nome="Grimório" prereq="RAZ(1)+CON(1); Investigação(+5)" custo="5 (+ 1/3/6 por magia)" efeito="Aprende mágicas fora do domínio autodidata" />
+            <HabBlock nome="Mixologia" prereq="RAZ(1)+SEN(1); Alquimia(+5)" custo="5 (+ 1/3 por receita)" efeito="Cria poções mágicas personalizadas" />
+            <HabBlock nome="Modelagem" prereq="RAZ(1)+CON(1); Mecânica(+5)" custo="5 (+ 1–7 por modelo)" efeito="Cria criatura artefato que ressurge na cena" />
+            <HabBlock nome="Travessia" prereq="SEN(1)+CON(1); Sobrevivência(+5)" custo="5/10/15" efeito="Vantagem em todos os testes no terreno escolhido" />
             <Sub text="Espirituais" />
-            <R3 a="Fúria" b="6 SAB" c="Enfurecer [1]: +1 ação padrão de ataque/turno, sem reações. Req: VON(3) + Exp(+6)" />
-            <R3 a="Regenerar" b="6 SAB" c="Regenerar [1]: testa VON[COM] vs. agressor; sucesso = cura total +Xd6. Req: VON(3) + Com(+6)" />
-            <R3 a="Salvaguarda" b="6 SAB" c="Resguardar [1]: testa INT[DIP] vs. mago; sucesso = imune à mágica. Req: INT(3) + Dip(+6)" />
-            <R3 a="Toque Mortífero" b="6 SAB" c="Abater [1]: testa VON[INT] vs. criatura ≤ Classe B; destrói. Req: VON(3) + Int(+6)" />
-            <R3 a="Vidência" b="6 SAB" c="Antever [1]: testa INT[LAB] vs. IP Esp.; desvantagem na ação declarada. Req: INT(3) + Láb(+6)" />
+            <HabBlock nome="Fúria" prereq="VON(3); Expressão(+6)" custo="6" efeito="Enfurecer [1]: +1 ação padrão de ataque/turno, sem reações" />
+            <HabBlock nome="Regenerar" prereq="VON(3); Comunhão(+6)" custo="6" efeito="Regenerar [1]: testa VON[COM] vs. agressor; sucesso = cura total +Xd6" />
+            <HabBlock nome="Salvaguarda" prereq="INT(3); Diplomacia(+6)" custo="6" efeito="Resguardar [1]: testa INT[DIP] vs. mago; sucesso = imune à mágica" />
+            <HabBlock nome="Toque Mortífero" prereq="VON(3); Intimidação(+6)" custo="6" efeito="Abater [1]: testa VON[INT] vs. criatura ≤ Classe B; destrói" />
+            <HabBlock nome="Vidência" prereq="INT(3); Lábia(+6)" custo="6" efeito="Antever [1]: testa INT[LAB] vs. IP Esp.; desvantagem na ação declarada" />
           </Section>
 
           {/* ── 6. BALIZADORES ── */}
@@ -805,5 +830,87 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     paddingTop: 10,
     paddingBottom: 2,
+  },
+
+  periciaLabel: {
+    color: RPG.gold,
+    fontSize: 12,
+    fontWeight: '700',
+    paddingTop: 8,
+    paddingBottom: 2,
+  },
+  periciaAtrs: {
+    color: RPG.textMuted,
+    fontWeight: '400',
+  },
+
+  profBlock: {
+    borderLeftWidth: 2,
+    borderLeftColor: RPG.border,
+    paddingLeft: 8,
+    paddingVertical: 4,
+    marginBottom: 4,
+  },
+  profHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  profNome: {
+    color: RPG.text,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  profReq: {
+    color: RPG.goldDim,
+    fontSize: 10,
+    fontStyle: 'italic',
+  },
+  profDesc: {
+    color: RPG.textMuted,
+    fontSize: 11,
+    lineHeight: 16,
+    paddingTop: 2,
+  },
+  profTeste: {
+    color: RPG.azulLight,
+    fontSize: 10,
+    fontStyle: 'italic',
+    paddingTop: 2,
+  },
+
+  habBlock: {
+    borderLeftWidth: 2,
+    borderLeftColor: RPG.goldDim,
+    paddingLeft: 8,
+    paddingVertical: 4,
+    marginBottom: 4,
+  },
+  habHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  habNome: {
+    color: RPG.gold,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  habCusto: {
+    color: RPG.textMuted,
+    fontSize: 10,
+  },
+  habPrereq: {
+    color: RPG.goldDim,
+    fontSize: 10,
+    fontStyle: 'italic',
+    paddingTop: 1,
+  },
+  habEfeito: {
+    color: RPG.text,
+    fontSize: 11,
+    lineHeight: 16,
+    paddingTop: 2,
   },
 });
