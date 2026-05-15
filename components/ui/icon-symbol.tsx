@@ -21,6 +21,7 @@ const MAPPING = {
   'person.fill': 'person',
   'sparkles': 'auto-awesome',
   'book.fill': 'menu-book',
+  'list.bullet': 'list',
 } as IconMapping;
 
 /**
