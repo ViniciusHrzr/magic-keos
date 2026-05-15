@@ -13,7 +13,7 @@ The app already has a working character sheet, magic screen, and grimoire. This 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Estabilidade de Fundação** - Corrigir debounce, race condition de hidratação, error boundaries e memoização do contexto
-- [ ] **Phase 2: Qualidade da Ficha** - Validação de entrada, carregamento de fonte, extração de componentes e limpeza de código morto
+- [x] **Phase 2: Qualidade da Ficha** - Validação de entrada, carregamento de fonte, extração de componentes e limpeza de código morto (completed 2026-05-15)
 - [ ] **Phase 3: Qualidade do Grimório** - Extração de componentes do grimório e persistência de filtros durante a sessão
 - [ ] **Phase 4: Ferramentas de Mesa** - Rolador de dados coloridos, rastreador de turno de combate e rastreador visual de veneno
 
@@ -54,9 +54,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans (1 wave, fully parallel)
 
 **Wave 1** *(parallel — no file overlaps between plans)*
-- [ ] 02-01-PLAN.md — Substituir TextInputs de IP por NumericStepper em InstanceBlock (FICHA-01; FICHA-02 pre-satisfied)
-- [ ] 02-02-PLAN.md — Guard `fontsLoaded` em `_layout.tsx` + deletar `modal.tsx` e `explore.tsx` (FICHA-03, CODE-02, CODE-03; FICHA-04 deferred)
-- [ ] 02-03-PLAN.md — Criar `constants/spell-constants.ts` e importar em `magia.tsx`/`grimorio.tsx` (CODE-01)
+- [x] 02-01-PLAN.md — Substituir TextInputs de IP por NumericStepper em InstanceBlock (FICHA-01; FICHA-02 pre-satisfied)
+- [x] 02-02-PLAN.md — Guard `fontsLoaded` em `_layout.tsx` + deletar `modal.tsx` e `explore.tsx` (FICHA-03, CODE-02, CODE-03; FICHA-04 deferred)
+- [x] 02-03-PLAN.md — Criar `constants/spell-constants.ts` e importar em `magia.tsx`/`grimorio.tsx` (CODE-01)
 
 **Phase 2 scope notes:**
 - **FICHA-02** (veneno 0–10 clamp) — pre-satisfied by existing `VenenoTracker` component (UI bubble toggle). Referenced in plan frontmatter (02-01) for traceability; no implementation work.
@@ -93,6 +93,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Estabilidade de Fundação | 3/3 | Complete | 2026-05-15 |
-| 2. Qualidade da Ficha | 0/3 | Planned | - |
+| 2. Qualidade da Ficha | 3/3 | Complete   | 2026-05-15 |
 | 3. Qualidade do Grimório | 0/TBD | Not started | - |
 | 4. Ferramentas de Mesa | 0/TBD | Not started | - |
