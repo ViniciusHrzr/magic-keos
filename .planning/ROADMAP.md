@@ -89,7 +89,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 08-01-PLAN.md — Sincronizar GAME_RULES.md §5 (Investigação names) e §7 (7 habilidades table cells) com correções das Phases 5–7
+- [x] 08-01-PLAN.md — Sincronizar GAME_RULES.md §5 (Investigação names) e §7 (7 habilidades table cells) com correções das Phases 5–7
 
 ## Progress
 
@@ -102,4 +102,4 @@ Plans:
 | 5. Proficiências CORPO | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete   | 2026-05-16 |
 | 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 8. Documentação | v1.1 | 0/? | Not started | - |
+| 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |

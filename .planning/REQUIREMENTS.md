@@ -76,6 +76,6 @@
 | FIDE-16 | Phase 7 | Pending |
 | FIDE-17 | Phase 7 | Pending |
 | FIDE-18 | Phase 7 | Pending |
-| FIDE-19 | Phase 8 | Pending |
+| FIDE-19 | Phase 8 | Complete |
 
 *Last updated: 2026-05-16*
