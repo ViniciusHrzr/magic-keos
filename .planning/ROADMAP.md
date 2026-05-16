@@ -73,7 +73,10 @@ Plans:
   5. Grimório descreve que feitiços são aprendidos SEM precisar de livros (não "através de grimórios ou observação")
   6. Modelagem inclui a mecânica de reativação na mesma cena ao morrer
   7. Toque Mortífero especifica o trigger correto: "quando for alvo do ataque de uma criatura"
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 07-01-PLAN.md — Corrigir 7 habilidades em data/habilidades.ts (corpo: Alcance, Destreza, Golpe Duplo; mente+espirito: Grimório, Modelagem, Fúria, Toque Mortífero)
 
 ### Phase 8: Documentação
 **Goal**: GAME_RULES.md reflete com precisão todas as correções aplicadas nas Phases 5–7
@@ -95,5 +98,5 @@ Plans:
 | 4. Ferramentas de Mesa | v1.0 | 2/2 | Complete | 2026-05-15 |
 | 5. Proficiências CORPO | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete   | 2026-05-16 |
-| 7. Habilidades | v1.1 | 0/? | Not started | - |
+| 7. Habilidades | v1.1 | 0/1 | Not started | - |
 | 8. Documentação | v1.1 | 0/? | Not started | - |
