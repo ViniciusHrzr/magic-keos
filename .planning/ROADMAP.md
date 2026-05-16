@@ -25,7 +25,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 - [x] **Phase 5: Proficiências CORPO** — Corrigir descrições/testes das perícias de Artes Marciais, Atletismo, Esgrima, Furtividade e Pontaria *(completed 2026-05-16)*
 - [x] **Phase 6: Proficiências MENTE/ESPÍRITO** — Corrigir descrições das perícias de Alquimia, Criatividade, Investigação, Feiticeiro de Mecânica, Sobrevivência e Espirituais (completed 2026-05-16)
-- [ ] **Phase 7: Habilidades** — Corrigir descrições e mecânicas das habilidades corporais/espirituais em habilidades.ts
+- [x] **Phase 7: Habilidades** — Corrigir descrições e mecânicas das habilidades corporais/espirituais em habilidades.ts *(completed 2026-05-16)*
 - [ ] **Phase 8: Documentação** — Sincronizar GAME_RULES.md com todas as correções aplicadas
 
 ## Phase Details
@@ -76,7 +76,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 07-01-PLAN.md — Corrigir 7 habilidades em data/habilidades.ts (corpo: Alcance, Destreza, Golpe Duplo; mente+espirito: Grimório, Modelagem, Fúria, Toque Mortífero)
+- [x] 07-01-PLAN.md — Corrigir 7 habilidades em data/habilidades.ts (corpo: Alcance, Destreza, Golpe Duplo; mente+espirito: Grimório, Modelagem, Fúria, Toque Mortífero)
 
 ### Phase 8: Documentação
 **Goal**: GAME_RULES.md reflete com precisão todas as correções aplicadas nas Phases 5–7
@@ -98,5 +98,5 @@ Plans:
 | 4. Ferramentas de Mesa | v1.0 | 2/2 | Complete | 2026-05-15 |
 | 5. Proficiências CORPO | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete   | 2026-05-16 |
-| 7. Habilidades | v1.1 | 0/1 | Not started | - |
+| 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Documentação | v1.1 | 0/? | Not started | - |
