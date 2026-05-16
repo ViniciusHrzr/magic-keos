@@ -122,10 +122,6 @@ export default function HabilidadesSection({ selected, onChange }: Props) {
                     </View>
                     <Text style={styles.slotName} numberOfLines={1}>{hab.nome}</Text>
                     <Text style={styles.slotDesc} numberOfLines={2}>{hab.descricao}</Text>
-                    <View style={styles.slotTesteRow}>
-                      <Text style={styles.slotTesteLabel}>TESTE </Text>
-                      <Text style={styles.slotTesteValue} numberOfLines={1}>{hab.teste}</Text>
-                    </View>
                   </View>
                 ) : (
                   <Text style={styles.slotPlaceholder}>Toque para selecionar…</Text>
@@ -214,11 +210,6 @@ export default function HabilidadesSection({ selected, onChange }: Props) {
                         <Text style={[styles.habDesc, isElsewhere && styles.habDescElsewhere]}>
                           {hab.descricao}
                         </Text>
-
-                        <View style={styles.testeRow}>
-                          <Text style={styles.testeLabel}>TESTE </Text>
-                          <Text style={styles.testeValue}>{hab.teste}</Text>
-                        </View>
                       </View>
                       {isCurrent && <Text style={styles.checkMark}>✓</Text>}
                       {isElsewhere && <Text style={styles.elsewhereTag}>em uso</Text>}

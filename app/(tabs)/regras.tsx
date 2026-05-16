@@ -230,7 +230,7 @@ export default function RegrasScreen() {
                         nome={h.nome}
                         prereq={h.prerequisito}
                         custo={habCusto(h.custo)}
-                        efeito={h.teste}
+                        efeito={h.descricao}
                       />
                     ))}
                 </React.Fragment>
