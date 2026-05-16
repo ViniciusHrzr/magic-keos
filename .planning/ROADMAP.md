@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1–4 (shipped 2026-05-15)
-- 🚧 **v1.1 Fidelidade ao Livro de Regras** — Phases 5–8 (in progress)
+- ✅ **v1.1 Fidelidade ao Livro de Regras** — Phases 5–9 (shipped 2026-05-16)
 
 ## Phases
 
@@ -19,14 +19,14 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 </details>
 
-### 🚧 v1.1 Fidelidade ao Livro de Regras (In Progress)
+### ✅ v1.1 Fidelidade ao Livro de Regras (Complete — 2026-05-16)
 
 **Milestone Goal:** Garantir que todo conteúdo de regras do app seja 100% fiel ao livro oficial "Magic no Universo Kéos v.0.4.docx".
 
 - [x] **Phase 5: Proficiências CORPO** — Corrigir descrições/testes das perícias de Artes Marciais, Atletismo, Esgrima, Furtividade e Pontaria *(completed 2026-05-16)*
 - [x] **Phase 6: Proficiências MENTE/ESPÍRITO** — Corrigir descrições das perícias de Alquimia, Criatividade, Investigação, Feiticeiro de Mecânica, Sobrevivência e Espirituais (completed 2026-05-16)
 - [x] **Phase 7: Habilidades** — Corrigir descrições e mecânicas das habilidades corporais/espirituais em habilidades.ts *(completed 2026-05-16)*
-- [ ] **Phase 8: Documentação** — Sincronizar GAME_RULES.md com todas as correções aplicadas
+- [x] **Phase 8: Documentação** — Sincronizar GAME_RULES.md com todas as correções aplicadas *(completed 2026-05-16)*
 
 ## Phase Details
 
@@ -104,8 +104,9 @@ Plans:
 
 Plans:
 - [x] 09-01-PLAN.md — Auditoria completa docx vs todos hardcoded sections (regras.tsx §1-3,§6-20 + GAME_RULES.md todas seções) → corrigir discrepâncias
-- [ ] 09-02-PLAN.md — Migrar todo conteúdo hardcoded para data/regras/ TS files + regras.tsx 100% dinâmico
-- [ ] 09-03-PLAN.md — Scripts audit-docx.py + generate-game-rules.py + pre-commit hook + regenerar GAME_RULES.md
+- [x] 09-02-PLAN.md — Migrar todo conteúdo hardcoded para data/regras/ TS files + regras.tsx 100% dinâmico
+- [x] 09-03-PLAN.md — Scripts audit-docx.py + generate-game-rules.py + pre-commit hook + regenerar GAME_RULES.md
+- [x] 09-04 — proficiencias.ts + habilidades.ts texto exato docx; meta.ts (SecaoMeta §1-20); regras.tsx §1-20 zero hardcode (secoes.*); PlanewalkerDings em notacaoMana
 
 ## Progress
 
@@ -119,4 +120,4 @@ Plans:
 | 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 9. Fidelidade Estrutural | v1.1 | 1/3 | In Progress|  |
+| 9. Fidelidade Estrutural | v1.1 | 4/4 | Complete | 2026-05-16 |

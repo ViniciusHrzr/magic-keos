@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
 status: completed
-stopped_at: context exhaustion at 75% (2026-05-16)
-last_updated: "2026-05-16T15:49:19.226Z"
-last_activity: "2026-05-16 — Phase 9 Plan 01 executed: auditoria completa docx v0.4 §1-3,§6-20, 9 discrepâncias corrigidas (FIDE-20)"
+stopped_at: milestone complete (2026-05-16)
+last_updated: "2026-05-16T18:00:00.000Z"
+last_activity: "2026-05-16 — Phase 9 Plan 04 executed: proficiencias.ts + habilidades.ts texto exato, meta.ts (SecaoMeta §1-20), regras.tsx §1-20 zero hardcode, PlanewalkerDings notacaoMana (FIDE-24/25) — v1.1 SHIPPED"
 progress:
-  total_phases: 5
-  completed_phases: 5
-  total_plans: 7
-  completed_plans: 7
+  total_phases: 9
+  completed_phases: 9
+  total_plans: 11
+  completed_plans: 11
   percent: 100
 ---
 
@@ -21,41 +21,57 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 **Core value:** O app precisa ser confiável e rápido durante a sessão de jogo — perder dados ou travar na mesa quebra a imersão.
-**Current focus:** v1.1 — Fidelidade ao Livro de Regras (Phase 6 done — next: Phase 7)
+**Current focus:** v1.1 SHIPPED — próxima milestone a definir
 
 ## Current Position
 
-Phase: 9 of 9 (Fidelidade Estrutural — IN PROGRESS)
-Plan: 09-01 (Plan 1 of 3 — executed)
-Status: Phase 9 Plan 01 complete — FIDE-20 satisfeito
-Last activity: 2026-05-16 — Phase 9 Plan 01 executed: auditoria completa docx v0.4 §1-3,§6-20, 9 discrepâncias corrigidas (FIDE-20)
+Phase: 9 of 9 (Fidelidade Estrutural — COMPLETE)
+Plan: 09-04 (Plan 4 of 4 — executed)
+Status: Phase 9 COMPLETA — milestone v1.1 SHIPPED
+Last activity: 2026-05-16 — Phase 9 Plan 04: proficiencias.ts + habilidades.ts texto exato do livro, meta.ts criado, regras.tsx §1-20 zero hardcode via secoes.*, PlanewalkerDings em notacaoMana §10
 
-Progress: [██████░░░░] 60% (6 of 10 plans complete across Phase 9)
+Progress: [██████████] 100% (11 of 11 plans complete)
+
+## Phase 9 — Resumo Completo
+
+| Plan | Descrição | Requirements | Status |
+|------|-----------|--------------|--------|
+| 09-01 | Auditoria docx v0.4 §1-3/§6-20 — 9 discrepâncias corrigidas | FIDE-20 | ✅ |
+| 09-02 | Extração dados → data/regras/ (14 módulos TS) + regras.tsx dinâmico | FIDE-21 | ✅ |
+| 09-03 | audit-docx.py + generate-game-rules.py + GAME_RULES.md regenerado | FIDE-22/23 | ✅ |
+| 09-04 | proficiencias.ts + habilidades.ts texto exato; meta.ts; zero hardcode; PlanewalkerDings | FIDE-24/25 | ✅ |
+
+## v1.1 — Todas as Fases
+
+| Phase | Plans | Status | Completed |
+|-------|-------|--------|-----------|
+| 5. Proficiências CORPO | 1/1 | ✅ | 2026-05-16 |
+| 6. Proficiências MENTE/ESPÍRITO | 1/1 | ✅ | 2026-05-16 |
+| 7. Habilidades | 1/1 | ✅ | 2026-05-16 |
+| 8. Documentação | 1/1 | ✅ | 2026-05-16 |
+| 9. Fidelidade Estrutural | 4/4 | ✅ | 2026-05-16 |
 
 ## Accumulated Context
 
 ### Decisions
 
-All decisions logged in PROJECT.md Key Decisions table.
+Phase 9 Plan 04 decisions:
+- proficiencias.ts: nomes corrigidos (Armas de Uma Mão/Duas Mãos/Arremesso/Especialização em Arma/Mestria em Arma), prerequisitos sem abreviações, descricao e teste com texto exato do docx
+- habilidades.ts: descricao=teste em todas as habilidades; Toque Mortífero trigger correto; Grimório/Iniciativa/Fúria/Regenerar/Salvaguarda/Vidência com texto exato e nomes de reação
+- meta.ts (SecaoMeta): zero strings de regra hardcoded em regras.tsx — tudo via secoes.X.num/titulo/nota/subs/colunas
+- PlanewalkerDings: mapeamento completo do app — único gap era notacaoMana.simbolo em regras.tsx §10
 
-Phase 8 decisions:
+Phase 9 Plan 01-03 decisions:
+- Eventos Climáticos adicionados ao GAME_RULES.md §12
+- dR fracasso crítico corrigido em GAME_RULES.md §4
+- MENTE e ESPÍRITO §20 padronizados com "ou Xd10"
+- 14 módulos TypeScript em data/regras/ — single source of truth
+- audit-docx.py: 36 âncoras verificadas vs docx (exit 0 = sem drift)
 
-- regras.tsx §5 agora usa habilidades.ts como fonte única — evita drift futuro entre UI e dados
-- habCusto() helper normaliza custo string para exibição em HabBlock sem alterar lógica de dados
-- proficiencias.ts e habilidades.ts (exceto Grimório) auditados e confirmados fiéis ao docx v0.4
-
-Phase 9 Plan 01 decisions:
-
-- Eventos Climáticos adicionados ao GAME_RULES.md §12 — estavam no docx e regras.tsx mas ausentes no GAME_RULES.md
-- dR fracasso crítico ("e 1-2") corrigido em GAME_RULES.md §4 — já correto em regras.tsx
-- MENTE e ESPÍRITO §20 padronizados com "ou Xd10" e descrições de duração (TABLE 27+29)
-
-Key carry-forwards for v1.1:
-
+Key carry-forwards for v1.2:
 - React Context + AsyncStorage architecture validated — stick with it
-- migrate() schema versioning is technical debt — deferred to v1.2+
-- FICHA-04 (index.tsx extraction) deferred to v1.2+
-- v1.1 scope is content-only corrections — no new features, no layout changes
+- migrate() schema versioning é dívida técnica — deferred para v1.2+
+- FICHA-04 (index.tsx extraction) deferred para v1.2+
 
 ### Pending Todos
 
@@ -63,8 +79,7 @@ None.
 
 ### Blockers/Concerns
 
-- migrate() sem campo de versão — fragilidade se schema mudar; acceptable for v1.1 (sem mudanças de schema)
-- Filtros do grimório persistem via process-level vars apenas — acceptable, not changing in v1.1
+None — v1.1 shipped clean.
 
 ## Deferred Items
 
@@ -82,6 +97,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-16T15:49:19.218Z
-Stopped at: context exhaustion at 75% (2026-05-16)
+Last session: 2026-05-16T18:00:00.000Z
+Stopped at: v1.1 milestone complete
 Resume file: None
