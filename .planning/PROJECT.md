@@ -2,49 +2,72 @@
 
 ## What This Is
 
-Aplicativo móvel (React Native/Expo) que serve como companion digital para o RPG de mesa Magic no Universo Kéos. Permite que jogadores gerenciem fichas de personagem completas, consultem o grimório de mágicas, e acompanhem o jogo sem depender de papel. Suporta múltiplos personagens com persistência local.
+Aplicativo móvel (React Native/Expo) que serve como companion digital para o RPG de mesa Magic no Universo Kéos. Permite que jogadores gerenciem fichas de personagem completas, consultem o grimório de mágicas com filtros persistentes, acessem referência de regras in-session, e selecionem proficiências por chips — tudo sem depender de papel. Suporta múltiplos personagens com persistência local confiável.
 
 ## Core Value
 
 O app precisa ser confiável e rápido durante a sessão de jogo — perder dados ou travar na mesa quebra a imersão.
 
+## Current State (v1.0)
+
+Shipped 2026-05-15. App estável, sem race conditions de hidratação, sem re-renders em cascata, com 4 abas funcionais (Ficha, Magia, Grimório, Regras).
+
+Stack: Expo 52, React Native 0.76, TypeScript strict, Expo Router
+~4300 LOC adicionadas em v1.0 (24 arquivos TS/TSX)
+Sem testes automatizados; ESLint + TypeScript strict como única validação.
+
 ## Requirements
 
 ### Validated
 
-- ✓ Ficha de personagem: nome, sabedoria, vida (total/necro/atual/armadura/manto), mana (5 cores + incolor), veneno, afinidade por cor — existing
-- ✓ Atributos por instância (CORPO/MENTE/ESPÍRITO): dados coloridos (até 5 por atributo), perícias com base/temp — existing
+- ✓ Ficha de personagem: nome, sabedoria, vida, mana (5 cores + incolor), veneno, afinidade — existing
+- ✓ Atributos por instância (CORPO/MENTE/ESPÍRITO): dados coloridos, perícias com base/temp — existing
 - ✓ IP por instância (base + bônus) — existing
 - ✓ Balizadores: Velocidade, Memória, Canalização, Foco com caixas de marcação — existing
 - ✓ Domínios (12 slots), inventário, equipamentos, 20 slots de mágicas, receitas — existing
 - ✓ Grimório completo com busca, filtros por cor/grau/tipo e agrupamento por domínio — existing
 - ✓ Múltiplos personagens: criar, deletar, alternar, exportar/importar JSON — existing
-- ✓ Visualização de spell ao tocar nome na ficha de magia — existing
 - ✓ Persistência via AsyncStorage — existing
+- ✓ Debounce no AsyncStorage (500ms via useRef) — v1.0
+- ✓ Memoização do CharacterContext (useMemo/useCallback) — v1.0
+- ✓ Estado de carregamento durante hidratação (isLoaded guard) — v1.0
+- ✓ Error boundaries por aba e globais — v1.0
+- ✓ Campos IP não aceitam negativos (NumericStepper min=0) — v1.0
+- ✓ Veneno clampado 0–10 (VenenoTracker pré-existente) — v1.0
+- ✓ Fonte PlanewalkerDings sem flash no cold start (fontsLoaded guard) — v1.0
+- ✓ Constantes COLOR_HEX e GRAU_COLORS deduplicadas (spell-constants.ts) — v1.0
+- ✓ modal.tsx e explore.tsx mortos removidos — v1.0
+- ✓ StatPill e SpellDetailCard extraídos para components/rpg/ — v1.0
+- ✓ Filtros do grimório persistem durante a sessão — v1.0
+- ✓ Aba "Regras" com referência in-session + Notas persistente — v1.0
+- ✓ Proficiências como chips togláveis (CORPO/MENTE/ESPÍRITO) — v1.0
+- ✓ Migration automática proficiencias string→string[] — v1.0
 
-### Active
+### Active (v1.1)
 
-- [ ] Debounce no AsyncStorage (escrita a cada keystroke causa degradação no Android)
-- [ ] Memoização do CharacterContext (re-renders desnecessários em toda árvore)
-- [ ] Estado de carregamento durante hidratação (race condition na inicialização)
-- [ ] Error boundaries para evitar crash silencioso
-- [ ] Validação de entrada de dados (impedir negativos em IP, clampar veneno 0–10)
-- [ ] Separação de screens grandes (index.tsx 766 linhas, grimorio.tsx 510 linhas)
-- [ ] Novas features a definir em discuss-phase (rolador de dados, rastreador de combate, calculadora de evolução, etc.)
+- [ ] **FICHA-04**: index.tsx dividida em componentes menores (deferred de v1.0; ainda > 300 linhas)
+- [ ] Rolador de dados coloridos (dW/dG/dR/dB/dU com mecânicas especiais)
+- [ ] Rastreador de turno de combate (ordem de iniciativa, marcador de turno)
+- [ ] Versionamento de schema no migrate() (atualmente acumulação de guards por tipo)
 
 ### Out of Scope
 
 - Backend/servidor — app é local-only por design
-- Multiplayer/sync em tempo real — fora do escopo v1
+- Multiplayer/sync em tempo real — fora do escopo
 - Sistema de criação de campanha para mestres — foco é no jogador
+- Calculadora de evolução de personagem — v2+
+- Rastreador de cena completo (HP de inimigos) — v2+
+- Testes automatizados — v2+
+- Criação guiada de personagem (wizard) — v2+
 
 ## Context
 
 - Stack: Expo 52, React Native 0.76, TypeScript strict, Expo Router
-- Estado: React Context + AsyncStorage (sem Zustand)
+- Estado: React Context + AsyncStorage (sem Zustand — memoização via useMemo/useCallback suficiente)
 - Tema: RPG theme object centralizado com 5 cores (branco/verde/vermelho/preto/azul)
 - Convenções: nomes em português para termos do domínio, StyleSheet.create exclusivo
 - Grimório: ~3700+ entradas JSON geradas do Excel oficial, 45 domínios, 5 cores
+- Componentes: NumericStepper, SpellDetailCard, StatPill, ProficienciasSection, ErrorBoundary em components/rpg/
 - Sem testes automatizados; ESLint + TypeScript strict como única validação
 
 ## Constraints
@@ -53,21 +76,25 @@ O app precisa ser confiável e rápido durante a sessão de jogo — perder dado
 - **Persistência**: AsyncStorage (sem banco de dados externo)
 - **Linguagem de domínio**: português brasileiro — manter nos novos componentes
 - **Sem breaking changes**: fichas existentes dos jogadores não podem perder dados (migrations necessárias)
+- **Schema versioning**: migrate() usa guards acumulativos por tipo — fragilidade conhecida para mudanças maiores de schema
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| React Context + AsyncStorage (não Zustand) | Simplicidade para o tamanho atual do app | — Pending (memoization fix needed) |
+| React Context + AsyncStorage (não Zustand) | Simplicidade para o tamanho atual do app | ✓ Good — memoização via useMemo/useCallback suficiente |
 | Grimório como JSON estático | Performance; dados não mudam em runtime | ✓ Good |
 | Expo Router file-based routing | Convenção Expo 52 | ✓ Good |
 | Nomes em português no domínio | Coerência com o sistema de jogo | ✓ Good |
-
-## Evolution
-
-Este documento evolui a cada transição de fase.
-
-**Após cada fase**: mover requirements concluídos para Validated; novos descobertos para Active.
+| Debounce 500ms (não 300ms) | Balanceia responsividade vs. write frequency no Android | ✓ Good |
+| useCallback([update]) em todos os set* | Previne re-renders desnecessários em filhos | ✓ Good |
+| useMemo no contextValue | Provider value estável = zero re-renders extras no tree | ✓ Good |
+| NumericStepper para IP (min=0 default) | Zero código novo de validação — usa contrato existente | ✓ Good |
+| Module-level vars para persistência de filtros | Simples, sem Context — persiste enquanto processo vivo | ✓ Good (processo-vivo apenas) |
+| SpellDetailCard compartilhado magia↔grimório | Elimina duplicação sem abstrair demais | ✓ Good |
+| Aba Regras como conteúdo estático flat (sem accordion) | Referência de sessão — acesso rápido > compactação | ✓ Good |
+| Chips com key `pericia:nome` | Evita colisões entre proficiências homônimas | ✓ Good |
+| FICHA-04 diferido (index.tsx extração) | Trade-off praticidade vs. perfeição técnica; app funcional > arquitetura ideal | ⚠ Revisit em v1.1 |
 
 ---
-*Last updated: 2026-05-15 após inicialização*
+*Last updated: 2026-05-15 after v1.0 milestone*
