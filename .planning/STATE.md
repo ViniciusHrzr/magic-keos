@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.1
-milestone_name: milestone
-status: milestone_complete
-stopped_at: v1.0 milestone archived (2026-05-15)
-last_updated: "2026-05-15"
-last_activity: 2026-05-15
+milestone_name: Fidelidade ao Livro de Regras
+status: planning
+last_updated: "2026-05-16T04:07:04.051Z"
+last_activity: 2026-05-16
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 11
-  completed_plans: 11
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,8 +24,10 @@ See: .planning/PROJECT.md (updated 2026-05-15 after v1.0 milestone)
 
 ## Current Position
 
-v1.0 MVP shipped 2026-05-15. All 4 phases, 11 plans complete.
-Ready to start v1.1 milestone via `/gsd:new-milestone`.
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-16 — Milestone v1.1 started
 
 ## Accumulated Context
 
@@ -35,6 +36,7 @@ Ready to start v1.1 milestone via `/gsd:new-milestone`.
 All decisions logged in PROJECT.md Key Decisions table.
 
 Key carry-forwards for v1.1:
+
 - React Context + AsyncStorage architecture validated — stick with it
 - migrate() schema versioning is technical debt — evaluate in v1.1
 - FICHA-04 (index.tsx extraction) deferred — first candidate for v1.1

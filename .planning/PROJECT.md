@@ -16,6 +16,16 @@ Stack: Expo 52, React Native 0.76, TypeScript strict, Expo Router
 ~4300 LOC adicionadas em v1.0 (24 arquivos TS/TSX)
 Sem testes automatizados; ESLint + TypeScript strict como única validação.
 
+## Current Milestone: v1.1 Fidelidade ao Livro de Regras
+
+**Goal:** Garantir que todo conteúdo de regras do app seja 100% fiel ao livro oficial "Magic no Universo Kéos v.0.4.docx".
+
+**Target features:**
+- Corrigir `data/proficiencias.ts` — descrições de proficiências incorretas em 10+ perícias
+- Corrigir `data/habilidades.ts` — descrições e mecânicas erradas em habilidades corporais/espirituais
+- Atualizar `.planning/GAME_RULES.md` — sync com o docx após as correções
+- `app/(tabs)/regras.tsx` — seções 4 e 5 já renderizam a partir dos data files (automático após correção dos dados)
+
 ## Requirements
 
 ### Validated
@@ -52,9 +62,10 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 
 ### Active (v1.1)
 
+- [ ] **FIDE-01**: Corrigir descrições de proficiências em `proficiencias.ts` contra o docx original
+- [ ] **FIDE-02**: Corrigir descrições e mecânicas de habilidades em `habilidades.ts` contra o docx original
+- [ ] **FIDE-03**: Atualizar `GAME_RULES.md` para refletir as correções aplicadas
 - [ ] **FICHA-04**: index.tsx dividida em componentes menores (deferred de v1.0; ainda > 300 linhas)
-- [ ] Rolador de dados coloridos (dW/dG/dR/dB/dU com mecânicas especiais)
-- [ ] Rastreador de turno de combate (ordem de iniciativa, marcador de turno)
 - [ ] Versionamento de schema no migrate() (atualmente acumulação de guards por tipo)
 - [ ] Remover MemoGrid.tsx (dead code — não importado desde gsd-fast magia rewrite)
 
@@ -105,4 +116,4 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 | FICHA-04 diferido (index.tsx extração) | Trade-off praticidade vs. perfeição técnica; app funcional > arquitetura ideal | ⚠ Revisit em v1.1 |
 
 ---
-*Last updated: 2026-05-15 after v1.0 milestone + gsd-fast post-phase changes*
+*Last updated: 2026-05-16 — v1.1 milestone started*
