@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
-status: planning
+status: ready_to_execute
 last_updated: "2026-05-16"
 last_activity: 2026-05-16
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
+  total_plans: 1
   completed_plans: 0
   percent: 0
 ---
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 5 of 8 (Proficiências CORPO — ready to plan)
-Plan: —
-Status: Ready to plan
-Last activity: 2026-05-16 — Roadmap v1.1 created (Phases 5–8)
+Phase: 5 of 8 (Proficiências CORPO — ready to execute)
+Plan: 05-01 (1 plan, 1 wave)
+Status: Ready to execute
+Last activity: 2026-05-16 — Phase 5 planned (1 plan, 32 field edits across 22 proficiências)
 
 Progress: [░░░░░░░░░░] 0% (v1.1 scope)
 
@@ -69,5 +69,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-05-16
-Stopped at: Roadmap v1.1 criado — pronto para planejar Phase 5
+Stopped at: Phase 5 planejada — pronta para executar
 Resume file: None

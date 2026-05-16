@@ -23,7 +23,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 **Milestone Goal:** Garantir que todo conteúdo de regras do app seja 100% fiel ao livro oficial "Magic no Universo Kéos v.0.4.docx".
 
-- [ ] **Phase 5: Proficiências CORPO** — Corrigir descrições/testes das perícias de Artes Marciais, Atletismo, Esgrima, Furtividade e Pontaria
+- [ ] **Phase 5: Proficiências CORPO** — Corrigir descrições/testes das perícias de Artes Marciais, Atletismo, Esgrima, Furtividade e Pontaria *(1 plan ready)*
 - [ ] **Phase 6: Proficiências MENTE/ESPÍRITO** — Corrigir descrições das perícias de Alquimia, Criatividade, Investigação, Feiticeiro de Mecânica, Sobrevivência e Espirituais
 - [ ] **Phase 7: Habilidades** — Corrigir descrições e mecânicas das habilidades corporais/espirituais em habilidades.ts
 - [ ] **Phase 8: Documentação** — Sincronizar GAME_RULES.md com todas as correções aplicadas
