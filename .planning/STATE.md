@@ -7,10 +7,10 @@ last_updated: "2026-05-16"
 last_activity: 2026-05-16
 progress:
   total_phases: 4
-  completed_phases: 0
-  total_plans: 1
-  completed_plans: 0
-  percent: 0
+  completed_phases: 1
+  total_plans: 2
+  completed_plans: 1
+  percent: 25
 ---
 
 # Project State
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 **Core value:** O app precisa ser confiável e rápido durante a sessão de jogo — perder dados ou travar na mesa quebra a imersão.
-**Current focus:** v1.1 — Fidelidade ao Livro de Regras (Phase 5 next)
+**Current focus:** v1.1 — Fidelidade ao Livro de Regras (Phase 6 ready to execute)
 
 ## Current Position
 
-Phase: 5 of 8 (Proficiências CORPO — ready to execute)
-Plan: 05-01 (1 plan, 1 wave)
+Phase: 6 of 8 (Proficiências MENTE/ESPÍRITO — ready to execute)
+Plan: 06-01 (1 plan, 1 wave)
 Status: Ready to execute
-Last activity: 2026-05-16 — Phase 5 planned (1 plan, 32 field edits across 22 proficiências)
+Last activity: 2026-05-16 — Phase 6 planned (1 plan, 2 tasks, ~56 field edits across 29 proficiências MENTE/ESPÍRITO)
 
 Progress: [░░░░░░░░░░] 0% (v1.1 scope)
 
@@ -69,5 +69,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-05-16
-Stopped at: Phase 5 planejada — pronta para executar
+Stopped at: Phase 6 planejada — pronta para executar
 Resume file: None
