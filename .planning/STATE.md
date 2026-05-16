@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
-status: completed
-stopped_at: Phase 7 context gathered
-last_updated: "2026-05-16T10:45:38.201Z"
-last_activity: "2026-05-16 — Phase 6 executed: 29 proficiências MENTE/ESPÍRITO corrigidas per docx v0.4 (~56 field edits, FIDE-06–11 satisfied)"
+status: planned
+stopped_at: Phase 7 planned — ready to execute
+last_updated: "2026-05-16T11:30:00.000Z"
+last_activity: "2026-05-16 — Phase 7 planned: 1 plan, 2 tasks, 13 field edits in data/habilidades.ts (FIDE-12–18)"
 progress:
   total_phases: 4
   completed_phases: 2
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 6 of 8 (Proficiências MENTE/ESPÍRITO — COMPLETE)
-Plan: 06-01 (1 plan, 2 tasks — done)
-Status: Phase complete — ready for Phase 7
-Last activity: 2026-05-16 — Phase 6 executed: 29 proficiências MENTE/ESPÍRITO corrigidas per docx v0.4 (~56 field edits, FIDE-06–11 satisfied)
+Phase: 7 of 8 (Habilidades — PLANNED)
+Plan: 07-01 (1 plan, 2 tasks — ready to execute)
+Status: Ready to execute Phase 7
+Last activity: 2026-05-16 — Phase 7 planned: 1 plan, 2 tasks, 13 field edits in data/habilidades.ts (FIDE-12–18)
 
 Progress: [██████░░░░] 50% (2 of 4 v1.1 phases complete)
 
