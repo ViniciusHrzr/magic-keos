@@ -28,6 +28,7 @@ import {
   classesCriaturas, mecanicaAtaque, habilidadesCriaturas, condicoes, venenoMarcadores,
   combateMovimentacao, combateOperacoes, combateReacoes, combateManifestacoes,
   descansaAcoes, evolucaoCenas, evolucaoComportamentos,
+  secoes,
 } from '@/data/regras';
 
 function habCusto(custo: string): string {
@@ -143,26 +144,26 @@ export default function RegrasScreen() {
           </View>
 
           {/* ── 1. AS CINCO CORES ── */}
-          <Section num="1" title="As Cinco Cores">
-            <TH cols={['Cor', 'Valores', 'Aliadas', 'Inimigas']} widths={[1, 2, 1, 1]} />
+          <Section num={secoes.cores.num} title={secoes.cores.titulo}>
+            <TH cols={secoes.cores.colunas!.main} widths={[1, 2, 1, 1]} />
             {cores.map((row, i) => (
               <R3 key={i} a={row.cor} b={row.valores} c={`${row.aliadas} · vs ${row.inimigas}`} />
             ))}
-            <Sub text="Combinações (Guildas)" />
+            <Sub text={secoes.cores.subs!.guildas} />
             {guildas.map((row, i) => (
               <R2 key={i} a={row.combo} b={row.nome} />
             ))}
           </Section>
 
           {/* ── 2. CONSTRUÇÃO DE PERSONAGENS ── */}
-          <Section num="2" title="Construção de Personagens">
-            <Note text="Identidade: unidade de evolução — 1 dado daquela cor no atributo, +Vida, +Sabedoria, +Mana incolor" />
-            <TH cols={['Instância', 'Conceito', 'Atributos']} widths={[1, 1.5, 1.5]} />
+          <Section num={secoes.personagens.num} title={secoes.personagens.titulo}>
+            <Note text={secoes.personagens.nota!} />
+            <TH cols={secoes.personagens.colunas!.instancias} widths={[1, 1.5, 1.5]} />
             {instancias.map((row, i) => (
               <R3 key={i} a={row.instancia} b={row.conceito} c={row.atributos} />
             ))}
-            <Sub text="Pontos por Identidade" />
-            <TH cols={['', 'CORPO', 'MENTE', 'ESPÍRITO']} widths={[1.2, 1, 1, 1]} />
+            <Sub text={secoes.personagens.subs!.pontosIdentidade} />
+            <TH cols={secoes.personagens.colunas!.pontosIdentidade} widths={[1.2, 1, 1, 1]} />
             {pontosIdentidade.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 1.2 }]}>{row.ponto}</Text>
@@ -174,25 +175,25 @@ export default function RegrasScreen() {
           </Section>
 
           {/* ── 3. ATRIBUTOS ── */}
-          <Section num="3" title="Atributos">
-            <Note text="Cada atributo: até 5 identidades (dados). N dados = N d20 rolados por teste." />
-            <Sub text="CORPO" />
+          <Section num={secoes.atributos.num} title={secoes.atributos.titulo}>
+            <Note text={secoes.atributos.nota!} />
+            <Sub text={secoes.atributos.subs!.corpo} />
             {atributosCORPO.map((row, i) => (
               <R2 key={i} a={row.sigla} b={row.descricao} />
             ))}
-            <Sub text="MENTE" />
+            <Sub text={secoes.atributos.subs!.mente} />
             {atributosMENTE.map((row, i) => (
               <R2 key={i} a={row.sigla} b={row.descricao} />
             ))}
-            <Sub text="ESPÍRITO" />
+            <Sub text={secoes.atributos.subs!.espirito} />
             {atributosESPIRITO.map((row, i) => (
               <R2 key={i} a={row.sigla} b={row.descricao} />
             ))}
           </Section>
 
           {/* ── 4. PERÍCIAS ── */}
-          <Section num="4" title="Perícias">
-            <Note text="Custo: 1 SAB para nível 1, +N por nível seguinte (total lv.10 = 55 pts). Abrir domínio concede nível 1 na perícia-chave." />
+          <Section num={secoes.pericias.num} title={secoes.pericias.titulo}>
+            <Note text={secoes.pericias.nota!} />
             {(() => {
               let lastInst = '';
               return periciaOrdem.map(({ instancia, periciaKey }) => {
@@ -214,13 +215,13 @@ export default function RegrasScreen() {
           </Section>
 
           {/* ── 5. HABILIDADES ── */}
-          <Section num="5" title="Habilidades">
-            <Note text="Adquiridas com Sabedoria. Requerem pré-requisitos. Concedem reações especiais ou bônus fixos." />
+          <Section num={secoes.habilidades.num} title={secoes.habilidades.titulo}>
+            <Note text={secoes.habilidades.nota!} />
             {(['corpo', 'mente', 'espirito'] as const).map(inst => {
-              const labels: Record<string, string> = { corpo: 'Corporais', mente: 'Mentais', espirito: 'Espirituais' };
+              const labelKey = inst === 'corpo' ? 'corporais' : inst === 'mente' ? 'mentais' : 'espirituais';
               return (
                 <React.Fragment key={inst}>
-                  <Sub text={labels[inst]} />
+                  <Sub text={secoes.habilidades.subs![labelKey]} />
                   {habilidades
                     .filter(h => h.instancia === inst)
                     .map(h => (
@@ -238,71 +239,71 @@ export default function RegrasScreen() {
           </Section>
 
           {/* ── 6. BALIZADORES ── */}
-          <Section num="6" title="Balizadores">
-            <Note text="Adquiridos como perícias (custo progressivo, máx. 10 níveis). Cada cor tem um balizador-chave." />
-            <TH cols={['Balizador', 'Cor', 'Função']} widths={[1, 0.8, 2.2]} />
+          <Section num={secoes.balizadores.num} title={secoes.balizadores.titulo}>
+            <Note text={secoes.balizadores.nota!} />
+            <TH cols={secoes.balizadores.colunas!.main} widths={[1, 0.8, 2.2]} />
             {balizadores.map((row, i) => (
               <R3 key={i} a={row.balizador} b={row.cor} c={row.funcao} />
             ))}
           </Section>
 
           {/* ── 7. OUTROS PONTOS ── */}
-          <Section num="7" title="Outros Pontos">
-            <TH cols={['Ponto', 'Função']} />
+          <Section num={secoes.pontos.num} title={secoes.pontos.titulo}>
+            <TH cols={secoes.pontos.colunas!.main} />
             {pontos.map((row, i) => (
               <R2 key={i} a={row.ponto} b={row.funcao} />
             ))}
           </Section>
 
           {/* ── 8. MECÂNICA DE DADOS ── */}
-          <Section num="8" title="Mecânica de Dados">
-            <Note text="Teste base: rola N d20 (N = valor do atributo), escolhe o maior resultado, soma bônus da perícia." />
-            <TH cols={['Dado', 'Cor', 'Característica Especial']} widths={[0.6, 0.8, 2.6]} />
+          <Section num={secoes.dados.num} title={secoes.dados.titulo}>
+            <Note text={secoes.dados.nota!} />
+            <TH cols={secoes.dados.colunas!.main} widths={[0.6, 0.8, 2.6]} />
             {dados.map((row, i) => (
               <R3 key={i} a={row.dado} b={row.cor} c={row.especial} />
             ))}
-            <Sub text="Resultados" />
+            <Sub text={secoes.dados.subs!.resultados} />
             {resultados.map((row, i) => (
               <R2 key={i} a={row.resultado} b={row.descricao} />
             ))}
           </Section>
 
           {/* ── 9. TESTES ── */}
-          <Section num="9" title="Testes">
-            <Note text="Fórmula: N d20 → maior resultado + bônus de perícia vs. dificuldade" />
-            <TH cols={['Dificuldade', 'Valor', 'Modificador']} />
+          <Section num={secoes.testes.num} title={secoes.testes.titulo}>
+            <Note text={secoes.testes.nota!} />
+            <TH cols={secoes.testes.colunas!.main} />
             {dificuldades.map((row, i) => (
               <R3 key={i} a={row.dificuldade} b={row.valor} c={row.modificador} />
             ))}
           </Section>
 
           {/* ── 10. SISTEMA DE MÁGICAS ── */}
-          <Section num="10" title="Sistema de Mágicas">
-            <Sub text="Tipos" />
-            <TH cols={['Tipo', 'Símbolo', 'Funcionamento']} widths={[1.2, 0.7, 2.1]} />
+          <Section num={secoes.magicas.num} title={secoes.magicas.titulo}>
+            <Sub text={secoes.magicas.subs!.tipos} />
+            <TH cols={secoes.magicas.colunas!.tipos} widths={[1.2, 0.7, 2.1]} />
             {tiposMagicas.map((row, i) => (
               <R3 key={i} a={row.tipo} b={row.simbolo} c={row.funcionamento} />
             ))}
-            <Sub text="Graus" />
+            <Sub text={secoes.magicas.subs!.graus} />
             {grausMagicas.map((row, i) => (
               <R3 key={i} a={row.grau} b={row.nivel} c={row.custo} />
             ))}
-            <Sub text="Notação de Custo de Mana" />
+            <Sub text={secoes.magicas.subs!.notacao} />
             {notacaoMana.map((row, i) => (
               <R2 key={i} a={row.simbolo} b={row.descricao} />
             ))}
             <Note text={`Exemplos: ${notacaoManaExemplo}`} />
-            <Sub text="Conjuração" />
+            <Sub text={secoes.magicas.subs!.conjuracao} />
             {conjuracao.map((row, i) => (
               <R2 key={i} a={row.acao} b={row.descricao} />
             ))}
           </Section>
 
           {/* ── 11. DOMÍNIOS ── */}
-          <Section num="11" title="Domínios">
-            <Note text="45 domínios no total (9 por cor × 5 cores), organizados por Instância e Atributo-chave." />
-            <TH cols={['Domínio', 'Instância', 'Atributo', 'Perícia']} widths={[1.8, 0.8, 0.7, 0.7]} />
-            <Sub text="Branco" />
+          <Section num={secoes.dominios.num} title={secoes.dominios.titulo}>
+            <Note text={secoes.dominios.nota!} />
+            <TH cols={secoes.dominios.colunas!.main} widths={[1.8, 0.8, 0.7, 0.7]} />
+            <Sub text={secoes.dominios.subs!.branco} />
             {dominiosBranco.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
@@ -311,7 +312,7 @@ export default function RegrasScreen() {
                 <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
-            <Sub text="Verde" />
+            <Sub text={secoes.dominios.subs!.verde} />
             {dominiosVerde.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
@@ -320,7 +321,7 @@ export default function RegrasScreen() {
                 <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
-            <Sub text="Vermelho" />
+            <Sub text={secoes.dominios.subs!.vermelho} />
             {dominiosVermelho.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
@@ -329,7 +330,7 @@ export default function RegrasScreen() {
                 <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
-            <Sub text="Preto" />
+            <Sub text={secoes.dominios.subs!.preto} />
             {dominiosPreto.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
@@ -338,7 +339,7 @@ export default function RegrasScreen() {
                 <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
-            <Sub text="Azul" />
+            <Sub text={secoes.dominios.subs!.azul} />
             {dominiosAzul.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
@@ -350,40 +351,40 @@ export default function RegrasScreen() {
           </Section>
 
           {/* ── 12. CANALIZAÇÃO E MANA ── */}
-          <Section num="12" title="Canalização e Mana">
-            <Note text="Ação de descanso — Teste: Vontade [Comunhão]" />
-            <TH cols={['Resultado', 'Mana obtido']} />
+          <Section num={secoes.canalizacao.num} title={secoes.canalizacao.titulo}>
+            <Note text={secoes.canalizacao.nota!} />
+            <TH cols={secoes.canalizacao.colunas!.resultados} />
             {canalizacaoResultados.map((row, i) => (
               <R2 key={i} a={row.resultado} b={row.mana} />
             ))}
-            <Sub text="Modificadores de Ambiente" />
+            <Sub text={secoes.canalizacao.subs!.modificadores} />
             {modificadoresAmbiente.map((row, i) => (
               <R2 key={i} a={row.mod} b={row.descricao} />
             ))}
-            <Sub text="Ambientes W·G·R·B·U (Branco·Verde·Verm·Preto·Azul)" />
+            <Sub text={secoes.canalizacao.subs!.ambientes} />
             {ambientes.map((row, i) => (
               <R2 key={i} a={row.ambiente} b={row.modificadores} />
             ))}
-            <Sub text="Eventos Climáticos" />
+            <Sub text={secoes.canalizacao.subs!.eventos} />
             {eventosClimaticos.map((row, i) => (
               <R2 key={i} a={row.evento} b={row.modificadores} />
             ))}
           </Section>
 
           {/* ── 13. EQUIPAMENTOS ── */}
-          <Section num="13" title="Equipamentos">
-            <Sub text="Armas" />
-            <TH cols={['Arma', 'Dano', 'Especial']} widths={[1.3, 0.7, 2]} />
+          <Section num={secoes.equipamentos.num} title={secoes.equipamentos.titulo}>
+            <Sub text={secoes.equipamentos.subs!.armas} />
+            <TH cols={secoes.equipamentos.colunas!.armas} widths={[1.3, 0.7, 2]} />
             {armas.map((row, i) => (
               <R3 key={i} a={row.arma} b={row.dano} c={row.especial} />
             ))}
-            <Sub text="Escudos" />
-            <TH cols={['Escudo', 'IP Corp', 'Especial']} widths={[1.5, 0.8, 1.7]} />
+            <Sub text={secoes.equipamentos.subs!.escudos} />
+            <TH cols={secoes.equipamentos.colunas!.escudos} widths={[1.5, 0.8, 1.7]} />
             {escudos.map((row, i) => (
               <R3 key={i} a={row.escudo} b={row.ipCorp} c={row.especial} />
             ))}
-            <Sub text="Vestimentas" />
-            <TH cols={['Vestimenta', 'IP Corp', 'IP Ment', 'IP Esp']} widths={[1.6, 0.8, 0.8, 0.8]} />
+            <Sub text={secoes.equipamentos.subs!.vestimentas} />
+            <TH cols={secoes.equipamentos.colunas!.vestimentas} widths={[1.6, 0.8, 0.8, 0.8]} />
             {vestimentas.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 1.6 }]}>{row.vestimenta}</Text>
@@ -392,72 +393,72 @@ export default function RegrasScreen() {
                 <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.ipEsp}</Text>
               </View>
             ))}
-            <Sub text="Acessórios Básicos" />
-            <TH cols={['Acessório', 'Bônus']} />
+            <Sub text={secoes.equipamentos.subs!.acessorios} />
+            <TH cols={secoes.equipamentos.colunas!.acessorios} />
             {acessorios.map((row, i) => (
               <R2 key={i} a={row.acessorio} b={row.bonus} />
             ))}
-            <Sub text="Melhorias (máx. 3 por item)" />
+            <Sub text={secoes.equipamentos.subs!.melhorias} />
             {melhorias.map((row, i) => (
               <R2 key={i} a={row.tipo} b={row.descricao} />
             ))}
-            <Sub text="Propriedades Elementais" />
-            <TH cols={['Cor', 'Propriedade', 'Efeito']} widths={[0.7, 1.3, 2]} />
+            <Sub text={secoes.equipamentos.subs!.elementais} />
+            <TH cols={secoes.equipamentos.colunas!.elementais} widths={[0.7, 1.3, 2]} />
             {propriedadesElementais.map((row, i) => (
               <R3 key={i} a={row.cor} b={row.propriedade} c={row.efeito} />
             ))}
-            <Sub text="Afiadores (combinações de minerais)" />
+            <Sub text={secoes.equipamentos.subs!.afiadores} />
             {afiadores.map((row, i) => (
               <R2 key={i} a={row.combo} b={row.propriedade} />
             ))}
           </Section>
 
           {/* ── 14. MATÉRIAS-PRIMAS E ALQUIMIA ── */}
-          <Section num="14" title="Matérias-primas e Alquimia">
-            <Sub text="Herbologia (Ervas)" />
+          <Section num={secoes.alquimia.num} title={secoes.alquimia.titulo}>
+            <Sub text={secoes.alquimia.subs!.herbologia} />
             {herbologia.map((row, i) => (
               <R2 key={i} a={row.cor} b={row.tipo} />
             ))}
-            <Sub text="Receitas básicas (3 ervas)" />
+            <Sub text={secoes.alquimia.subs!.receitas} />
             {receitasBasicas.map((row, i) => (
               <R2 key={i} a={row.combinacao} b={row.efeito} />
             ))}
-            <Sub text="Proporções" />
+            <Sub text={secoes.alquimia.subs!.proporcoes} />
             {proporcoes.map((row, i) => (
               <R2 key={i} a={row.proporcao} b={row.resultado} />
             ))}
-            <Sub text="Zoologia — Soros (mutações temporárias)" />
+            <Sub text={secoes.alquimia.subs!.soros} />
             {soros.map((row, i) => (
               <R2 key={i} a={row.cor} b={row.mutacoes} />
             ))}
-            <Sub text="Zoologia — Catalizadores (de ossadas)" />
+            <Sub text={secoes.alquimia.subs!.catalisadores} />
             {catalisadores.map((row, i) => (
               <R2 key={i} a={row.cor} b={row.efeito} />
             ))}
             <Note text={complexidadeZoologia} />
-            <Sub text="Mineralogia" />
+            <Sub text={secoes.alquimia.subs!.mineralogia} />
             {mineralogia.map((row, i) => (
               <R2 key={i} a={row.tipo} b={row.descricao} />
             ))}
           </Section>
 
           {/* ── 15. ARTEFATOS ── */}
-          <Section num="15" title="Artefatos">
-            <Note text="Objetos mágicos com Durabilidade (número de usos antes de precisar reparo)." />
-            <TH cols={['Tipo', 'Produzido por']} />
+          <Section num={secoes.artefatos.num} title={secoes.artefatos.titulo}>
+            <Note text={secoes.artefatos.nota!} />
+            <TH cols={secoes.artefatos.colunas!.tipos} />
             {tiposArtefatos.map((row, i) => (
               <R2 key={i} a={row.tipo} b={row.produzidoPor} />
             ))}
-            <Sub text="Uso e Reparo" />
+            <Sub text={secoes.artefatos.subs!.usoReparo} />
             {usoReparo.map((row, i) => (
               <R2 key={i} a={row.acao} b={row.descricao} />
             ))}
           </Section>
 
           {/* ── 16. CRIATURAS ── */}
-          <Section num="16" title="Criaturas">
-            <Sub text="Tabela de Classes" />
-            <TH cols={['Cl', 'Gr', 'Custo', 'Vida', 'Res', 'Poder', 'Dano', 'Dur']} widths={[0.5, 0.4, 0.7, 0.7, 0.5, 1.1, 0.6, 0.5]} />
+          <Section num={secoes.criaturas.num} title={secoes.criaturas.titulo}>
+            <Sub text={secoes.criaturas.subs!.classes} />
+            <TH cols={secoes.criaturas.colunas!.classes} widths={[0.5, 0.4, 0.7, 0.7, 0.5, 1.1, 0.6, 0.5]} />
             {classesCriaturas.map((row, i) => (
               <View key={i} style={styles.tableRow}>
                 <Text style={[styles.tableKey, { flex: 0.5 }]}>{row.cls}</Text>
@@ -470,71 +471,71 @@ export default function RegrasScreen() {
                 <Text style={[styles.tableVal, { flex: 0.5 }]}>{row.dur}</Text>
               </View>
             ))}
-            <Sub text="Mecânica de Ataque" />
+            <Sub text={secoes.criaturas.subs!.ataque} />
             {mecanicaAtaque.map((row, i) => (
               <R2 key={i} a={row.acao} b={row.descricao} />
             ))}
-            <Sub text="Habilidades de Criaturas" />
+            <Sub text={secoes.criaturas.subs!.habilidades} />
             {habilidadesCriaturas.map((row, i) => (
               <R2 key={i} a={row.habilidade} b={row.descricao} />
             ))}
           </Section>
 
           {/* ── 17. CONDIÇÕES ── */}
-          <Section num="17" title="Condições">
-            <TH cols={['Condição', 'Efeito']} />
+          <Section num={secoes.condicoes.num} title={secoes.condicoes.titulo}>
+            <TH cols={secoes.condicoes.colunas!.main} />
             {condicoes.map((row, i) => (
               <R2 key={i} a={row.condicao} b={row.efeito} />
             ))}
-            <Sub text="Veneno — Marcadores" />
+            <Sub text={secoes.condicoes.subs!.veneno} />
             {venenoMarcadores.map((row, i) => (
               <R2 key={i} a={row.marcadores} b={row.efeito} />
             ))}
           </Section>
 
           {/* ── 18. COMBATE ── */}
-          <Section num="18" title="Combate">
-            <Note text="Ações por turno: 1 movimentação + 1 operação + 1 reação + ações extras de Velocidade" />
-            <Sub text="Movimentação" />
-            <TH cols={['Ação', 'Custo', 'Efeito']} />
+          <Section num={secoes.combate.num} title={secoes.combate.titulo}>
+            <Note text={secoes.combate.nota!} />
+            <Sub text={secoes.combate.subs!.movimentacao} />
+            <TH cols={secoes.combate.colunas!.acoes} />
             {combateMovimentacao.map((row, i) => (
               <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
             ))}
-            <Sub text="Operações (Ações Padrão)" />
-            <TH cols={['Ação', 'Custo', 'Efeito']} />
+            <Sub text={secoes.combate.subs!.operacoes} />
+            <TH cols={secoes.combate.colunas!.acoes} />
             {combateOperacoes.map((row, i) => (
               <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
             ))}
-            <Sub text="Reações" />
-            <TH cols={['Reação', 'Custo', 'Efeito']} />
+            <Sub text={secoes.combate.subs!.reacoes} />
+            <TH cols={secoes.combate.colunas!.reacoes} />
             {combateReacoes.map((row, i) => (
               <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
             ))}
-            <Sub text="Manifestações (Ações Mágicas)" />
-            <TH cols={['Ação', 'Custo', 'Efeito']} />
+            <Sub text={secoes.combate.subs!.manifestacoes} />
+            <TH cols={secoes.combate.colunas!.acoes} />
             {combateManifestacoes.map((row, i) => (
               <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
             ))}
           </Section>
 
           {/* ── 19. DESCANSO ── */}
-          <Section num="19" title="Descanso">
-            <Note text="Em cada descanso: recupera mínimo de mana + escolhe 2 ações adicionais" />
-            <TH cols={['Ação', 'Teste', 'Resultado']} widths={[0.9, 1.1, 2]} />
+          <Section num={secoes.descanso.num} title={secoes.descanso.titulo}>
+            <Note text={secoes.descanso.nota!} />
+            <TH cols={secoes.descanso.colunas!.main} widths={[0.9, 1.1, 2]} />
             {descansaAcoes.map((row, i) => (
               <R3 key={i} a={row.acao} b={row.teste} c={row.resultado} />
             ))}
           </Section>
 
           {/* ── 20. EVOLUÇÃO ── */}
-          <Section num="20" title="Evolução">
-            <Note text="Personagens acumulam afinidade de cor (%) pelas ações durante a sessão. Ao atingir 100%: recebe 1 Identidade daquela cor. A contagem reinicia do zero." />
-            <Sub text="Tipos de Cena e Afinidade" />
-            <TH cols={['Cena', 'Dificuldade', 'Afinidade']} widths={[0.9, 1.3, 1.8]} />
+          <Section num={secoes.evolucao.num} title={secoes.evolucao.titulo}>
+            <Note text={secoes.evolucao.nota!} />
+            <Sub text={secoes.evolucao.subs!.cenas} />
+            <TH cols={secoes.evolucao.colunas!.cenas} widths={[0.9, 1.3, 1.8]} />
             {evolucaoCenas.map((row, i) => (
               <R3 key={i} a={row.cena} b={row.dificuldade} c={row.afinidade} />
             ))}
-            <Sub text="Comportamentos × Cor (Combate)" />
+            <Sub text={secoes.evolucao.subs!.comportamentos} />
             {evolucaoComportamentos.map((row, i) => (
               <R2 key={i} a={row.cor} b={row.comportamento} />
             ))}
