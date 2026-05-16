@@ -91,6 +91,22 @@ Plans:
 Plans:
 - [x] 08-01-PLAN.md — Sincronizar GAME_RULES.md §5 (Investigação names) e §7 (7 habilidades table cells) com correções das Phases 5–7
 
+### Phase 9: Fidelidade Estrutural
+**Goal**: Todo conteúdo de regras no app é 100% fiel ao docx e drift futuro é estruturalmente impossível
+**Depends on**: Phase 8
+**Requirements**: FIDE-20, FIDE-21, FIDE-22, FIDE-23
+**Success Criteria** (what must be TRUE):
+  1. Auditoria completa docx vs regras.tsx (§1-3, §6-20) e GAME_RULES.md (todas seções) — zero discrepâncias
+  2. regras.tsx é 100% dinâmico: todo conteúdo importado de data/regras/ TypeScript files
+  3. GAME_RULES.md gerado por script a partir de data/regras/ — nunca desatualiza manualmente
+  4. Pre-commit hook bloqueia commits com drift entre data/regras/ e docx
+**Plans**: 3 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Auditoria completa docx vs todos hardcoded sections (regras.tsx §1-3,§6-20 + GAME_RULES.md todas seções) → corrigir discrepâncias
+- [ ] 09-02-PLAN.md — Migrar todo conteúdo hardcoded para data/regras/ TS files + regras.tsx 100% dinâmico
+- [ ] 09-03-PLAN.md — Scripts audit-docx.py + generate-game-rules.py + pre-commit hook + regenerar GAME_RULES.md
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -100,6 +116,7 @@ Plans:
 | 3. Qualidade do Grimório | v1.0 | 3/3 | Complete | 2026-05-15 |
 | 4. Ferramentas de Mesa | v1.0 | 2/2 | Complete | 2026-05-15 |
 | 5. Proficiências CORPO | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete   | 2026-05-16 |
+| 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |
+| 9. Fidelidade Estrutural | v1.1 | 0/3 | Not started | - |

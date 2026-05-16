@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
-status: complete
-stopped_at: Phase 8 complete — v1.1 milestone done
-last_updated: "2026-05-16T13:02:43Z"
-last_activity: "2026-05-16 — Phase 8 executed: GAME_RULES.md §5+§7 synced, regras.tsx §5 refatorado, auditoria dados confirmada (FIDE-19)"
+status: in_progress
+stopped_at: Phase 9 planned — ready to execute
+last_updated: "2026-05-16T14:00:00.000Z"
+last_activity: "2026-05-16 — Phase 9 planejada: 3 planos (auditoria completa + migração data/regras/ + scripts+hook), FIDE-20-23"
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 4
-  total_plans: 4
+  total_plans: 7
   completed_plans: 4
-  percent: 100
+  percent: 80
 ---
 
 # Project State
