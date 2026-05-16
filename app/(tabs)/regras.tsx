@@ -268,7 +268,7 @@ export default function RegrasScreen() {
             <TH cols={['Dado', 'Cor', 'Característica Especial']} widths={[0.6, 0.8, 2.6]} />
             <R3 a="dW" b="Branco" c="Progressão: todos ≥ 14 → dobra bônus (2dW=13, 3dW=12, 4dW=11, 5dW=10)" />
             <R3 a="dG" b="Verde" c="Rola 2d10 em vez de d20; pares livres entre dados; cada dG extra +1d10" />
-            <R3 a="dR" b="Vermelho" c="Crítico em 19–20 (expande: 2dR=18–20, 3dR=17–20, 4dR=16–20 e 1–3, 5dR=15–20 e 1–3)" />
+            <R3 a="dR" b="Vermelho" c="Crítico em 19–20 (expande: 2dR=18–20 e 1–2, 3dR=17–20 e 1–2, 4dR=16–20 e 1–3, 5dR=15–20 e 1–3)" />
             <R3 a="dB" b="Preto" c="Para cada dado ≤ 5: recebe +1d4 ao resultado" />
             <R3 a="dU" b="Azul" c="Resultado múltiplo de 5: rerrola o dado azul enquanto continuar ×5" />
             <Sub text="Resultados" />
@@ -438,16 +438,32 @@ export default function RegrasScreen() {
             <R2 a="0" b="Normal" />
             <R2 a="–" b="2 dados, fica menor — escasso" />
             <R2 a="––" b="3 dados, fica menor — muito escasso" />
-            <Sub text="Ambientes (W · G · R · B · U)" />
+            <Sub text="Ambientes W·G·R·B·U (Branco·Verde·Verm·Preto·Azul)" />
             <R2 a="Deserto" b="–– · –– · –– · –– · ––" />
             <R2 a="Urbano" b="+ · – · – · + · –" />
             <R2 a="Natureza" b="– · + · + · – · +" />
+            <R2 a="Fortaleza" b="+ · – · — · — · —" />
             <R2 a="Planícies" b="++ · + · – · – · —" />
-            <R2 a="Floresta" b="+ · — · — · — · —" />
-            <R2 a="Selva densa" b="– · ++ · + · – · —" />
+            <R2 a="Floresta" b="— · + · — · — · —" />
+            <R2 a="Selva densa" b="– · ++ · + · — · –" />
+            <R2 a="Rochoso" b="— · — · + · — · –" />
             <R2 a="Vulcões" b="– · — · ++ · + · –" />
+            <R2 a="Catacumbas" b="– · – · — · + · —" />
             <R2 a="Pântanos" b="– · – · — · ++ · +" />
+            <R2 a="Fonte de água" b="— · — · – · — · +" />
             <R2 a="Alto mar" b="+ · – · – · — · ++" />
+            <Sub text="Eventos Climáticos" />
+            <R2 a="Frio" b="— · — · – · — · +" />
+            <R2 a="Calor" b="— · — · + · — · –" />
+            <R2 a="Ventos fortes" b="— · – · – · — · +" />
+            <R2 a="Chuva intensa" b="— · + · – · — · +" />
+            <R2 a="Nevasca" b="– · –– · –– · – · ++" />
+            <R2 a="Tempestade" b="– · –– · ++ · – · +" />
+            <R2 a="Dia" b="— · — · — · – · —" />
+            <R2 a="Sol a pino" b="+ · — · — · –– · —" />
+            <R2 a="Noite" b="– · — · — · — · —" />
+            <R2 a="Lua cheia" b="–– · — · — · + · —" />
+            <R2 a="Eclipse solar" b="++ · — · – · ++ · –" />
           </Section>
 
           {/* ── 13. EQUIPAMENTOS ── */}
@@ -581,23 +597,25 @@ export default function RegrasScreen() {
           {/* ── 16. CRIATURAS ── */}
           <Section num="16" title="Criaturas">
             <Sub text="Tabela de Classes" />
-            <TH cols={['Classe', 'Grau', 'Custo', 'Vida', 'Resist', 'Poder', 'Dano']} widths={[0.7, 0.5, 0.7, 0.7, 0.7, 1.2, 0.7]} />
+            <TH cols={['Cl', 'Gr', 'Custo', 'Vida', 'Res', 'Poder', 'Dano', 'Dur']} widths={[0.5, 0.4, 0.7, 0.7, 0.5, 1.1, 0.6, 0.5]} />
             {[
-              ['f', '1', '{1}', '1–4', '10', '1d20', '1d2'],
-              ['E', '1', '{2}', '4–8', '11', '1d20+1', '1d4'],
-              ['D', '1–2', '{3}', '8–14', '12', '2d20+1', '1d6'],
-              ['C', '2', '{4–5}', '14–20', '13', '2d20+3', '1d8'],
-              ['B', '3', '{6–7}', '20–26', '14', '3d20+3', '1d10'],
-              ['A', '3', '{8–9}', '26–32', '15', '3d20+5', '1d12'],
-            ].map(([cls, grau, custo, vida, res, pod, dano], i) => (
+              ['f', '1', '{1}', '1–4', '10', '1d20', '1d2', '1'],
+              ['E', '1', '{2}', '4–8', '11', '1d20+1', '1d4', '2–3'],
+              ['D', '1–2', '{3}', '8–14', '12', '2d20+1', '1d6', '4–5'],
+              ['C', '2', '{4–5}', '14–20', '13', '2d20+3', '1d8', '6–7'],
+              ['B', '3', '{6–7}', '20–26', '14', '3d20+3', '1d10', '8–9'],
+              ['A', '3', '{8–9}', '26–32', '15', '3d20+5', '1d12', '10'],
+              ['S', '—', '—', '?', '?', '?', '?', '?'],
+            ].map(([cls, grau, custo, vida, res, pod, dano, dur], i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 0.7 }]}>{cls}</Text>
-                <Text style={[styles.tableVal, { flex: 0.5 }]}>{grau}</Text>
+                <Text style={[styles.tableKey, { flex: 0.5 }]}>{cls}</Text>
+                <Text style={[styles.tableVal, { flex: 0.4 }]}>{grau}</Text>
                 <Text style={[styles.tableVal, { flex: 0.7 }]}>{custo}</Text>
                 <Text style={[styles.tableVal, { flex: 0.7 }]}>{vida}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{res}</Text>
-                <Text style={[styles.tableVal, { flex: 1.2 }]}>{pod}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{dano}</Text>
+                <Text style={[styles.tableVal, { flex: 0.5 }]}>{res}</Text>
+                <Text style={[styles.tableVal, { flex: 1.1 }]}>{pod}</Text>
+                <Text style={[styles.tableVal, { flex: 0.6 }]}>{dano}</Text>
+                <Text style={[styles.tableVal, { flex: 0.5 }]}>{dur}</Text>
               </View>
             ))}
             <Sub text="Mecânica de Ataque" />
@@ -619,7 +637,7 @@ export default function RegrasScreen() {
           <Section num="17" title="Condições">
             <TH cols={['Condição', 'Efeito']} />
             <R2 a="Alado" b="Pode voar; imune a corpo a corpo de criaturas sem Voar/Alcance" />
-            <R2 a="Congelado" b="Imóvel; teste difícil de Vigor [Atletismo] por rodada para sair" />
+            <R2 a="Congelado" b="Imóvel; teste dificílimo (25) de Vigor [Atletismo]; a cada rodada que falhar, dificuldade diminui 1 nível" />
             <R2 a="Envenenado" b="Acumula marcadores de veneno (efeitos progressivos 2/4/6/8/10)" />
             <R2 a="Incendiado" b="1d6 dano ígneo/turno; acumula se repetido" />
             <R2 a="Molhado" b="Desvantagem em testes corporais; vulnerável a elétrico" />

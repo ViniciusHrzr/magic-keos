@@ -42,6 +42,13 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 - ✓ Aba "Regras" com referência in-session + Notas persistente — v1.0
 - ✓ Proficiências como chips togláveis (CORPO/MENTE/ESPÍRITO) — v1.0
 - ✓ Migration automática proficiencias string→string[] — v1.0
+- ✓ Aba Notas separada da aba Regras (5ª tab: square.and.pencil icon) — v1.0 gsd-fast
+- ✓ Memória/Foco com metadata completo de feitiço (color strip, grau, tipo, custo, ℹ, ×) — v1.0 gsd-fast
+- ✓ Duplicate blocking em Memória e Foco (mesmo feitiço não entra duas vezes) — v1.0 gsd-fast
+- ✓ Toast system no Magia (2.5s, dourado, funciona dentro e fora de modal) — v1.0 gsd-fast
+- ✓ ProficienciasSection collapsível (default colapsado, expande em search) — v1.0 gsd-fast
+- ✓ PericiaData com campo descricao; slots mostram nome + descricao + teste — v1.0 gsd-fast
+- ✓ Regras seção 4 dinâmica (rendering de proficiencias.ts) e seção 5 tabela Habilidades — v1.0 gsd-fast
 
 ### Active (v1.1)
 
@@ -49,6 +56,7 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 - [ ] Rolador de dados coloridos (dW/dG/dR/dB/dU com mecânicas especiais)
 - [ ] Rastreador de turno de combate (ordem de iniciativa, marcador de turno)
 - [ ] Versionamento de schema no migrate() (atualmente acumulação de guards por tipo)
+- [ ] Remover MemoGrid.tsx (dead code — não importado desde gsd-fast magia rewrite)
 
 ### Out of Scope
 
@@ -97,4 +105,4 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 | FICHA-04 diferido (index.tsx extração) | Trade-off praticidade vs. perfeição técnica; app funcional > arquitetura ideal | ⚠ Revisit em v1.1 |
 
 ---
-*Last updated: 2026-05-15 after v1.0 milestone*
+*Last updated: 2026-05-15 after v1.0 milestone + gsd-fast post-phase changes*
