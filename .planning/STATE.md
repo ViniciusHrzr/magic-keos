@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
 status: in_progress
-stopped_at: Phase 7 complete — next: Phase 8
-last_updated: "2026-05-16T12:10:00.000Z"
-last_activity: "2026-05-16 — Phase 7 UAT complete: 7/7 passed, FIDE-12–18 verified by user"
+stopped_at: Phase 8 planned — ready to execute
+last_updated: "2026-05-16T12:20:00.000Z"
+last_activity: "2026-05-16 — Phase 8 planned: 1 plan, 2 tasks, GAME_RULES.md §5+§7 sync (FIDE-19)"
 progress:
   total_phases: 4
   completed_phases: 3
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 8 of 8 (Documentação — NEXT)
-Plan: 08-01 (TBD)
-Status: Phase 7 complete — ready to plan Phase 8
-Last activity: 2026-05-16 — Phase 7 UAT complete: 7/7 passed, FIDE-12–18 verified by user
+Phase: 8 of 8 (Documentação — PLANNED)
+Plan: 08-01 (1 plan, 2 tasks — ready to execute)
+Status: Phase 8 planned — ready to execute
+Last activity: 2026-05-16 — Phase 8 planned: 1 plan, 2 tasks, GAME_RULES.md §5+§7 sync (FIDE-19)
 
 Progress: [██████░░░░] 50% (2 of 4 v1.1 phases complete)
 

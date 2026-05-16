@@ -86,7 +86,10 @@ Plans:
   1. Seção §5 (Perícias/Proficiências) do GAME_RULES.md está sincronizada com proficiencias.ts corrigido
   2. Seção §7 (Habilidades) do GAME_RULES.md está sincronizada com habilidades.ts corrigido
   3. Não existem discrepâncias entre o que o app exibe, o GAME_RULES.md descreve e o docx oficial define
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 08-01-PLAN.md — Sincronizar GAME_RULES.md §5 (Investigação names) e §7 (7 habilidades table cells) com correções das Phases 5–7
 
 ## Progress
 
