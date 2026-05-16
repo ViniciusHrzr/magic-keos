@@ -91,10 +91,10 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['RAZ'],
       descricao: 'Criação de substâncias mágicas e químicas: poções, bombas e soros. A partir do nível 2 e a cada três níveis em Alquimia (2, 5, 8), pode se tornar proficiente em um tipo de conhecimento para produzir itens.',
       proficiencias: [
-        { nome: 'Herbologia', descricao: 'Permite coletar e processar ervas para criar poções de cura, imunidade, estimulantes, danosos ou adaptativos.', teste: 'Passiva — desbloqueia categoria de produção' },
-        { nome: 'Mineralogia', descricao: 'Permite trabalhar com minerais para fabricar bombas de área e proteções elementais.', teste: 'Passiva — desbloqueia categoria de produção' },
-        { nome: 'Zoologia', descricao: 'Permite extrair soros de criaturas (mutações temporárias) e catalizadores para potencializar mágicas.', teste: 'Passiva — desbloqueia categoria de produção' },
-        { nome: 'Poções', descricao: 'Cria poções alquímicas durante o descanso. O resultado depende do teste.', teste: 'RAZ [Alquimia] no descanso — falha: reduzido · 10+: pretendido · 20+: potencializado', requisito: 'Requer Alquimia lv.1' },
+        { nome: 'Herbologia', descricao: 'Utilização de recursos vegetais na criação de remédios e tônicos.', teste: 'Passiva — desbloqueia categoria de produção' },
+        { nome: 'Mineralogia', descricao: 'Utilização de recursos minerais na criação de bombas e afiadores (metais que atribuem propriedades elementais a equipamentos).', teste: 'Passiva — desbloqueia categoria de produção' },
+        { nome: 'Zoologia', descricao: 'Utilização de recursos animais na criação de soros (concedem mutações a quem os ingere) e ossadas (catalizadores de mágicas).', teste: 'Passiva — desbloqueia categoria de produção' },
+        { nome: 'Poções', descricao: 'Permite usar e reconhecer poções de qualquer campo (herbologia, mineralogia e zoologia).', teste: 'Passiva — desbloqueia uso e reconhecimento de poções', requisito: 'Requer Alquimia lv.1' },
       ],
     },
     criatividade: {
@@ -102,12 +102,12 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['RAZ'],
       descricao: 'Improviso e adaptação de mágicas em campo. A cada três níveis em Criatividade (2, 5, 8), o personagem pode se tornar proficiente em um talento metamágico para alterar suas mágicas conforme a necessidade:',
       proficiencias: [
-        { nome: 'Recapitular', descricao: 'Replica mágica já conjurada na mesma cena pagando apenas mana, sem conjurar novamente.', teste: 'Passiva — disponível ao lançar mágica da mesma cena' },
-        { nome: 'Reciclar', descricao: 'Altera alvo, área ou duração de mágica já ativa, pagando mana adicional.', teste: 'Passiva — aplicado ao modificar mágica ativa' },
-        { nome: 'Reforçar', descricao: 'Potencializa dano, alcance ou duração de uma mágica ao custo de mana adicional.', teste: 'Passiva — multiplicador de efeito com mana extra' },
-        { nome: 'Repartir', descricao: 'Divide o efeito de uma única mágica entre múltiplos alvos dentro do alcance.', teste: 'Passiva — efeito dividido entre os alvos escolhidos' },
-        { nome: 'Replicar', descricao: 'Reproduz funcionalmente um objeto simples ou efeito visual observado recentemente.', teste: 'RAZ [Criatividade] vs. complexidade do objeto' },
-        { nome: 'Solução', descricao: 'Improvisa respostas eficazes a problemas inéditos sem recursos ou ferramentas ideais.', teste: 'RAZ [Criatividade] vs. dificuldade do problema', requisito: 'Requer Criatividade lv.1' },
+        { nome: 'Recapitular', descricao: 'Pode acrescentar parcialmente os efeitos de uma mágica na memória à próxima mágica lançada; aplica-se a Feitiços recapitulados em Encantamentos e Criaturas.', teste: 'Passiva — custo: mana colorido da mágica recapitulada' },
+        { nome: 'Reciclar', descricao: 'Altera um descritor da mágica (tipo de dano, atributo-base ou alvo, desde que coerente com sua cor); aplica-se a Feitiços e Encantamentos.', teste: 'Passiva — custo: {1} mana incolor por alteração' },
+        { nome: 'Reforçar', descricao: 'Potencializa um efeito (dano, área, duração etc.) de uma mágica; aplica-se a Feitiços, Encantamentos e Criaturas (pode reforçar atributo ou habilidade).', teste: 'Passiva — custo: mana incolor (metade do valor: +50% · valor completo: +75%)' },
+        { nome: 'Repartir', descricao: 'Compartilha os efeitos de uma mágica com mais alvos, mas ela perde 50% do efeito; aplica-se a Feitiços e Encantamentos (gasta 1 Foco para manter encantamento repartido).', teste: 'Passiva — custo: {1} mana incolor por alvo extra' },
+        { nome: 'Replicar', descricao: 'Paga custo adicional de mana ao conjurar para criar uma cópia do Feitiço, lançável sobre o mesmo alvo ou outro.', teste: 'Passiva — custo: valor da mágica + {1} mana incolor por grau' },
+        { nome: 'Solução', descricao: 'Pode fazer um uso criativo de uma mágica dentro do domínio dela, mesmo que não esteja explícito na descrição.', teste: 'RAZ [Criatividade] vs. dificuldade do uso criativo', requisito: 'Requer Criatividade lv.1' },
       ],
     },
     investigacao: {
@@ -115,10 +115,10 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['RAZ', 'SEN', 'CON'],
       descricao: 'Pesquisa e análise de fenômenos mágicos. A cada três níveis a partir do segundo (2, 5, 8) de Investigação, o personagem torna-se proficiente na produção de um tipo de escrita mágica:',
       proficiencias: [
-        { nome: 'Selo de Feitiço', descricao: 'Inscreve mágicas em superfícies para disparar automaticamente quando ativadas.', teste: 'RAZ [Investigação] — dificuldade varia com o grau do feitiço inscrito' },
-        { nome: 'Encantamento', descricao: 'Estuda e absorve feitiços de fontes externas: grimórios, artefatos ou mágicas observadas.', teste: 'RAZ [Investigação] oposto à complexidade da fonte' },
-        { nome: 'Invocação', descricao: 'Aprende técnicas de conjuração e controle de criaturas mágicas.', teste: 'RAZ [Investigação] para aprender — CON [Investigação] para controlar' },
-        { nome: 'Leitura', descricao: 'Decifra textos arcanos, runas, mapas antigos e manuscritos mágicos.', teste: 'RAZ [Investigação] — dificuldade varia com antiguidade e complexidade', requisito: 'Requer Investigação lv.1' },
+        { nome: 'Selo de Feitiço', descricao: 'Armazena um feitiço com antecedência (em descanso) em um selo mágico que pode ser consumido para lançar a mágica armazenada; selos podem ser usados como uma reação.', teste: 'Passiva — armazena feitiço em descanso; consome como reação' },
+        { nome: 'Selo de Encantamento', descricao: 'O mesmo que Selo de Feitiço, mas armazena um encantamento em vez disso.', teste: 'Passiva — armazena encantamento em descanso; consome como reação' },
+        { nome: 'Selo de Invocação', descricao: 'O mesmo que os anteriores, mas armazena uma invocação em vez disso.', teste: 'Passiva — armazena invocação em descanso; consome como reação' },
+        { nome: 'Leitura', descricao: 'Permite ler e escrever; pode aprender novas mágicas a partir da leitura de livros ou pergaminhos.', teste: 'Passiva — desbloqueia leitura, escrita e aprendizado de mágicas por livros', requisito: 'Requer Investigação lv.1' },
       ],
     },
     mecanica: {
@@ -126,10 +126,10 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['RAZ', 'CON'],
       descricao: 'Construção e reparo de objetos e artefatos mágicos. No nível 1, pode utilizar e reparar artefatos variados. A partir do segundo nível e a cada três níveis (2, 5, 8) em Mecânica, adquire proficiência na manufatura de artefatos de um tipo:.',
       proficiencias: [
-        { nome: 'Artesão', descricao: 'Fabrica objetos, acessórios e joias com durabilidade e até 3 melhorias elementais.', teste: 'RAZ [Mecânica] no descanso — falha: 0,5 etapa · 10+: 1 etapa · 20+: 2 etapas' },
-        { nome: 'Feiticeiro', descricao: 'Cria condutores mágicos encantados: varinhas de 1 mão (1d4, 9m) e cajados de 2 mãos (1d6, 18m).', teste: 'RAZ [Mecânica] no descanso — falha: 0,5 etapa · 10+: 1 etapa · 20+: 2 etapas' },
-        { nome: 'Ferreiro', descricao: 'Forja armas, escudos e armaduras com propriedades especiais e até 3 melhorias elementais.', teste: 'RAZ [Mecânica] no descanso — falha: 0,5 etapa · 10+: 1 etapa · 20+: 2 etapas' },
-        { nome: 'Artefatos', descricao: 'Ativa artefatos gastando 1 mana incolor e repara cargas perdidas durante o descanso.', teste: 'Ativar: ação [1] + 1 mana incolor · Reparar (CON [Mecânica]): 10+:1 · 15+:2 · 20+:3', requisito: 'Requer Mecânica lv.1' },
+        { nome: 'Artesão', descricao: 'É capaz de produzir e melhorar acessórios mágicos variados.', teste: 'Passiva — desbloqueia produção de acessórios mágicos' },
+        { nome: 'Feiticeiro', descricao: 'É capaz de produzir e melhorar varinhas, cajados e vestimentas mágicas.', teste: 'Passiva — desbloqueia produção de condutores e vestimentas mágicas' },
+        { nome: 'Ferreiro', descricao: 'É capaz de produzir e melhorar armas, armaduras e equipamentos mágicos.', teste: 'Passiva — desbloqueia produção de armas e armaduras mágicas' },
+        { nome: 'Artefatos', descricao: 'Permite usar artefatos de qualquer profissão (artesão, feiticeiro e ferreiro) e repará-los em cenas de descanso.', teste: 'Passiva — ativa artefatos de qualquer profissão; repara em descanso', requisito: 'Requer Mecânica lv.1' },
       ],
     },
     sobrevivencia: {
@@ -137,12 +137,12 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['RAZ', 'SEN'],
       descricao: 'Subsistência em ambientes hostis. A partir do segundo nível e a cada três níveis (2, 5, 8) em Sobrevivência, torna-se especialista em um tipo de descanso, podendo somar seu bônus dessa perícia no teste realizado.',
       proficiencias: [
-        { nome: 'Acampamento', descricao: 'Prepara abrigos que melhoram a recuperação de vida e recursos durante o descanso.', teste: 'RAZ [Sobrevivência] — melhora os modificadores das ações de descanso' },
-        { nome: 'Harmonização', descricao: 'Sincroniza com o terreno para obter bônus nos modificadores de canalização de mana.', teste: 'Passiva — melhora modificador de ambiente para Canalizar' },
-        { nome: 'Forrageamento', descricao: 'Coleta ervas, minerais e partes de criaturas do ambiente durante exploração ou descanso.', teste: 'RAZ [Sobrevivência] — tipo e quantidade dependem do bioma' },
-        { nome: 'Manufaturação', descricao: 'Produz itens básicos de sobrevivência a partir de matérias-primas sem ferramentas especiais.', teste: 'RAZ [Sobrevivência] vs. complexidade do item fabricado' },
-        { nome: 'Treinamento', descricao: 'Treina animais ou aliados para desenvolver habilidades específicas e melhorar desempenho em cena.', teste: 'PRE ou INT [Sobrevivência] vs. complexidade do treinamento' },
-        { nome: 'Coleta', descricao: 'Recolhe matérias-primas (ervas, minerais, ossadas) durante períodos de descanso.', teste: 'RAZ [Sobrevivência] no descanso — 10+:1 · 15+:2 · 20+:3 · 25+:4 · 30+:5', requisito: 'Requer Sobrevivência lv.1' },
+        { nome: 'Acampamento', descricao: 'Torna-se especialista em Repousar: testes de Repousar passam a ser Vigor [Atletismo + Sobrevivência].', teste: 'VIG [Atletismo + Sobrevivência] — modifica ação de descanso Repousar' },
+        { nome: 'Harmonização', descricao: 'Torna-se especialista em Canalizar: testes de Canalizar passam a ser Vontade [Comunhão + Sobrevivência].', teste: 'VON [Comunhão + Sobrevivência] — modifica ação de descanso Canalizar' },
+        { nome: 'Forrageamento', descricao: 'Torna-se especialista em Coletar: testes de Coletar passam a ser Razão [Sobrevivência + Sobrevivência].', teste: 'RAZ [Sobrevivência + Sobrevivência] — modifica ação de descanso Coletar' },
+        { nome: 'Manufaturação', descricao: 'Torna-se especialista em Produzir e Fabricar: testes de Produzir passam a ser Razão [Alquimia + Sobrevivência] e testes de Fabricar passam a ser Razão [Mecânica + Sobrevivência].', teste: 'RAZ [Alquimia + Sobrevivência] (Produzir) · RAZ [Mecânica + Sobrevivência] (Fabricar)' },
+        { nome: 'Treinamento', descricao: 'Torna-se especialista em Praticar: testes de Praticar passam a ser Concentração [Artes Marciais/Investigação/Lábia + Sobrevivência].', teste: 'CON [Artes Marciais/Investigação/Lábia + Sobrevivência] — modifica ação de descanso Praticar' },
+        { nome: 'Coleta', descricao: 'Permite coletar recursos (herbais, minerais ou animais) em cenas de descanso.', teste: 'Passiva — desbloqueia coleta de recursos em descanso', requisito: 'Requer Sobrevivência lv.1' },
       ],
     },
   },
@@ -152,7 +152,7 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['PRE', 'INT', 'VON'],
       descricao: 'Conexão emocional com criaturas, aliados e forças naturais. Possui uma única proficiência avançada, desbloqueada a partir do lv.3.',
       proficiencias: [
-        { nome: 'Provocar (ação livre)', descricao: 'Força inimigo a direcionar todos os ataques a você por uma rodada. Não custa ação.', teste: 'PRE [Comunhão] vs. VON do alvo — sucesso: alvo provocado por 1 rodada', requisito: 'Requer Comunhão lv.3' },
+        { nome: 'Provocar (ação livre)', descricao: 'Durante um combate, provoca uma criatura ou pessoa para que ela se concentre apenas em você até o final do turno.', teste: 'PRE [Comunhão] contra IP Espiritual do alvo — ação livre', requisito: 'Requer Comunhão lv.3' },
       ],
     },
     diplomacia: {
@@ -160,7 +160,7 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['PRE', 'INT', 'VON'],
       descricao: 'Negociação, persuasão e liderança social. Possui uma única proficiência avançada, desbloqueada a partir do lv.3.',
       proficiencias: [
-        { nome: 'Coordenar (ação livre)', descricao: 'Concede ação padrão extra a um aliado neste turno por coordenação tática. Não custa ação.', teste: 'INT [Diplomacia] — sucesso automático se aliado estiver presente e ativo', requisito: 'Requer Diplomacia lv.3' },
+        { nome: 'Coordenar (ação livre)', descricao: 'Coordena o grupo para agir em conjunto: dois ou mais aliados agem de acordo com suas orientações sem gastar ação (como se cada um recebesse uma ação extra, desde que tenham objetivo em comum).', teste: 'Passiva — ação livre; sem teste; requer objetivo em comum', requisito: 'Requer Diplomacia lv.3' },
       ],
     },
     expressao: {
@@ -168,7 +168,7 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['PRE', 'INT', 'VON'],
       descricao: 'Comunicação emocional e artística para inspirar e motivar aliados. Possui uma única proficiência avançada, desbloqueada a partir do lv.3.',
       proficiencias: [
-        { nome: 'Inspirar (ação livre)', descricao: 'Concede vantagem (+1d20) a um aliado no próximo teste com palavras ou gestos. Não custa ação.', teste: 'PRE [Expressão] — sucesso automático se aliado puder ouvi-lo', requisito: 'Requer Expressão lv.3' },
+        { nome: 'Inspirar (ação livre)', descricao: 'Durante um combate, motiva um aliado com palavras; ele recebe bônus igual ao valor em Expressão em uma perícia de sua escolha até o final do turno.', teste: 'Passiva — ação livre; sem teste; bônus = valor em Expressão', requisito: 'Requer Expressão lv.3' },
       ],
     },
     intimidacao: {
@@ -176,7 +176,7 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['PRE', 'INT', 'VON'],
       descricao: 'Uso do medo e da presença para influenciar outros em combate e situações sociais. Possui uma única proficiência avançada, desbloqueada a partir do lv.3.',
       proficiencias: [
-        { nome: 'Amedrontar (ação livre)', descricao: 'Impõe desvantagem (−1d20) a um inimigo no próximo teste por presença aterrorizante. Não custa ação.', teste: 'VON [Intimidação] vs. VON do alvo — sucesso: desvantagem no próximo teste', requisito: 'Requer Intimidação lv.3' },
+        { nome: 'Amedrontar (ação livre)', descricao: 'Durante um combate, afugenta criaturas e pessoas para que elas não o ataquem até o final do turno.', teste: 'PRE [Intimidação] contra IP Espiritual do alvo — ação livre', requisito: 'Requer Intimidação lv.3' },
       ],
     },
     labia: {
@@ -184,7 +184,7 @@ export const proficiencias: ProficienciasMap = {
       atributos: ['PRE', 'INT', 'VON'],
       descricao: 'Engano, distração e manipulação verbal para desestabilizar e obter vantagem sobre outros. Possui uma única proficiência avançada, desbloqueada a partir do lv.3.',
       proficiencias: [
-        { nome: 'Distrair (ação livre)', descricao: 'Remove a reação disponível de um alvo até o próximo turno por distração verbal ou gestual. Não custa ação.', teste: 'INT [Lábia] vs. INT do alvo — sucesso: alvo sem reação até próximo turno', requisito: 'Requer Lábia lv.3' },
+        { nome: 'Distrair (ação livre)', descricao: 'Durante um combate, ludibriam um inimigo com palavras; ele recebe penalidade igual ao valor em Lábia em uma perícia de sua escolha até o final do turno.', teste: 'PRE [Lábia] contra IP Espiritual do alvo — ação livre', requisito: 'Requer Lábia lv.3' },
       ],
     },
   },
