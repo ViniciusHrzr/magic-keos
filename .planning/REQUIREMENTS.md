@@ -37,7 +37,7 @@
 
 ### Fidelidade Estrutural (Phase 9)
 
-- [ ] **FIDE-20**: Auditoria completa docx v0.4 vs todos os hardcoded sections de regras.tsx (§1-3, §6-20) e todas as seções de GAME_RULES.md — zero discrepâncias
+- [x] **FIDE-20**: Auditoria completa docx v0.4 vs todos os hardcoded sections de regras.tsx (§1-3, §6-20) e todas as seções de GAME_RULES.md — zero discrepâncias
 - [ ] **FIDE-21**: regras.tsx 100% dinâmico — todo conteúdo de regras importado de data/regras/ TypeScript files (single source of truth)
 - [ ] **FIDE-22**: GAME_RULES.md gerado por script a partir de data/regras/ — drift estruturalmente impossível
 - [ ] **FIDE-23**: Pre-commit hook valida data/regras/ vs docx antes de cada commit — bloqueia drift

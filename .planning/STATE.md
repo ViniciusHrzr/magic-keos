@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
 status: in_progress
-stopped_at: Phase 9 planned — ready to execute
-last_updated: "2026-05-16T14:00:00.000Z"
-last_activity: "2026-05-16 — Phase 9 planejada: 3 planos (auditoria completa + migração data/regras/ + scripts+hook), FIDE-20-23"
+stopped_at: Completed 09-01-PLAN.md
+last_updated: "2026-05-16T01:00:00.000Z"
+last_activity: "2026-05-16 — Phase 9 Plan 01 executed: auditoria completa docx v0.4 §1-3,§6-20, 9 discrepâncias corrigidas (FIDE-20)"
 progress:
-  total_phases: 5
-  completed_phases: 4
-  total_plans: 7
-  completed_plans: 4
-  percent: 80
+  total_phases: 9
+  completed_phases: 8
+  total_plans: 10
+  completed_plans: 6
+  percent: 60
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 8 of 8 (Documentação — COMPLETE)
-Plan: 08-01 (1 plan, 3 tasks — executed)
-Status: Phase 8 complete — v1.1 milestone done
-Last activity: 2026-05-16 — Phase 8 executed: GAME_RULES.md §5+§7 synced, regras.tsx §5 refatorado, auditoria dados confirmada (FIDE-19)
+Phase: 9 of 9 (Fidelidade Estrutural — IN PROGRESS)
+Plan: 09-01 (Plan 1 of 3 — executed)
+Status: Phase 9 Plan 01 complete — FIDE-20 satisfeito
+Last activity: 2026-05-16 — Phase 9 Plan 01 executed: auditoria completa docx v0.4 §1-3,§6-20, 9 discrepâncias corrigidas (FIDE-20)
 
-Progress: [██████████] 100% (4 of 4 v1.1 phases complete)
+Progress: [██████░░░░] 60% (6 of 10 plans complete across Phase 9)
 
 ## Accumulated Context
 
@@ -39,9 +39,16 @@ Progress: [██████████] 100% (4 of 4 v1.1 phases complete)
 All decisions logged in PROJECT.md Key Decisions table.
 
 Phase 8 decisions:
+
 - regras.tsx §5 agora usa habilidades.ts como fonte única — evita drift futuro entre UI e dados
 - habCusto() helper normaliza custo string para exibição em HabBlock sem alterar lógica de dados
 - proficiencias.ts e habilidades.ts (exceto Grimório) auditados e confirmados fiéis ao docx v0.4
+
+Phase 9 Plan 01 decisions:
+
+- Eventos Climáticos adicionados ao GAME_RULES.md §12 — estavam no docx e regras.tsx mas ausentes no GAME_RULES.md
+- dR fracasso crítico ("e 1-2") corrigido em GAME_RULES.md §4 — já correto em regras.tsx
+- MENTE e ESPÍRITO §20 padronizados com "ou Xd10" e descrições de duração (TABLE 27+29)
 
 Key carry-forwards for v1.1:
 
@@ -75,6 +82,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-16T13:02:43Z
-Stopped at: Completed 08-01-PLAN.md
+Last session: 2026-05-16T01:00:00Z
+Stopped at: Completed 09-01-PLAN.md
 Resume file: None

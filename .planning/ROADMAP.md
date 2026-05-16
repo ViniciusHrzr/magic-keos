@@ -103,7 +103,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Auditoria completa docx vs todos hardcoded sections (regras.tsx §1-3,§6-20 + GAME_RULES.md todas seções) → corrigir discrepâncias
+- [x] 09-01-PLAN.md — Auditoria completa docx vs todos hardcoded sections (regras.tsx §1-3,§6-20 + GAME_RULES.md todas seções) → corrigir discrepâncias
 - [ ] 09-02-PLAN.md — Migrar todo conteúdo hardcoded para data/regras/ TS files + regras.tsx 100% dinâmico
 - [ ] 09-03-PLAN.md — Scripts audit-docx.py + generate-game-rules.py + pre-commit hook + regenerar GAME_RULES.md
 
@@ -119,4 +119,4 @@ Plans:
 | 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 9. Fidelidade Estrutural | v1.1 | 0/3 | Not started | - |
+| 9. Fidelidade Estrutural | v1.1 | 1/3 | In Progress|  |
