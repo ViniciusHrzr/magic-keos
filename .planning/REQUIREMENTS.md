@@ -58,8 +58,24 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| FIDE-01 a FIDE-11 | TBD | Active |
-| FIDE-12 a FIDE-18 | TBD | Active |
-| FIDE-19 | TBD | Active |
+| FIDE-01 | Phase 5 | Pending |
+| FIDE-02 | Phase 5 | Pending |
+| FIDE-03 | Phase 5 | Pending |
+| FIDE-04 | Phase 5 | Pending |
+| FIDE-05 | Phase 5 | Pending |
+| FIDE-06 | Phase 6 | Pending |
+| FIDE-07 | Phase 6 | Pending |
+| FIDE-08 | Phase 6 | Pending |
+| FIDE-09 | Phase 6 | Pending |
+| FIDE-10 | Phase 6 | Pending |
+| FIDE-11 | Phase 6 | Pending |
+| FIDE-12 | Phase 7 | Pending |
+| FIDE-13 | Phase 7 | Pending |
+| FIDE-14 | Phase 7 | Pending |
+| FIDE-15 | Phase 7 | Pending |
+| FIDE-16 | Phase 7 | Pending |
+| FIDE-17 | Phase 7 | Pending |
+| FIDE-18 | Phase 7 | Pending |
+| FIDE-19 | Phase 8 | Pending |
 
 *Last updated: 2026-05-16*

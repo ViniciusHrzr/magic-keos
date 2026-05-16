@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
 status: planning
-last_updated: "2026-05-16T04:07:04.051Z"
+last_updated: "2026-05-16"
 last_activity: 2026-05-16
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,17 +17,19 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-15 after v1.0 milestone)
+See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 **Core value:** O app precisa ser confiável e rápido durante a sessão de jogo — perder dados ou travar na mesa quebra a imersão.
-**Current focus:** v1.0 complete — planning v1.1 next milestone
+**Current focus:** v1.1 — Fidelidade ao Livro de Regras (Phase 5 next)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 5 of 8 (Proficiências CORPO — ready to plan)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-05-16 — Milestone v1.1 started
+Status: Ready to plan
+Last activity: 2026-05-16 — Roadmap v1.1 created (Phases 5–8)
+
+Progress: [░░░░░░░░░░] 0% (v1.1 scope)
 
 ## Accumulated Context
 
@@ -36,10 +38,10 @@ Last activity: 2026-05-16 — Milestone v1.1 started
 All decisions logged in PROJECT.md Key Decisions table.
 
 Key carry-forwards for v1.1:
-
 - React Context + AsyncStorage architecture validated — stick with it
-- migrate() schema versioning is technical debt — evaluate in v1.1
-- FICHA-04 (index.tsx extraction) deferred — first candidate for v1.1
+- migrate() schema versioning is technical debt — deferred to v1.2+
+- FICHA-04 (index.tsx extraction) deferred to v1.2+
+- v1.1 scope is content-only corrections — no new features, no layout changes
 
 ### Pending Todos
 
@@ -47,15 +49,16 @@ None.
 
 ### Blockers/Concerns
 
-- migrate() sem campo de versão — fragilidade se schema mudar significativamente em v1.1
-- Filtros do grimório persistem via process-level vars apenas — kill do app reseta; acceptable for v1
+- migrate() sem campo de versão — fragilidade se schema mudar; acceptable for v1.1 (sem mudanças de schema)
+- Filtros do grimório persistem via process-level vars apenas — acceptable, not changing in v1.1
 
 ## Deferred Items
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| v1.1 | FICHA-04: index.tsx extração de componentes | Deferred | v1.0 Phase 2 |
-| v1.1 | Schema versioning no migrate() | Deferred | v1.0 Phase 1 |
+| v1.2 | FICHA-04: index.tsx extração de componentes | Deferred | v1.0 Phase 2 |
+| v1.2 | Schema versioning no migrate() | Deferred | v1.0 Phase 1 |
+| v1.2 | Remover MemoGrid.tsx (dead code) | Deferred | v1.0 gsd-fast |
 | v2 | Rolador de dados coloridos | Deferred | Roadmap init |
 | v2 | Rastreador de turno de combate | Deferred | Roadmap init |
 | v2 | Calculadora de evolução de personagem | Deferred | Roadmap init |
@@ -65,6 +68,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-15
-Stopped at: v1.0 milestone archived
+Last session: 2026-05-16
+Stopped at: Roadmap v1.1 criado — pronto para planejar Phase 5
 Resume file: None

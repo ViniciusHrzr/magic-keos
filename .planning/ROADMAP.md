@@ -3,6 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1–4 (shipped 2026-05-15)
+- 🚧 **v1.1 Fidelidade ao Livro de Regras** — Phases 5–8 (in progress)
 
 ## Phases
 
@@ -18,9 +19,65 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 </details>
 
-### 🚧 v1.1 (Planned)
+### 🚧 v1.1 Fidelidade ao Livro de Regras (In Progress)
 
-_(Phases to be defined via `/gsd:new-milestone`)_
+**Milestone Goal:** Garantir que todo conteúdo de regras do app seja 100% fiel ao livro oficial "Magic no Universo Kéos v.0.4.docx".
+
+- [ ] **Phase 5: Proficiências CORPO** — Corrigir descrições/testes das perícias de Artes Marciais, Atletismo, Esgrima, Furtividade e Pontaria
+- [ ] **Phase 6: Proficiências MENTE/ESPÍRITO** — Corrigir descrições das perícias de Alquimia, Criatividade, Investigação, Feiticeiro de Mecânica, Sobrevivência e Espirituais
+- [ ] **Phase 7: Habilidades** — Corrigir descrições e mecânicas das habilidades corporais/espirituais em habilidades.ts
+- [ ] **Phase 8: Documentação** — Sincronizar GAME_RULES.md com todas as correções aplicadas
+
+## Phase Details
+
+### Phase 5: Proficiências CORPO
+**Goal**: Todas as proficiências de atributos CORPO estão com descrições e testes fiéis ao docx oficial
+**Depends on**: Phase 4
+**Requirements**: FIDE-01, FIDE-02, FIDE-03, FIDE-04, FIDE-05
+**Success Criteria** (what must be TRUE):
+  1. Proficiências de Artes Marciais (Derrubar, Desarmar, Desviar, Fintar, Imobilizar, Aparar) mostram exatamente as descrições e testes do docx
+  2. Proficiências de Atletismo (Prontidão, Fôlego, Investida, Disparar) mostram descrições corretas sem texto inventado nem incompleto
+  3. Proficiências de Esgrima (Armas Leves, Uma Mão, Duas Mãos, Especialização, Mestria) mostram atributos corretos e "+2/+5 dano" onde o docx diz dano
+  4. Proficiências de Furtividade (Ataque Furtivo, Ataque Letal, Ataque Silencioso) mostram mecânicas corretas: bônus no teste de ataque e dano adicional = bônus em Furtividade
+  5. Proficiências de Pontaria (Especialização, Mestria, Mirar) mostram "+2/+5 dano" e incluem "dano adicional igual valor em Pontaria"
+**Plans**: TBD
+
+### Phase 6: Proficiências MENTE/ESPÍRITO
+**Goal**: Todas as proficiências de atributos MENTE e ESPÍRITO estão com descrições fiéis ao docx oficial
+**Depends on**: Phase 5
+**Requirements**: FIDE-06, FIDE-07, FIDE-08, FIDE-09, FIDE-10, FIDE-11
+**Success Criteria** (what must be TRUE):
+  1. Poções de Alquimia descreve usar/reconhecer qualquer poção (não criar durante descanso)
+  2. Proficiências de Criatividade (Recapitular, Reciclar, Replicar) mostram descrições idênticas ao docx
+  3. Proficiências de Investigação têm nomes corretos (Selo de Encantamento, Selo de Invocação) e Leitura descreve ler/escrever
+  4. Feiticeiro de Mecânica inclui vestimentas mágicas na descrição
+  5. Proficiências de Sobrevivência (5 sub-proficiências) descrevem corretamente que cada uma muda o teste de uma ação de descanso específica
+  6. Proficiências espirituais (Provocar, Coordenar, Inspirar, Amedrontar, Distrair) mostram testes, alvos e mecânicas corretos do docx
+**Plans**: TBD
+
+### Phase 7: Habilidades
+**Goal**: Todas as habilidades em habilidades.ts estão com descrições e mecânicas fiéis ao docx oficial
+**Depends on**: Phase 6
+**Requirements**: FIDE-12, FIDE-13, FIDE-14, FIDE-15, FIDE-16, FIDE-17, FIDE-18
+**Success Criteria** (what must be TRUE):
+  1. Destreza lista os dados reais por nível (1d4, 1d6, 1d8, 1d10, 1d12) e menciona bastões
+  2. Golpe Duplo inclui "ou até dois alvos adjacentes" e "não aplicável a armas de duas mãos"
+  3. Alcance inclui o efeito de sucesso: "impede avanço — move apenas metade do deslocamento"
+  4. Fúria inclui os três triggers corretos: ao sofrer dano, falhar em teste de combate ou presenciar aliado cair
+  5. Grimório descreve que feitiços são aprendidos SEM precisar de livros (não "através de grimórios ou observação")
+  6. Modelagem inclui a mecânica de reativação na mesma cena ao morrer
+  7. Toque Mortífero especifica o trigger correto: "quando for alvo do ataque de uma criatura"
+**Plans**: TBD
+
+### Phase 8: Documentação
+**Goal**: GAME_RULES.md reflete com precisão todas as correções aplicadas nas Phases 5–7
+**Depends on**: Phase 7
+**Requirements**: FIDE-19
+**Success Criteria** (what must be TRUE):
+  1. Seção §5 (Perícias/Proficiências) do GAME_RULES.md está sincronizada com proficiencias.ts corrigido
+  2. Seção §7 (Habilidades) do GAME_RULES.md está sincronizada com habilidades.ts corrigido
+  3. Não existem discrepâncias entre o que o app exibe, o GAME_RULES.md descreve e o docx oficial define
+**Plans**: TBD
 
 ## Progress
 
@@ -30,3 +87,7 @@ _(Phases to be defined via `/gsd:new-milestone`)_
 | 2. Qualidade da Ficha | v1.0 | 3/3 | Complete | 2026-05-15 |
 | 3. Qualidade do Grimório | v1.0 | 3/3 | Complete | 2026-05-15 |
 | 4. Ferramentas de Mesa | v1.0 | 2/2 | Complete | 2026-05-15 |
+| 5. Proficiências CORPO | v1.1 | 0/? | Not started | - |
+| 6. Proficiências MENTE/ESPÍRITO | v1.1 | 0/? | Not started | - |
+| 7. Habilidades | v1.1 | 0/? | Not started | - |
+| 8. Documentação | v1.1 | 0/? | Not started | - |
