@@ -40,7 +40,10 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
   3. Proficiências de Esgrima (Armas Leves, Uma Mão, Duas Mãos, Especialização, Mestria) mostram atributos corretos e "+2/+5 dano" onde o docx diz dano
   4. Proficiências de Furtividade (Ataque Furtivo, Ataque Letal, Ataque Silencioso) mostram mecânicas corretas: bônus no teste de ataque e dano adicional = bônus em Furtividade
   5. Proficiências de Pontaria (Especialização, Mestria, Mirar) mostram "+2/+5 dano" e incluem "dano adicional igual valor em Pontaria"
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 05-01-PLAN.md — Corrigir todas as 22 proficiências de CORPO em data/proficiencias.ts (Artes Marciais, Atletismo, Esgrima, Furtividade, Pontaria)
 
 ### Phase 6: Proficiências MENTE/ESPÍRITO
 **Goal**: Todas as proficiências de atributos MENTE e ESPÍRITO estão com descrições fiéis ao docx oficial
@@ -87,7 +90,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 | 2. Qualidade da Ficha | v1.0 | 3/3 | Complete | 2026-05-15 |
 | 3. Qualidade do Grimório | v1.0 | 3/3 | Complete | 2026-05-15 |
 | 4. Ferramentas de Mesa | v1.0 | 2/2 | Complete | 2026-05-15 |
-| 5. Proficiências CORPO | v1.1 | 0/? | Not started | - |
+| 5. Proficiências CORPO | v1.1 | 0/1 | Not started | - |
 | 6. Proficiências MENTE/ESPÍRITO | v1.1 | 0/? | Not started | - |
 | 7. Habilidades | v1.1 | 0/? | Not started | - |
 | 8. Documentação | v1.1 | 0/? | Not started | - |
