@@ -290,7 +290,10 @@ export default function RegrasScreen() {
             ))}
             <Sub text={secoes.magicas.subs!.notacao} />
             {notacaoMana.map((row, i) => (
-              <R2 key={i} a={row.simbolo} b={row.descricao} />
+              <View key={i} style={styles.tableRow}>
+                <Text style={[styles.tableKey, styles.colFirst, styles.manaFont]}>{row.simbolo}</Text>
+                <Text style={[styles.tableVal, styles.colFlex]}>{row.descricao}</Text>
+              </View>
             ))}
             <Note text={`Exemplos: ${notacaoManaExemplo}`} />
             <Sub text={secoes.magicas.subs!.conjuracao} />
@@ -653,6 +656,11 @@ const styles = StyleSheet.create({
   },
   colFlex: {
     flex: 1,
+  },
+  manaFont: {
+    fontFamily: 'PlanewalkerDings',
+    fontStyle: 'normal',
+    fontSize: 14,
   },
 
   sectionIntro: {
