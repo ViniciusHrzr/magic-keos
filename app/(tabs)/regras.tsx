@@ -12,6 +12,11 @@ import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import { proficiencias, periciaOrdem } from '@/data/proficiencias';
+import { habilidades } from '@/data/habilidades';
+
+function habCusto(custo: string): string {
+  return custo.replace(/ SAB.*$/, '').replace(/ \/ /g, '/');
+}
 
 // ---------------------------------------------------------------------------
 // Base table helpers
@@ -214,27 +219,25 @@ export default function RegrasScreen() {
           {/* ── 5. HABILIDADES ── */}
           <Section num="5" title="Habilidades">
             <Note text="Adquiridas com Sabedoria. Requerem pré-requisitos. Concedem reações especiais ou bônus fixos." />
-            <Sub text="Corporais" />
-            <HabBlock nome="Alcance" prereq="REF(2); Pontaria(+5)" custo="5" efeito="Impedir [1]: ataque à distância quando alvo se move" />
-            <HabBlock nome="Ameaçar" prereq="REF(2); Furtividade(+5)" custo="5" efeito="— (passiva): alvo engajado não pode reagir" />
-            <HabBlock nome="Atropelar" prereq="FOR(3); AM(+5) ou Esg(+5)" custo="5/10/15" efeito="— (passiva): +1dX dano, distribuível em adjacentes" />
-            <HabBlock nome="Destreza" prereq="FOR; AM(+2/+4/+6/+8)" custo="2/3/4/5" efeito="— (passiva): dano desarmado sobe (dW I–V)" />
-            <HabBlock nome="Golpe Duplo" prereq="REF(3); AM/Esg/Pont(+5)" custo="5" efeito="— (passiva): dois ataques consecutivos" />
-            <HabBlock nome="Iniciativa" prereq="REF(2); Esgrima(+5)" custo="5" efeito="Impugnar [1]: ataca antes do atacante" />
-            <HabBlock nome="Ímpeto" prereq="REF(2); Atletismo(+5)" custo="5" efeito="— (passiva): age primeiro + Velocidade para ações padrão" />
-            <HabBlock nome="Vigilância" prereq="REF(2); Perícia Corporal(+5)" custo="5" efeito="— (passiva): reações ilimitadas (custa 1 ação cada)" />
-            <Sub text="Mentais" />
-            <HabBlock nome="Fetiche" prereq="SEN(1)+CON(1); Criatividade(+5)" custo="5/10/15" efeito="Reforça mágicas de 1 domínio sem custo de mana (até 3 fetiches)" />
-            <HabBlock nome="Grimório" prereq="RAZ(1)+CON(1); Investigação(+5)" custo="5 (+ 1/3/6 por magia)" efeito="Aprende mágicas fora do domínio autodidata" />
-            <HabBlock nome="Mixologia" prereq="RAZ(1)+SEN(1); Alquimia(+5)" custo="5 (+ 1/3 por receita)" efeito="Cria poções mágicas personalizadas" />
-            <HabBlock nome="Modelagem" prereq="RAZ(1)+CON(1); Mecânica(+5)" custo="5 (+ 1–7 por modelo)" efeito="Cria criatura artefato que ressurge na cena" />
-            <HabBlock nome="Travessia" prereq="SEN(1)+CON(1); Sobrevivência(+5)" custo="5/10/15" efeito="Vantagem em todos os testes no terreno escolhido" />
-            <Sub text="Espirituais" />
-            <HabBlock nome="Fúria" prereq="VON(3); Expressão(+6)" custo="6" efeito="Enfurecer [1]: +1 ação padrão de ataque/turno, sem reações" />
-            <HabBlock nome="Regenerar" prereq="VON(3); Comunhão(+6)" custo="6" efeito="Regenerar [1]: testa VON[COM] vs. agressor; sucesso = cura total +Xd6" />
-            <HabBlock nome="Salvaguarda" prereq="INT(3); Diplomacia(+6)" custo="6" efeito="Resguardar [1]: testa INT[DIP] vs. mago; sucesso = imune à mágica" />
-            <HabBlock nome="Toque Mortífero" prereq="VON(3); Intimidação(+6)" custo="6" efeito="Abater [1]: testa VON[INT] vs. criatura ≤ Classe B; destrói" />
-            <HabBlock nome="Vidência" prereq="INT(3); Lábia(+6)" custo="6" efeito="Antever [1]: testa INT[LAB] vs. IP Esp.; desvantagem na ação declarada" />
+            {(['corpo', 'mente', 'espirito'] as const).map(inst => {
+              const labels: Record<string, string> = { corpo: 'Corporais', mente: 'Mentais', espirito: 'Espirituais' };
+              return (
+                <React.Fragment key={inst}>
+                  <Sub text={labels[inst]} />
+                  {habilidades
+                    .filter(h => h.instancia === inst)
+                    .map(h => (
+                      <HabBlock
+                        key={h.nome}
+                        nome={h.nome}
+                        prereq={h.prerequisito}
+                        custo={habCusto(h.custo)}
+                        efeito={h.teste}
+                      />
+                    ))}
+                </React.Fragment>
+              );
+            })}
           </Section>
 
           {/* ── 6. BALIZADORES ── */}
