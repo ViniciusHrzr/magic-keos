@@ -44,7 +44,7 @@ export const proficiencias: ProficienciasMap = {
         { nome: 'Investida', descricao: 'Combina movimentação e ataque em uma única ação, adicionando dano pelo impacto.', teste: 'FOR/REF [Atletismo] — dano adicional pela distância percorrida' },
         { nome: 'Prontidão', descricao: 'Corpo em estado de alerta máximo para agir antes dos outros e ignorar surpresas parciais.', teste: 'VIG [Atletismo] — determina posição na ordem de iniciativa' },
         { nome: 'Fôlego', descricao: 'Sustenta esforço físico extremo sem penalidades de exaustão por períodos prolongados.', teste: 'VIG [Atletismo] — resistência a condições de esforço e exaustão' },
-        { nome: 'Disparar (reação)', descricao: 'Movimentação de fuga ou avanço rápido como resposta a um evento. Sucesso permite mover 9m extras.', teste: 'REF [Atletismo] vs. dificuldade 15 — reação [1]', requisito: 'Requer Atletismo lv.1' },
+        { nome: 'Disparar (reação)', descricao: 'Movimentação de fuga ou avanço rápido como resposta a um evento. Permite mover 9m extras.', teste: 'REF [Atletismo] — movimentação extra — reação [1]', requisito: 'Requer Atletismo lv.1' },
       ],
     },
     esgrima: {

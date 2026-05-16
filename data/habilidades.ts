@@ -19,8 +19,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'REF(2) + Pontaria(+5)',
     custo: '5 SAB',
     tipo: 'reacao',
-    descricao: 'Permite atacar criaturas com Voar ou em movimento. Cancela projéteis disparados contra aliados adjacentes.',
-    teste: 'Impedir [1]: REF [Pontaria] — ataque à distância quando alvo se move ou voa',
+    descricao: 'Reage com ataque à distância quando o alvo se move.',
+    teste: 'Impedir [1]: ataque à distância quando alvo se move',
   },
   {
     nome: 'Ameaçar',
@@ -28,8 +28,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'REF(2) + Furtividade(+5)',
     custo: '5 SAB',
     tipo: 'passiva',
-    descricao: 'Alvo diretamente engajado não pode usar reações enquanto você estiver ameaçando ativamente.',
-    teste: 'Passiva — o alvo perde acesso a reações enquanto engajado',
+    descricao: 'Alvo diretamente engajado não pode usar reações.',
+    teste: '— (passiva): alvo engajado não pode reagir',
   },
   {
     nome: 'Atropelar',
@@ -37,8 +37,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'FOR(3) + Artes Marciais(+5) ou Esgrima(+5)',
     custo: '5 / 10 / 15 SAB (3 níveis)',
     tipo: 'passiva',
-    descricao: 'Excesso de dano que ultrapassa os pontos de vida do alvo transborda para criaturas adjacentes. Cada nível aumenta o multiplicador.',
-    teste: 'Passiva — dano excedente (+1dX por nível) distribuído automaticamente',
+    descricao: 'Acrescenta +1dX de dano ao ataque por nível. O dano extra pode ser distribuído entre criaturas adjacentes ao alvo.',
+    teste: '— (passiva): +1dX dano, distribuível em adjacentes',
   },
   {
     nome: 'Destreza',
@@ -47,7 +47,7 @@ export const habilidades: Habilidade[] = [
     custo: '2 / 3 / 4 / 5 SAB (4 níveis)',
     tipo: 'passiva',
     descricao: 'Eleva progressivamente o dado de dano desarmado: dW I → dW II → dW III → dW IV → dW V.',
-    teste: 'Passiva — dado de dano desarmado aumenta por nível da habilidade',
+    teste: '— (passiva): dano desarmado sobe (dW I–V)',
   },
   {
     nome: 'Golpe Duplo',
@@ -55,8 +55,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'REF(3) + Artes Marciais(+5) ou Esgrima(+5) ou Pontaria(+5)',
     custo: '5 SAB',
     tipo: 'passiva',
-    descricao: 'Permite realizar dois ataques consecutivos e independentes na mesma operação de ataque.',
-    teste: 'Passiva — dois ataques na mesma ação de Atacar, cada um com seu teste',
+    descricao: 'Realiza dois ataques consecutivos e independentes na mesma operação de ataque.',
+    teste: '— (passiva): dois ataques consecutivos',
   },
   {
     nome: 'Iniciativa',
@@ -64,8 +64,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'REF(2) + Esgrima(+5)',
     custo: '5 SAB',
     tipo: 'reacao',
-    descricao: 'Intervém antes que um atacante conclua a ação declarada, atacando antes mesmo de ser atingido.',
-    teste: 'Impugnar [1]: FOR/REF [Esgrima] oposto ao atacante — sucesso: ataca antes',
+    descricao: 'Intervém antes que o atacante conclua a ação declarada, atacando primeiro.',
+    teste: 'Impugnar [1]: ataca antes do atacante',
   },
   {
     nome: 'Ímpeto',
@@ -73,8 +73,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'REF(2) + Atletismo(+5)',
     custo: '5 SAB',
     tipo: 'passiva',
-    descricao: 'Age automaticamente primeiro em qualquer cena e converte pontos de Velocidade em ações padrão adicionais.',
-    teste: 'Passiva — age primeiro; cada ponto de Velocidade = 1 ação padrão extra',
+    descricao: 'Age automaticamente primeiro em qualquer cena. Pontos de Velocidade tornam-se ações padrão adicionais.',
+    teste: '— (passiva): age primeiro + Velocidade para ações padrão',
   },
   {
     nome: 'Vigilância',
@@ -82,8 +82,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'REF(2) + qualquer Perícia Corporal(+5)',
     custo: '5 SAB',
     tipo: 'passiva',
-    descricao: 'Reações deixam de ser limitadas a 1 por rodada. Cada reação adicional custa 1 ação do turno.',
-    teste: 'Passiva — reações ilimitadas, cada extra custa 1 ação',
+    descricao: 'Reações não são mais limitadas a 1 por rodada. Cada reação adicional custa 1 ação do turno.',
+    teste: '— (passiva): reações ilimitadas (custa 1 ação cada)',
   },
 
   // ── MENTE ─────────────────────────────────────────────────────
@@ -93,8 +93,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'SEN(1) + CON(1) + Criatividade(+5)',
     custo: '5 / 10 / 15 SAB (até 3 fetiches)',
     tipo: 'passiva',
-    descricao: 'Vincula um domínio a um objeto físico (fetiche). Mágicas daquele domínio são reforçadas sem custo de mana adicional.',
-    teste: 'Passiva — mágicas do domínio vinculado recebem reforço automático',
+    descricao: 'Vincula um domínio a um objeto físico. Mágicas daquele domínio são reforçadas sem custo de mana. Até 3 fetiches.',
+    teste: 'Reforça mágicas de 1 domínio sem custo de mana (até 3 fetiches)',
   },
   {
     nome: 'Grimório',
@@ -102,8 +102,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'RAZ(1) + CON(1) + Investigação(+5)',
     custo: '5 SAB + 1 (gr.1) / 3 (gr.2) / 6 (gr.3) por magia',
     tipo: 'passiva',
-    descricao: 'Permite aprender mágicas fora dos domínios ativos através de estudo autônomo em grimórios ou observação.',
-    teste: 'RAZ [Investigação] — custo em SAB varia por grau da mágica aprendida',
+    descricao: 'Aprende mágicas fora dos domínios ativos de forma autodidata, através de grimórios ou observação.',
+    teste: 'Aprende mágicas fora do domínio autodidata',
   },
   {
     nome: 'Mixologia',
@@ -112,7 +112,7 @@ export const habilidades: Habilidade[] = [
     custo: '5 SAB + 1 / 3 SAB por receita personalizada',
     tipo: 'passiva',
     descricao: 'Cria poções mágicas personalizadas combinando efeitos de múltiplas categorias alquímicas.',
-    teste: 'RAZ [Alquimia] no descanso — cria poção com efeito combinado customizado',
+    teste: 'Cria poções mágicas personalizadas',
   },
   {
     nome: 'Modelagem',
@@ -120,8 +120,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'RAZ(1) + CON(1) + Mecânica(+5)',
     custo: '5 SAB + 1–7 SAB por modelo de criatura',
     tipo: 'passiva',
-    descricao: 'Cria e controla uma criatura artefato que ressurge automaticamente no início de cada nova cena.',
-    teste: 'RAZ [Mecânica] — custo por modelo varia por Classe da criatura (f:+1 até A:+7)',
+    descricao: 'Cria e controla uma criatura artefato que ressurge na cena. Custo por modelo varia pela Classe (f:+1 até A:+7).',
+    teste: 'Cria criatura artefato que ressurge na cena',
   },
   {
     nome: 'Travessia',
@@ -130,7 +130,7 @@ export const habilidades: Habilidade[] = [
     custo: '5 / 10 / 15 SAB (até 3 terrenos)',
     tipo: 'passiva',
     descricao: 'Concede vantagem (+1d20) em todos os testes realizados no terreno escolhido. Cada nível desbloqueia 1 terreno.',
-    teste: 'Passiva — vantagem automática em todos os testes no terreno declarado',
+    teste: 'Vantagem em todos os testes no terreno escolhido',
   },
 
   // ── ESPÍRITO ─────────────────────────────────────────────────
@@ -140,8 +140,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'VON(3) + Expressão(+6)',
     custo: '6 SAB',
     tipo: 'reacao',
-    descricao: 'Entra em estado de fúria que concede +1 ação padrão de ataque por turno, mas remove a capacidade de usar reações.',
-    teste: 'Enfurecer [1]: VON [Expressão] — dura até fim do combate; sem reações enquanto ativo',
+    descricao: 'Entra em estado de fúria: +1 ação padrão de ataque por turno, mas perde a capacidade de usar reações.',
+    teste: 'Enfurecer [1]: +1 ação padrão de ataque/turno, sem reações',
   },
   {
     nome: 'Regenerar',
@@ -149,8 +149,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'VON(3) + Comunhão(+6)',
     custo: '6 SAB',
     tipo: 'reacao',
-    descricao: 'Após receber dano, realiza um teste para se curar completamente e ganhar vida bônus.',
-    teste: 'Regenerar [1]: VON [Comunhão] vs. resultado do atacante — sucesso: cura total do dano +Xd6',
+    descricao: 'Após receber dano, testa VON[Comunhão] vs. o agressor. Sucesso: cura total do dano recebido +Xd6.',
+    teste: 'Regenerar [1]: testa VON[COM] vs. agressor; sucesso = cura total +Xd6',
   },
   {
     nome: 'Salvaguarda',
@@ -158,8 +158,8 @@ export const habilidades: Habilidade[] = [
     prerequisito: 'INT(3) + Diplomacia(+6)',
     custo: '6 SAB',
     tipo: 'reacao',
-    descricao: 'Ao ser alvo de uma mágica, testa para se tornar completamente imune a ela neste turno.',
-    teste: 'Resguardar [1]: INT [Diplomacia] vs. grau da mágica — sucesso: imune à mágica neste turno',
+    descricao: 'Ao ser alvo de uma mágica, testa INT[Diplomacia] vs. o mago. Sucesso: fica imune à mágica.',
+    teste: 'Resguardar [1]: testa INT[DIP] vs. mago; sucesso = imune à mágica',
   },
   {
     nome: 'Toque Mortífero',
@@ -168,7 +168,7 @@ export const habilidades: Habilidade[] = [
     custo: '6 SAB',
     tipo: 'reacao',
     descricao: 'Destrói instantaneamente uma criatura de Classe B ou menor com um toque carregado de vontade.',
-    teste: 'Abater [1]: VON [Intimidação] vs. Resistência da criatura — só funciona em Classe B ou menor',
+    teste: 'Abater [1]: testa VON[INT] vs. criatura ≤ Classe B; destrói',
   },
   {
     nome: 'Vidência',
@@ -177,7 +177,7 @@ export const habilidades: Habilidade[] = [
     custo: '6 SAB',
     tipo: 'reacao',
     descricao: 'Prevê a ação declarada de um alvo, impondo desvantagem nela antes de ser executada.',
-    teste: 'Antever [1]: INT [Lábia] vs. IP Espiritual do alvo — sucesso: desvantagem na ação declarada',
+    teste: 'Antever [1]: testa INT[LAB] vs. IP Esp.; desvantagem na ação declarada',
   },
 ];
 

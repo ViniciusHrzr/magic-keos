@@ -124,11 +124,11 @@ export default function RegrasScreen() {
           {/* ── 1. AS CINCO CORES ── */}
           <Section num="1" title="As Cinco Cores">
             <TH cols={['Cor', 'Valores', 'Aliadas', 'Inimigas']} widths={[1, 2, 1, 1]} />
-            <R3 a="Branco" b="Ordem, proteção, cura" c="Verde, Azul · vs Verm, Preto" />
-            <R3 a="Verde" b="Natureza, força, instinto" c="Branco, Verm · vs Azul, Preto" />
-            <R3 a="Vermelho" b="Liberdade, fogo, impulso" c="Verde, Preto · vs Branco, Azul" />
-            <R3 a="Preto" b="Poder, morte, ambição" c="Verm, Azul · vs Branco, Verde" />
-            <R3 a="Azul" b="Conhecimento, ilusão" c="Branco, Preto · vs Verm, Verde" />
+            <R3 a="Branco" b="Ordem, lei, proteção, cura, comunidade" c="Verde, Azul · vs Verm, Preto" />
+            <R3 a="Verde" b="Natureza, crescimento, força bruta, instinto" c="Branco, Verm · vs Azul, Preto" />
+            <R3 a="Vermelho" b="Liberdade, fogo, impulso, criatividade" c="Verde, Preto · vs Branco, Azul" />
+            <R3 a="Preto" b="Poder, ambição, morte, individualismo" c="Verm, Azul · vs Branco, Verde" />
+            <R3 a="Azul" b="Conhecimento, lógica, ilusão, manipulação" c="Branco, Preto · vs Verm, Verde" />
             <Sub text="Combinações (Guildas)" />
             <R2 a="B+V" b="Selesnya — Comunidade" />
             <R2 a="V+R" b="Gruul — Autenticidade" />
@@ -183,7 +183,7 @@ export default function RegrasScreen() {
             <R2 a="SEN" b="Sentidos — perceber o mundo pelos cinco sentidos" />
             <R2 a="CON" b="Concentração — foco, ações preparatórias, resistência mental" />
             <Sub text="ESPÍRITO" />
-            <R2 a="PRE" b="Presença — notoriedade, intimidação, inspiração" />
+            <R2 a="PRE" b="Presença — notoriedade, intimidação, inspiração, camuflagem social" />
             <R2 a="INT" b="Intuição — perceber emoções, intenções, o mundo mágico" />
             <R2 a="VON" b="Vontade — resistir à influência alheia" />
           </Section>
@@ -569,9 +569,9 @@ export default function RegrasScreen() {
           <Section num="15" title="Artefatos">
             <Note text="Objetos mágicos com Durabilidade (número de usos antes de precisar reparo)." />
             <TH cols={['Tipo', 'Produzido por']} />
-            <R2 a="Objetos (acessórios, joias)" b="Artesãos" />
+            <R2 a="Objetos (acessórios, lanternas, joias)" b="Artesãos" />
             <R2 a="Condutores (varinhas, cajados)" b="Feiticeiros" />
-            <R2 a="Equipamentos (armas, escudos)" b="Ferreiros" />
+            <R2 a="Equipamentos (armas, escudos, armaduras)" b="Ferreiros" />
             <R2 a="Criaturas mecânicas" b="Moldadores" />
             <Sub text="Uso e Reparo" />
             <R2 a="Ativar [1]" b="Custa mana incolor" />
