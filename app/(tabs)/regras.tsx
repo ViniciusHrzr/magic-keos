@@ -707,12 +707,12 @@ export default function RegrasScreen() {
             <R3 a="CORPO" b="Fácil (1–3 turnos)" c="20% ou 3d10" />
             <R3 a="CORPO" b="Moderada (4–8)" c="50% ou 7d10" />
             <R3 a="CORPO" b="Difícil (9+)" c="80% ou 10d10" />
-            <R3 a="MENTE" b="Simples" c="20%" />
-            <R3 a="MENTE" b="Complexa" c="50%" />
-            <R3 a="MENTE" b="Desafiadora" c="80%" />
-            <R3 a="ESPÍRITO" b="Tranquila" c="20%" />
-            <R3 a="ESPÍRITO" b="Tensa" c="50%" />
-            <R3 a="ESPÍRITO" b="Turbulenta" c="80%" />
+            <R3 a="MENTE" b="Simples (1 cena)" c="20% ou 3d10" />
+            <R3 a="MENTE" b="Complexa (1+ cenas)" c="50% ou 7d10" />
+            <R3 a="MENTE" b="Desafiadora (1+ sessões)" c="80% ou 10d10" />
+            <R3 a="ESPÍRITO" b="Tranquila" c="20% ou 3d10" />
+            <R3 a="ESPÍRITO" b="Tensa" c="50% ou 7d10" />
+            <R3 a="ESPÍRITO" b="Turbulenta" c="80% ou 10d10" />
             <Sub text="Comportamentos × Cor (Combate)" />
             <R2 a="Branco" b="Estratégico, protetor, líder, autoritário" />
             <R2 a="Verde" b="Linha de frente, resistente, instintivo, brutal" />

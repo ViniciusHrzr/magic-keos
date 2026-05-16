@@ -123,7 +123,7 @@ Cada atributo pode ter até **5 identidades** (dados). O valor do atributo = nú
 |-----|------|------------------------|
 | Branco | dW | **Progressão**: se todos os dados ≥ 14, dobra o bônus de perícia. Margem diminui com mais dados (2dW=13, 3dW=12, 4dW=11, 5dW=10) |
 | Verde | dG | Rola **2d10** em vez de d20, soma os valores. Pares livres entre dados. Cada dG extra adiciona +1d10 |
-| Vermelho | dR | Crítico em **19–20** (expande com mais dados: 2dR=18–20, 3dR=17–20, 4dR=16–20 e 1–3, 5dR=15–20 e 1–3) |
+| Vermelho | dR | Crítico em **19–20** (expande com mais dados: 2dR=18–20 e 1–2, 3dR=17–20 e 1–2, 4dR=16–20 e 1–3, 5dR=15–20 e 1–3) |
 | Preto | dB | Para cada dado ≤ 5: recebe **+1d4** ao resultado |
 | Azul | dU | Se resultado é múltiplo de 5: pode **rerolar** o dado azul enquanto continuar múltiplo de 5 |
 
@@ -413,12 +413,32 @@ Ação de descanso: teste de **Vontade [Comunhão]**
 | Deserto | –– | –– | –– | –– | –– |
 | Urbano | + | – | – | + | – |
 | Natureza | – | + | + | – | + |
+| Fortaleza | + | – | — | — | — |
 | Planícies | ++ | + | – | – | — |
-| Floresta | + | — | — | — | — |
-| Selva densa | – | ++ | + | – | — |
+| Floresta | — | + | — | — | — |
+| Selva densa | – | ++ | + | — | – |
+| Rochoso | — | — | + | — | – |
 | Vulcões | – | — | ++ | + | – |
+| Catacumbas | – | – | — | + | — |
 | Pântanos | – | – | — | ++ | + |
+| Fonte de água | — | — | – | — | + |
 | Alto mar | + | – | – | — | ++ |
+
+### Eventos Climáticos
+
+| Evento | W | G | R | B | U |
+|--------|---|---|---|---|---|
+| Frio | — | — | – | — | + |
+| Calor | — | — | + | — | – |
+| Ventos fortes | — | – | – | — | + |
+| Chuva intensa | — | + | – | — | + |
+| Nevasca | – | –– | –– | – | ++ |
+| Tempestade | – | –– | ++ | – | + |
+| Dia | — | — | — | – | — |
+| Sol a pino | + | — | — | –– | — |
+| Noite | – | — | — | — | — |
+| Lua cheia | –– | — | — | + | — |
+| Eclipse solar | ++ | — | – | ++ | – |
 
 ### Mana Colorido × Identidades
 
@@ -626,7 +646,7 @@ Objetos mágicos com **Durabilidade** (número de usos antes de precisar reparo)
 | Condição | Efeito |
 |---------|--------|
 | **Alado** | Pode voar; imune a corpo a corpo de criaturas sem Voar/Alcance |
-| **Congelado** | Imóvel; teste difícil de Vigor [Atletismo] por rodada para sair |
+| **Congelado** | Imóvel; teste dificílimo (25) de Vigor [Atletismo]; a cada rodada que falhar, dificuldade diminui 1 nível |
 | **Envenenado** | Acumula marcadores de veneno (efeitos progressivos 2/4/6/8/10) |
 | **Incendiado** | 1d6 dano ígneo/turno; acumula se repetido |
 | **Molhado** | Desvantagem em testes corporais; vulnerável a elétrico |
@@ -717,12 +737,12 @@ Em cada descanso: recupera mínimo de mana + escolhe **2 ações adicionais**:
 | CORPO (combate/físico) | Fácil (1–3 turnos) | 20% ou 3d10 |
 | CORPO | Moderada (4–8 turnos) | 50% ou 7d10 |
 | CORPO | Difícil (9+ turnos) | 80% ou 10d10 |
-| MENTE (investigação) | Simples | 20% |
-| MENTE | Complexa | 50% |
-| MENTE | Desafiadora | 80% |
-| ESPÍRITO (social) | Tranquila | 20% |
-| ESPÍRITO | Tensa | 50% |
-| ESPÍRITO | Turbulenta | 80% |
+| MENTE (investigação) | Simples (1 cena) | 20% ou 3d10 |
+| MENTE | Complexa (1+ cenas) | 50% ou 7d10 |
+| MENTE | Desafiadora (1+ sessões) | 80% ou 10d10 |
+| ESPÍRITO (social) | Tranquila | 20% ou 3d10 |
+| ESPÍRITO | Tensa | 50% ou 7d10 |
+| ESPÍRITO | Turbulenta | 80% ou 10d10 |
 
 ### Comportamentos × Afinidade de Cor (Combate)
 
