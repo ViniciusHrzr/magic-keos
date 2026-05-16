@@ -161,7 +161,7 @@ Abrindo um domínio: concede nível 1 na perícia-chave daquele domínio.
 |---------|---------------------|---------------|---------------|
 | **Alquimia** | RAZ | Arte da Bruxaria, Trilha da Subsistência, Alçada da Bondade | Herbologia, Mineralogia, Zoologia; Poções (lv.1) |
 | **Criatividade** | RAZ | Desígnio do Caos, Desígnio do Raio, Ramo da Contramágica | Recapitular, Reciclar, Reforçar, Repartir, Replicar; Solução (lv.1) |
-| **Investigação** | RAZ, SEN, CON | Ramo da Mente, Desígnio dos Ritos Primais, Arte do Sangue | Selo de Feitiço, Encantamento, Invocação; Leitura (lv.1) |
+| **Investigação** | RAZ, SEN, CON | Ramo da Mente, Desígnio dos Ritos Primais, Arte do Sangue | Selo de Feitiço, Selo de Encantamento, Selo de Invocação; Leitura (lv.1) |
 | **Mecânica** | RAZ, CON | Alçada do Armamento, Ramo do Conhecimento, Ramo do Espaço-Tempo | Artesão, Feiticeiro, Ferreiro; Artefatos (lv.1) |
 | **Sobrevivência** | RAZ, SEN | Trilha do Ambiente, Trilha do Instinto, Arte da Putrefação | Acampamento, Harmonização, Forrageamento, Manufaturação, Treinamento; Coleta (lv.1) |
 
@@ -199,11 +199,11 @@ Adquiridas com Sabedoria, requerem pré-requisitos. Concedem reações especiais
 
 | Habilidade | Pré-requisito | Custo (SAB) | Reação |
 |-----------|--------------|-------------|--------|
-| Alcance | REF(2); Pontaria(+5) | 5 | Impedir [1]: ataque à distância quando alvo se move |
+| Alcance | REF(2); Pontaria(+5) | 5 | Impedir [1]: ataque à distância quando alvo avança; sucesso = metade do deslocamento |
 | Ameaçar | REF(2); Furtividade(+5) | 5 | — (passiva): alvo engajado não pode reagir |
 | Atropelar | FOR(3); AM(+5) ou Esg(+5) | 5/10/15 | — (passiva): +1dX dano, distribuível em adjacentes |
-| Destreza | FOR; AM(+2/+4/+6/+8) | 2/3/4/5 | — (passiva): dano desarmado sobe (dW I–V) |
-| Golpe Duplo | REF(3); AM/Esg/Pont(+5) | 5 | — (passiva): dois ataques consecutivos |
+| Destreza | FOR; AM(+2/+4/+6/+8) | 2/3/4/5 | — (passiva): dano desarmado e bastões sobe (1d4 · 1d6 · 1d8 · 1d10 · 1d12) |
+| Golpe Duplo | REF(3); AM/Esg/Pont(+5) | 5 | — (passiva): dois ataques consecutivos; até dois alvos adjacentes; não se aplica a armas de duas mãos |
 | Iniciativa | REF(2); Esgrima(+5) | 5 | Impugnar [1]: ataca antes do atacante |
 | Ímpeto | REF(2); Atletismo(+5) | 5 | — (passiva): age primeiro + Velocidade para ações padrão |
 | Vigilância | REF(2); Pericia Corporal(+5) | 5 | — (passiva): reações ilimitadas (custa 1 ação cada) |
@@ -215,17 +215,17 @@ Adquiridas com Sabedoria, requerem pré-requisitos. Concedem reações especiais
 | Fetiche | SEN(1)+CON(1); Criatividade(+5) | 5/10/15 | Reforça mágicas de 1 domínio sem custo de mana (até 3 fetiches) |
 | Grimório | RAZ(1)+CON(1); Investigação(+5) | 5 (+ 1/3/6 por magia) | Aprende mágicas fora do domínio autodidata |
 | Mixologia | RAZ(1)+SEN(1); Alquimia(+5) | 5 (+ 1/3 por receita) | Cria poções mágicas personalizadas |
-| Modelagem | RAZ(1)+CON(1); Mecânica(+5) | 5 (+ 1–7 por modelo) | Cria criatura artefato que ressurge na cena |
+| Modelagem | RAZ(1)+CON(1); Mecânica(+5) | 5 (+ 1–7 por modelo) | Cria criatura artefato; ao morrer pode ser reativada na mesma cena |
 | Travessia | SEN(1)+CON(1); Sobrevivência(+5) | 5/10/15 | Vantagem em todos os testes no terreno escolhido |
 
 ### Espirituais
 
 | Habilidade | Pré-requisito | Custo (SAB) | Reação |
 |-----------|--------------|-------------|--------|
-| Fúria | VON(3); Expressão(+6) | 6 | Enfurecer [1]: +1 ação padrão de ataque/turno, sem reações |
+| Fúria | VON(3); Expressão(+6) | 6 | Enfurecer [1]: aciona ao sofrer dano, falhar em combate ou presenciar aliado cair; +1 ação padrão de ataque/turno, sem reações |
 | Regenerar | VON(3); Comunhão(+6) | 6 | Regenerar [1]: testa VON[COM] vs. agressor; sucesso = cura total +Xd6 |
 | Salvaguarda | INT(3); Diplomacia(+6) | 6 | Resguardar [1]: testa INT[DIP] vs. mago; sucesso = imune à mágica |
-| Toque Mortífero | VON(3); Intimidação(+6) | 6 | Abater [1]: testa VON[INT] vs. criatura ≤ Classe B; destrói |
+| Toque Mortífero | VON(3); Intimidação(+6) | 6 | Abater [1]: aciona quando for alvo de ataque; testa VON[INT] vs. criatura ≤ Classe B; destrói |
 | Vidência | INT(3); Lábia(+6) | 6 | Antever [1]: testa INT[LAB] vs. IP Esp.; desvantagem na ação declarada |
 
 ---
