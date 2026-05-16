@@ -56,7 +56,10 @@ Plans:
   4. Feiticeiro de Mecânica inclui vestimentas mágicas na descrição
   5. Proficiências de Sobrevivência (5 sub-proficiências) descrevem corretamente que cada uma muda o teste de uma ação de descanso específica
   6. Proficiências espirituais (Provocar, Coordenar, Inspirar, Amedrontar, Distrair) mostram testes, alvos e mecânicas corretos do docx
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 06-01-PLAN.md — Corrigir todas as 29 proficiências de MENTE/ESPÍRITO em data/proficiencias.ts (Alquimia, Criatividade, Investigação, Mecânica, Sobrevivência, Espirituais)
 
 ### Phase 7: Habilidades
 **Goal**: Todas as habilidades em habilidades.ts estão com descrições e mecânicas fiéis ao docx oficial
@@ -91,6 +94,6 @@ Plans:
 | 3. Qualidade do Grimório | v1.0 | 3/3 | Complete | 2026-05-15 |
 | 4. Ferramentas de Mesa | v1.0 | 2/2 | Complete | 2026-05-15 |
 | 5. Proficiências CORPO | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 6. Proficiências MENTE/ESPÍRITO | v1.1 | 0/? | Not started | - |
+| 6. Proficiências MENTE/ESPÍRITO | v1.1 | 0/1 | Not started | - |
 | 7. Habilidades | v1.1 | 0/? | Not started | - |
 | 8. Documentação | v1.1 | 0/? | Not started | - |
