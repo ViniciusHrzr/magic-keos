@@ -14,12 +14,12 @@
 - [ ] **FIDE-03**: Corrigir proficiências de Esgrima (Armas Leves, Uma Mão, Duas Mãos com atributos errados; Especialização/Mestria dizem "acurácia" em vez de "+2/+5 dano")
 - [ ] **FIDE-04**: Corrigir proficiências de Furtividade (Ataque Furtivo: +bônus no teste de ataque, não dano; Ataque Letal: dano adicional = bônus em Furtividade, não "condições"; Ataque Silencioso: descrição completamente errada)
 - [ ] **FIDE-05**: Corrigir proficiências de Pontaria (Especialização/Mestria: "+2/+5 dano" não "acurácia"; Mirar: inclui "dano adicional igual valor em Pontaria")
-- [ ] **FIDE-06**: Corrigir proficiência Poções de Alquimia (descrição errada: é sobre usar/reconhecer qualquer poção, não criar durante descanso)
-- [ ] **FIDE-07**: Corrigir proficiências de Criatividade (Recapitular, Reciclar, Replicar: descrições completamente erradas vs docx)
-- [ ] **FIDE-08**: Corrigir proficiências de Investigação (nomes errados: Selo de Encantamento e Selo de Invocação; Leitura: sobre ler/escrever, não "decifrar textos arcanos")
-- [ ] **FIDE-09**: Corrigir proficiência Feiticeiro de Mecânica (falta vestimentas mágicas na descrição)
-- [ ] **FIDE-10**: Corrigir proficiências de Sobrevivência (Acampamento, Harmonização, Forrageamento, Manufaturação, Treinamento: todas com descrição completamente errada — cada uma muda o teste de uma ação de descanso específica)
-- [ ] **FIDE-11**: Corrigir proficiências espirituais (Provocar: teste é vs IP Espiritual, não VON; Coordenar: são 2+ aliados, não 1; Inspirar: bônus = valor em Expressão em uma perícia, não +1d20; Amedrontar: afugenta para não atacar, não desvantagem; Distrair: penalidade = valor em Lábia em uma perícia, não "remove reação")
+- [x] **FIDE-06**: Corrigir proficiência Poções de Alquimia (descrição errada: é sobre usar/reconhecer qualquer poção, não criar durante descanso)
+- [x] **FIDE-07**: Corrigir proficiências de Criatividade (Recapitular, Reciclar, Replicar: descrições completamente erradas vs docx)
+- [x] **FIDE-08**: Corrigir proficiências de Investigação (nomes errados: Selo de Encantamento e Selo de Invocação; Leitura: sobre ler/escrever, não "decifrar textos arcanos")
+- [x] **FIDE-09**: Corrigir proficiência Feiticeiro de Mecânica (falta vestimentas mágicas na descrição)
+- [x] **FIDE-10**: Corrigir proficiências de Sobrevivência (Acampamento, Harmonização, Forrageamento, Manufaturação, Treinamento: todas com descrição completamente errada — cada uma muda o teste de uma ação de descanso específica)
+- [x] **FIDE-11**: Corrigir proficiências espirituais (Provocar: teste é vs IP Espiritual, não VON; Coordenar: são 2+ aliados, não 1; Inspirar: bônus = valor em Expressão em uma perícia, não +1d20; Amedrontar: afugenta para não atacar, não desvantagem; Distrair: penalidade = valor em Lábia em uma perícia, não "remove reação")
 
 ### Fidelidade de Dados — Habilidades
 
@@ -63,12 +63,12 @@
 | FIDE-03 | Phase 5 | Pending |
 | FIDE-04 | Phase 5 | Pending |
 | FIDE-05 | Phase 5 | Pending |
-| FIDE-06 | Phase 6 | Pending |
-| FIDE-07 | Phase 6 | Pending |
-| FIDE-08 | Phase 6 | Pending |
-| FIDE-09 | Phase 6 | Pending |
-| FIDE-10 | Phase 6 | Pending |
-| FIDE-11 | Phase 6 | Pending |
+| FIDE-06 | Phase 6 | Complete |
+| FIDE-07 | Phase 6 | Complete |
+| FIDE-08 | Phase 6 | Complete |
+| FIDE-09 | Phase 6 | Complete |
+| FIDE-10 | Phase 6 | Complete |
+| FIDE-11 | Phase 6 | Complete |
 | FIDE-12 | Phase 7 | Pending |
 | FIDE-13 | Phase 7 | Pending |
 | FIDE-14 | Phase 7 | Pending |

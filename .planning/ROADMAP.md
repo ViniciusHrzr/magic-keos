@@ -24,7 +24,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 **Milestone Goal:** Garantir que todo conteúdo de regras do app seja 100% fiel ao livro oficial "Magic no Universo Kéos v.0.4.docx".
 
 - [x] **Phase 5: Proficiências CORPO** — Corrigir descrições/testes das perícias de Artes Marciais, Atletismo, Esgrima, Furtividade e Pontaria *(completed 2026-05-16)*
-- [ ] **Phase 6: Proficiências MENTE/ESPÍRITO** — Corrigir descrições das perícias de Alquimia, Criatividade, Investigação, Feiticeiro de Mecânica, Sobrevivência e Espirituais
+- [x] **Phase 6: Proficiências MENTE/ESPÍRITO** — Corrigir descrições das perícias de Alquimia, Criatividade, Investigação, Feiticeiro de Mecânica, Sobrevivência e Espirituais (completed 2026-05-16)
 - [ ] **Phase 7: Habilidades** — Corrigir descrições e mecânicas das habilidades corporais/espirituais em habilidades.ts
 - [ ] **Phase 8: Documentação** — Sincronizar GAME_RULES.md com todas as correções aplicadas
 
@@ -59,7 +59,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 06-01-PLAN.md — Corrigir todas as 29 proficiências de MENTE/ESPÍRITO em data/proficiencias.ts (Alquimia, Criatividade, Investigação, Mecânica, Sobrevivência, Espirituais)
+- [x] 06-01-PLAN.md — Corrigir todas as 29 proficiências de MENTE/ESPÍRITO em data/proficiencias.ts (Alquimia, Criatividade, Investigação, Mecânica, Sobrevivência, Espirituais)
 
 ### Phase 7: Habilidades
 **Goal**: Todas as habilidades em habilidades.ts estão com descrições e mecânicas fiéis ao docx oficial
@@ -94,6 +94,6 @@ Plans:
 | 3. Qualidade do Grimório | v1.0 | 3/3 | Complete | 2026-05-15 |
 | 4. Ferramentas de Mesa | v1.0 | 2/2 | Complete | 2026-05-15 |
 | 5. Proficiências CORPO | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 6. Proficiências MENTE/ESPÍRITO | v1.1 | 0/1 | Not started | - |
+| 6. Proficiências MENTE/ESPÍRITO | v1.1 | 1/1 | Complete   | 2026-05-16 |
 | 7. Habilidades | v1.1 | 0/? | Not started | - |
 | 8. Documentação | v1.1 | 0/? | Not started | - |
