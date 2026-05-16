@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Fidelidade ao Livro de Regras
-status: planned
-stopped_at: Phase 7 planned — ready to execute
-last_updated: "2026-05-16T11:30:00.000Z"
-last_activity: "2026-05-16 — Phase 7 planned: 1 plan, 2 tasks, 13 field edits in data/habilidades.ts (FIDE-12–18)"
+status: in_progress
+stopped_at: Phase 7 executed — ready to verify
+last_updated: "2026-05-16T12:00:00.000Z"
+last_activity: "2026-05-16 — Phase 7 executed: 13 field edits in data/habilidades.ts, FIDE-12–18 satisfied, tsc clean"
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
-  percent: 50
+  total_plans: 3
+  completed_plans: 3
+  percent: 75
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 7 of 8 (Habilidades — PLANNED)
-Plan: 07-01 (1 plan, 2 tasks — ready to execute)
-Status: Ready to execute Phase 7
-Last activity: 2026-05-16 — Phase 7 planned: 1 plan, 2 tasks, 13 field edits in data/habilidades.ts (FIDE-12–18)
+Phase: 7 of 8 (Habilidades — EXECUTED)
+Plan: 07-01 (1 plan, 2 tasks — complete)
+Status: Phase 7 executed — ready to verify
+Last activity: 2026-05-16 — Phase 7 executed: 13 field edits in data/habilidades.ts, FIDE-12–18 satisfied, tsc clean
 
 Progress: [██████░░░░] 50% (2 of 4 v1.1 phases complete)
 
