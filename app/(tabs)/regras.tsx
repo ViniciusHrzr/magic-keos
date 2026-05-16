@@ -13,6 +13,22 @@ import { RPG } from '@/constants/theme';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import { proficiencias, periciaOrdem } from '@/data/proficiencias';
 import { habilidades } from '@/data/habilidades';
+import {
+  cores, guildas,
+  instancias, pontosIdentidade, atributosCORPO, atributosMENTE, atributosESPIRITO,
+  balizadores,
+  pontos,
+  dados, resultados, dificuldades,
+  tiposMagicas, grausMagicas, notacaoMana, notacaoManaExemplo, conjuracao,
+  dominiosBranco, dominiosVerde, dominiosVermelho, dominiosPreto, dominiosAzul,
+  canalizacaoResultados, modificadoresAmbiente, ambientes, eventosClimaticos,
+  armas, escudos, vestimentas, acessorios, melhorias, propriedadesElementais, afiadores,
+  herbologia, receitasBasicas, proporcoes, soros, catalisadores, complexidadeZoologia, mineralogia,
+  tiposArtefatos, usoReparo,
+  classesCriaturas, mecanicaAtaque, habilidadesCriaturas, condicoes, venenoMarcadores,
+  combateMovimentacao, combateOperacoes, combateReacoes, combateManifestacoes,
+  descansaAcoes, evolucaoCenas, evolucaoComportamentos,
+} from '@/data/regras';
 
 function habCusto(custo: string): string {
   return custo.replace(/ SAB.*$/, '').replace(/ \/ /g, '/');
@@ -129,68 +145,49 @@ export default function RegrasScreen() {
           {/* ── 1. AS CINCO CORES ── */}
           <Section num="1" title="As Cinco Cores">
             <TH cols={['Cor', 'Valores', 'Aliadas', 'Inimigas']} widths={[1, 2, 1, 1]} />
-            <R3 a="Branco" b="Ordem, lei, proteção, cura, comunidade" c="Verde, Azul · vs Verm, Preto" />
-            <R3 a="Verde" b="Natureza, crescimento, força bruta, instinto" c="Branco, Verm · vs Azul, Preto" />
-            <R3 a="Vermelho" b="Liberdade, fogo, impulso, criatividade" c="Verde, Preto · vs Branco, Azul" />
-            <R3 a="Preto" b="Poder, ambição, morte, individualismo" c="Verm, Azul · vs Branco, Verde" />
-            <R3 a="Azul" b="Conhecimento, lógica, ilusão, manipulação" c="Branco, Preto · vs Verm, Verde" />
+            {cores.map((row, i) => (
+              <R3 key={i} a={row.cor} b={row.valores} c={`${row.aliadas} · vs ${row.inimigas}`} />
+            ))}
             <Sub text="Combinações (Guildas)" />
-            <R2 a="B+V" b="Selesnya — Comunidade" />
-            <R2 a="V+R" b="Gruul — Autenticidade" />
-            <R2 a="R+Pr" b="Rakdos — Independência" />
-            <R2 a="Pr+Az" b="Dimir — Crescimento" />
-            <R2 a="Az+B" b="Azorius — Estrutura" />
-            <R2 a="B+R" b="Boros — Heroísmo" />
-            <R2 a="V+Pr" b="Golgari — Profanação" />
-            <R2 a="R+Az" b="Izzet — Criatividade" />
-            <R2 a="Pr+B" b="Orzhov — Tribalismo" />
-            <R2 a="Az+V" b="Simic — Busca pela verdade" />
+            {guildas.map((row, i) => (
+              <R2 key={i} a={row.combo} b={row.nome} />
+            ))}
           </Section>
 
           {/* ── 2. CONSTRUÇÃO DE PERSONAGENS ── */}
           <Section num="2" title="Construção de Personagens">
             <Note text="Identidade: unidade de evolução — 1 dado daquela cor no atributo, +Vida, +Sabedoria, +Mana incolor" />
             <TH cols={['Instância', 'Conceito', 'Atributos']} widths={[1, 1.5, 1.5]} />
-            <R3 a="CORPO" b="Físico, combate" c="FOR · REF · VIG" />
-            <R3 a="MENTE" b="Inteligência, percepção" c="RAZ · SEN · CON" />
-            <R3 a="ESPÍRITO" b="Social, emocional" c="PRE · INT · VON" />
+            {instancias.map((row, i) => (
+              <R3 key={i} a={row.instancia} b={row.conceito} c={row.atributos} />
+            ))}
             <Sub text="Pontos por Identidade" />
             <TH cols={['', 'CORPO', 'MENTE', 'ESPÍRITO']} widths={[1.2, 1, 1, 1]} />
-            <View style={styles.tableRow}>
-              <Text style={[styles.tableKey, { flex: 1.2 }]}>Vida</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+10</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+5</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+6</Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={[styles.tableKey, { flex: 1.2 }]}>Sabedoria</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+6</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+10</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+8</Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={[styles.tableKey, { flex: 1.2 }]}>Mana incolor</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+1</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+2</Text>
-              <Text style={[styles.tableVal, { flex: 1 }]}>+3</Text>
-            </View>
+            {pontosIdentidade.map((row, i) => (
+              <View key={i} style={styles.tableRow}>
+                <Text style={[styles.tableKey, { flex: 1.2 }]}>{row.ponto}</Text>
+                <Text style={[styles.tableVal, { flex: 1 }]}>{row.corpo}</Text>
+                <Text style={[styles.tableVal, { flex: 1 }]}>{row.mente}</Text>
+                <Text style={[styles.tableVal, { flex: 1 }]}>{row.espirito}</Text>
+              </View>
+            ))}
           </Section>
 
           {/* ── 3. ATRIBUTOS ── */}
           <Section num="3" title="Atributos">
             <Note text="Cada atributo: até 5 identidades (dados). N dados = N d20 rolados por teste." />
             <Sub text="CORPO" />
-            <R2 a="FOR" b="Força — levantar peso, corpo a corpo, atletismo" />
-            <R2 a="REF" b="Reflexos — velocidade, movimentação, reações" />
-            <R2 a="VIG" b="Vigor — resistir dor, condições físicas, venenos" />
+            {atributosCORPO.map((row, i) => (
+              <R2 key={i} a={row.sigla} b={row.descricao} />
+            ))}
             <Sub text="MENTE" />
-            <R2 a="RAZ" b="Razão — aprender, raciocínio lógico, conjuração mental" />
-            <R2 a="SEN" b="Sentidos — perceber o mundo pelos cinco sentidos" />
-            <R2 a="CON" b="Concentração — foco, ações preparatórias, resistência mental" />
+            {atributosMENTE.map((row, i) => (
+              <R2 key={i} a={row.sigla} b={row.descricao} />
+            ))}
             <Sub text="ESPÍRITO" />
-            <R2 a="PRE" b="Presença — notoriedade, intimidação, inspiração, camuflagem social" />
-            <R2 a="INT" b="Intuição — perceber emoções, intenções, o mundo mágico" />
-            <R2 a="VON" b="Vontade — resistir à influência alheia" />
+            {atributosESPIRITO.map((row, i) => (
+              <R2 key={i} a={row.sigla} b={row.descricao} />
+            ))}
           </Section>
 
           {/* ── 4. PERÍCIAS ── */}
@@ -244,184 +241,110 @@ export default function RegrasScreen() {
           <Section num="6" title="Balizadores">
             <Note text="Adquiridos como perícias (custo progressivo, máx. 10 níveis). Cada cor tem um balizador-chave." />
             <TH cols={['Balizador', 'Cor', 'Função']} widths={[1, 0.8, 2.2]} />
-            <R3 a="Foco" b="Branco" c="Máximo de permanentes (encantamentos + criaturas) em campo" />
-            <R3 a="Canalização" b="Verde" c="Vezes/dia que pode canalizar mana colorido" />
-            <R3 a="Domínios" b="Preto" c="Domínios mágicos conhecidos" />
-            <R3 a="Memória" b="Azul" c="Feitiços memorizados (prontos para lançar sem conjurar)" />
-            <R3 a="Velocidade" b="Vermelho" c="Ações bônus por cena (restauradas no início de cada cena)" />
+            {balizadores.map((row, i) => (
+              <R3 key={i} a={row.balizador} b={row.cor} c={row.funcao} />
+            ))}
           </Section>
 
           {/* ── 7. OUTROS PONTOS ── */}
           <Section num="7" title="Outros Pontos">
             <TH cols={['Ponto', 'Função']} />
-            <R2 a="Vida" b="Pontos de vida total; ao chegar a 0, testa Vigor para resistir à morte" />
-            <R2 a="Necrosado" b="Redutor permanente da Vida Total (dano necrotizante); não cura com descanso" />
-            <R2 a="Armadura" b="Reduz 1 pt de dano físico por ponto" />
-            <R2 a="Manto" b="Reduz 1 pt de dano mágico por ponto" />
-            <R2 a="IP Corporal" b="Índice de Proteção Corporal (bônus de reação/defesa física)" />
-            <R2 a="IP Mental" b="Índice de Proteção Mental" />
-            <R2 a="IP Espiritual" b="Índice de Proteção Espiritual" />
-            <R2 a="Mana" b="Reserva de mana colorido (W/G/R/B/U) + incolor" />
-            <R2 a="Sabedoria" b="Pontos para comprar perícias, habilidades e mágicas" />
+            {pontos.map((row, i) => (
+              <R2 key={i} a={row.ponto} b={row.funcao} />
+            ))}
           </Section>
 
           {/* ── 8. MECÂNICA DE DADOS ── */}
           <Section num="8" title="Mecânica de Dados">
             <Note text="Teste base: rola N d20 (N = valor do atributo), escolhe o maior resultado, soma bônus da perícia." />
             <TH cols={['Dado', 'Cor', 'Característica Especial']} widths={[0.6, 0.8, 2.6]} />
-            <R3 a="dW" b="Branco" c="Progressão: todos ≥ 14 → dobra bônus (2dW=13, 3dW=12, 4dW=11, 5dW=10)" />
-            <R3 a="dG" b="Verde" c="Rola 2d10 em vez de d20; pares livres entre dados; cada dG extra +1d10" />
-            <R3 a="dR" b="Vermelho" c="Crítico em 19–20 (expande: 2dR=18–20 e 1–2, 3dR=17–20 e 1–2, 4dR=16–20 e 1–3, 5dR=15–20 e 1–3)" />
-            <R3 a="dB" b="Preto" c="Para cada dado ≤ 5: recebe +1d4 ao resultado" />
-            <R3 a="dU" b="Azul" c="Resultado múltiplo de 5: rerrola o dado azul enquanto continuar ×5" />
+            {dados.map((row, i) => (
+              <R3 key={i} a={row.dado} b={row.cor} c={row.especial} />
+            ))}
             <Sub text="Resultados" />
-            <R2 a="SUCESSO" b="> dificuldade — realiza a ação" />
-            <R2 a="FRACASSO" b="< dificuldade — não realiza a ação" />
-            <R2 a="SUC. CRÍTICO" b="20 com vantagem — realiza perfeitamente + bonificação" />
-            <R2 a="FRAC. CRÍTICO" b="1 com desvantagem — realiza terrivelmente + consequência" />
-            <R2 a="SUCESSO, MAS…" b="> dificuldade com vantagem + 1 nos dados — realiza, mas algo dá errado" />
-            <R2 a="FRAC., MAS…" b="< dificuldade com desvantagem + 20 nos dados — não realiza, mas algo dá certo" />
+            {resultados.map((row, i) => (
+              <R2 key={i} a={row.resultado} b={row.descricao} />
+            ))}
           </Section>
 
           {/* ── 9. TESTES ── */}
           <Section num="9" title="Testes">
             <Note text="Fórmula: N d20 → maior resultado + bônus de perícia vs. dificuldade" />
             <TH cols={['Dificuldade', 'Valor', 'Modificador']} />
-            <R3 a="Facílimo" b="5" c="Bônus positivo [+X] no resultado" />
-            <R3 a="Fácil" b="10" c="Vantagem (+1d20)" />
-            <R3 a="Normal" b="15" c="—" />
-            <R3 a="Difícil" b="20" c="Penalidade [-X] no resultado" />
-            <R3 a="Dificílimo" b="25" c="Desvantagem (-1d20)" />
-            <R3 a="Excepcional" b="30" c="—" />
+            {dificuldades.map((row, i) => (
+              <R3 key={i} a={row.dificuldade} b={row.valor} c={row.modificador} />
+            ))}
           </Section>
 
           {/* ── 10. SISTEMA DE MÁGICAS ── */}
           <Section num="10" title="Sistema de Mágicas">
             <Sub text="Tipos" />
             <TH cols={['Tipo', 'Símbolo', 'Funcionamento']} widths={[1.2, 0.7, 2.1]} />
-            <R3 a="Truque" b="[T]" c="Grau 0; custo gratuito; 1º truque/turno não gasta ação" />
-            <R3 a="Feitiço" b="[F]" c="Dissipa após efeito; conjurar [1] + lançar [1]; armazena na Memória" />
-            <R3 a="Encantamento" b="[E]" c="Permanente em campo; ocupa slot de Foco; conjurar [grau] ações" />
-            <R3 a="Criatura" b="[C]" c="Permanente em campo; ocupa slot de Foco; 1 invocação por criatura/cena" />
+            {tiposMagicas.map((row, i) => (
+              <R3 key={i} a={row.tipo} b={row.simbolo} c={row.funcionamento} />
+            ))}
             <Sub text="Graus" />
-            <R3 a="0 (Truque)" b="Básico" c="Incluído com o domínio" />
-            <R3 a="Grau 1" b="Padrão" c="Incluído com o domínio" />
-            <R3 a="Grau 2" b="Avançado" c="4 pts de Sabedoria" />
-            <R3 a="Grau 3" b="Poderoso" c="8 pts de Sabedoria" />
+            {grausMagicas.map((row, i) => (
+              <R3 key={i} a={row.grau} b={row.nivel} c={row.custo} />
+            ))}
             <Sub text="Notação de Custo de Mana" />
-            <R2 a="] (gratuito)" b="Truque" />
-            <R2 a="a" b="1 mana branco (W)" />
-            <R2 a="g" b="1 mana verde (G)" />
-            <R2 a="d" b="1 mana vermelho (R)" />
-            <R2 a="b" b="1 mana preto (B)" />
-            <R2 a="u" b="1 mana azul (U)" />
-            <R2 a="1, 2, 3…" b="mana incolor genérico" />
-            <R2 a="x" b="variável — jogador decide quanto pagar" />
-            <Note text='Exemplos: "a" = {W} · "1a" = {1}{W} · "2aa" = {2}{W}{W} · "4aaa" = {4}{W}{W}{W}' />
+            {notacaoMana.map((row, i) => (
+              <R2 key={i} a={row.simbolo} b={row.descricao} />
+            ))}
+            <Note text={`Exemplos: ${notacaoManaExemplo}`} />
             <Sub text="Conjuração" />
-            <R2 a="Conjurar [1]" b="Feitiços gastam 1 ação" />
-            <R2 a="Conjurar [grau]" b="Encantamentos/invocações gastam [grau] ações" />
-            <R2 a="Lançar [1]" b="Lança mágica conjurada ou da Memória" />
-            <R2 a="Trucar [0]" b="1º truque do turno não gasta ação" />
+            {conjuracao.map((row, i) => (
+              <R2 key={i} a={row.acao} b={row.descricao} />
+            ))}
           </Section>
 
           {/* ── 11. DOMÍNIOS ── */}
           <Section num="11" title="Domínios">
             <Note text="45 domínios no total (9 por cor × 5 cores), organizados por Instância e Atributo-chave." />
-            <Sub text="Branco" />
             <TH cols={['Domínio', 'Instância', 'Atributo', 'Perícia']} widths={[1.8, 0.8, 0.7, 0.7]} />
-            {[
-              ['Alçada da Honra', 'CORPO', 'FOR', 'AM'],
-              ['Alçada da Justiça', 'CORPO', 'REF', 'Esg'],
-              ['Alçada da Autoridade', 'CORPO', 'VIG', 'Esg'],
-              ['Alçada do Armamento', 'MENTE', 'RAZ', 'Mec'],
-              ['Alçada da Proteção', 'MENTE', 'SEN', 'Dip'],
-              ['Alçada da União', 'MENTE', 'CON', 'Exp'],
-              ['Alçada da Bondade', 'ESPÍRITO', 'PRE', 'Alq'],
-              ['Alçada da Devoção', 'ESPÍRITO', 'INT', 'Dip'],
-              ['Alçada da Luz', 'ESPÍRITO', 'VON', 'Dip'],
-            ].map(([d, inst, atr, per], i) => (
+            <Sub text="Branco" />
+            {dominiosBranco.map((row, i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 1.8 }]}>{d}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{inst}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{atr}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{per}</Text>
+                <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.instancia}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.atributo}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
             <Sub text="Verde" />
-            {[
-              ['Trilha do Instinto', 'CORPO', 'FOR', 'AM'],
-              ['Trilha da Predação', 'CORPO', 'REF', 'Pont'],
-              ['Trilha da Adaptação', 'CORPO', 'VIG', 'Atl'],
-              ['Trilha da Subsistência', 'MENTE', 'RAZ', 'Alq'],
-              ['Trilha do Ambiente', 'MENTE', 'SEN', 'Sob'],
-              ['Trilha da Vitalidade', 'MENTE', 'CON', 'Atl'],
-              ['Trilha dos Animais', 'ESPÍRITO', 'PRE', 'Com'],
-              ['Trilha da Comunhão', 'ESPÍRITO', 'INT', 'Com'],
-              ['Trilha da Vegetação', 'ESPÍRITO', 'VON', 'Com'],
-            ].map(([d, inst, atr, per], i) => (
+            {dominiosVerde.map((row, i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 1.8 }]}>{d}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{inst}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{atr}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{per}</Text>
+                <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.instancia}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.atributo}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
             <Sub text="Vermelho" />
-            {[
-              ['Desígnio da Ira', 'CORPO', 'FOR', 'Exp'],
-              ['Desígnio da Agilidade', 'CORPO', 'REF', 'Atl'],
-              ['Desígnio da Terra', 'CORPO', 'VIG', 'AM'],
-              ['Desígnio da Maldade', 'MENTE', 'RAZ', 'Láb'],
-              ['Desígnio do Raio', 'MENTE', 'SEN', 'Cri'],
-              ['Desígnio dos Ritos Primais', 'MENTE', 'CON', 'Inv'],
-              ['Desígnio da Guerra', 'ESPÍRITO', 'PRE', 'Exp'],
-              ['Desígnio do Caos', 'ESPÍRITO', 'INT', 'Cri'],
-              ['Desígnio do Fogo', 'ESPÍRITO', 'VON', 'Pont'],
-            ].map(([d, inst, atr, per], i) => (
+            {dominiosVermelho.map((row, i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 1.8 }]}>{d}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{inst}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{atr}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{per}</Text>
+                <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.instancia}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.atributo}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
             <Sub text="Preto" />
-            {[
-              ['Arte da Dor', 'CORPO', 'FOR', 'Esg'],
-              ['Arte das Sombras', 'CORPO', 'REF', 'Furt'],
-              ['Arte do Sangue', 'CORPO', 'VIG', 'Inv'],
-              ['Arte da Bruxaria', 'MENTE', 'RAZ', 'Alq'],
-              ['Arte da Putrefação', 'MENTE', 'SEN', 'Sob'],
-              ['Arte do Distúrbio', 'MENTE', 'CON', 'Láb'],
-              ['Arte da Corrupção', 'ESPÍRITO', 'PRE', 'Int'],
-              ['Arte da Necromancia', 'ESPÍRITO', 'INT', 'Int'],
-              ['Arte da Danação', 'ESPÍRITO', 'VON', 'Furt'],
-            ].map(([d, inst, atr, per], i) => (
+            {dominiosPreto.map((row, i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 1.8 }]}>{d}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{inst}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{atr}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{per}</Text>
+                <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.instancia}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.atributo}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
             <Sub text="Azul" />
-            {[
-              ['Ramo da Água', 'CORPO', 'FOR', 'AM'],
-              ['Ramo do Ar', 'CORPO', 'REF', 'Pont'],
-              ['Ramo da Transmutação', 'CORPO', 'VIG', 'Furt'],
-              ['Ramo do Conhecimento', 'MENTE', 'RAZ', 'Mec'],
-              ['Ramo do Espaço-Tempo', 'MENTE', 'SEN', 'Mec'],
-              ['Ramo da Mente', 'MENTE', 'CON', 'Inv'],
-              ['Ramo da Ilusão', 'ESPÍRITO', 'PRE', 'Láb'],
-              ['Ramo do Éter', 'ESPÍRITO', 'INT', 'Exp'],
-              ['Ramo da Contramágica', 'ESPÍRITO', 'VON', 'Cri'],
-            ].map(([d, inst, atr, per], i) => (
+            {dominiosAzul.map((row, i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 1.8 }]}>{d}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{inst}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{atr}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{per}</Text>
+                <Text style={[styles.tableKey, { flex: 1.8 }]}>{row.dominio}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.instancia}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.atributo}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.pericia}</Text>
               </View>
             ))}
           </Section>
@@ -430,228 +353,143 @@ export default function RegrasScreen() {
           <Section num="12" title="Canalização e Mana">
             <Note text="Ação de descanso — Teste: Vontade [Comunhão]" />
             <TH cols={['Resultado', 'Mana obtido']} />
-            <R2 a="10+" b="1d4 de mana colorido" />
-            <R2 a="15+" b="1d6" />
-            <R2 a="20+" b="1d8" />
-            <R2 a="25+" b="1d10" />
-            <R2 a="30+" b="1d12" />
+            {canalizacaoResultados.map((row, i) => (
+              <R2 key={i} a={row.resultado} b={row.mana} />
+            ))}
             <Sub text="Modificadores de Ambiente" />
-            <R2 a="++" b="3 dados, fica maior — muito abundante" />
-            <R2 a="+" b="2 dados, fica maior — abundante" />
-            <R2 a="0" b="Normal" />
-            <R2 a="–" b="2 dados, fica menor — escasso" />
-            <R2 a="––" b="3 dados, fica menor — muito escasso" />
+            {modificadoresAmbiente.map((row, i) => (
+              <R2 key={i} a={row.mod} b={row.descricao} />
+            ))}
             <Sub text="Ambientes W·G·R·B·U (Branco·Verde·Verm·Preto·Azul)" />
-            <R2 a="Deserto" b="–– · –– · –– · –– · ––" />
-            <R2 a="Urbano" b="+ · – · – · + · –" />
-            <R2 a="Natureza" b="– · + · + · – · +" />
-            <R2 a="Fortaleza" b="+ · – · — · — · —" />
-            <R2 a="Planícies" b="++ · + · – · – · —" />
-            <R2 a="Floresta" b="— · + · — · — · —" />
-            <R2 a="Selva densa" b="– · ++ · + · — · –" />
-            <R2 a="Rochoso" b="— · — · + · — · –" />
-            <R2 a="Vulcões" b="– · — · ++ · + · –" />
-            <R2 a="Catacumbas" b="– · – · — · + · —" />
-            <R2 a="Pântanos" b="– · – · — · ++ · +" />
-            <R2 a="Fonte de água" b="— · — · – · — · +" />
-            <R2 a="Alto mar" b="+ · – · – · — · ++" />
+            {ambientes.map((row, i) => (
+              <R2 key={i} a={row.ambiente} b={row.modificadores} />
+            ))}
             <Sub text="Eventos Climáticos" />
-            <R2 a="Frio" b="— · — · – · — · +" />
-            <R2 a="Calor" b="— · — · + · — · –" />
-            <R2 a="Ventos fortes" b="— · – · – · — · +" />
-            <R2 a="Chuva intensa" b="— · + · – · — · +" />
-            <R2 a="Nevasca" b="– · –– · –– · – · ++" />
-            <R2 a="Tempestade" b="– · –– · ++ · – · +" />
-            <R2 a="Dia" b="— · — · — · – · —" />
-            <R2 a="Sol a pino" b="+ · — · — · –– · —" />
-            <R2 a="Noite" b="– · — · — · — · —" />
-            <R2 a="Lua cheia" b="–– · — · — · + · —" />
-            <R2 a="Eclipse solar" b="++ · — · – · ++ · –" />
+            {eventosClimaticos.map((row, i) => (
+              <R2 key={i} a={row.evento} b={row.modificadores} />
+            ))}
           </Section>
 
           {/* ── 13. EQUIPAMENTOS ── */}
           <Section num="13" title="Equipamentos">
             <Sub text="Armas" />
             <TH cols={['Arma', 'Dano', 'Especial']} widths={[1.3, 0.7, 2]} />
-            <R3 a="Adaga" b="1d4" c="REF · Esg[Leve]/Pont[Arremesso] · alcance curto 9m" />
-            <R3 a="Arco Curto" b="1d6" c="REF · Pont[Arcos] · alcance médio 18m" />
-            <R3 a="Arco Longo" b="1d8" c="FOR · Pont[Arcos] · alcance longo 30m" />
-            <R3 a="Bastão Curto" b="1d4*" c="FOR/REF · AM · *Destreza aumenta dano" />
-            <R3 a="Bastão Longo" b="1d6*" c="FOR/REF · AM · alcance próximo 3m" />
-            <R3 a="Cajado" b="1d6" c="RAZ/PRE · Pont[Condutores] duas mãos · dano mágico" />
-            <R3 a="Desarmado" b="1d3*" c="FOR · AM · *Destreza aumenta dano" />
-            <R3 a="Espada" b="1d6" c="FOR · Esg[Uma Mão] · 1d8 duas mãos" />
-            <R3 a="Lança Curta" b="1d6" c="REF · Esg[Uma Mão]/Pont[Arremesso] · 18m" />
-            <R3 a="Lança Longa" b="1d10" c="REF · Esg[Duas Mãos] · alcance próximo 3m" />
-            <R3 a="Machado" b="1d6" c="FOR · Esg[Leve]/Pont[Arremesso] · 1d8 duas mãos" />
-            <R3 a="Montante" b="1d12" c="FOR · Esg[Duas Mãos]" />
-            <R3 a="Varinha" b="1d4" c="RAZ/PRE · Pont[Condutores] uma mão · dano mágico" />
+            {armas.map((row, i) => (
+              <R3 key={i} a={row.arma} b={row.dano} c={row.especial} />
+            ))}
             <Sub text="Escudos" />
             <TH cols={['Escudo', 'IP Corp', 'Especial']} widths={[1.5, 0.8, 1.7]} />
-            <R3 a="Escudo de Mão" b="+1" c="Permite ataque desarmado" />
-            <R3 a="Escudo de Bronze" b="+2" c="Só com armas leves/uma mão" />
-            <R3 a="Escudo Rúnico" b="+1M +1E" c="Só com armas leves/uma mão" />
+            {escudos.map((row, i) => (
+              <R3 key={i} a={row.escudo} b={row.ipCorp} c={row.especial} />
+            ))}
             <Sub text="Vestimentas" />
             <TH cols={['Vestimenta', 'IP Corp', 'IP Ment', 'IP Esp']} widths={[1.6, 0.8, 0.8, 0.8]} />
-            {[
-              ['Farda de Combatente', '+1', '—', '—'],
-              ['Farda de Cavaleiro', '+2', '—', '—'],
-              ['Túnica de Aprendiz', '—', '+1', '—'],
-              ['Túnica de Sábio', '—', '+2', '—'],
-              ['Traje da Nobreza', '—', '—', '+1'],
-              ['Traje da Realeza', '—', '—', '+2'],
-            ].map(([v, c1, c2, c3], i) => (
+            {vestimentas.map((row, i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 1.6 }]}>{v}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{c1}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{c2}</Text>
-                <Text style={[styles.tableVal, { flex: 0.8 }]}>{c3}</Text>
+                <Text style={[styles.tableKey, { flex: 1.6 }]}>{row.vestimenta}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.ipCorp}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.ipMent}</Text>
+                <Text style={[styles.tableVal, { flex: 0.8 }]}>{row.ipEsp}</Text>
               </View>
             ))}
             <Sub text="Acessórios Básicos" />
             <TH cols={['Acessório', 'Bônus']} />
-            <R2 a="Bracelete de Prata" b="+1 Velocidade" />
-            <R2 a="Tiara de Prata" b="+1 Memória" />
-            <R2 a="Colar de Prata" b="+1 Foco" />
-            <R2 a="Brincos de Prata" b="+1 Canalização" />
-            <R2 a="Broche de Prata" b="+1 Domínio" />
+            {acessorios.map((row, i) => (
+              <R2 key={i} a={row.acessorio} b={row.bonus} />
+            ))}
             <Sub text="Melhorias (máx. 3 por item)" />
-            <R2 a="Armas" b="W=Acurácia+1 · G=Acurácia madeira+1 · R=Dano físico+1 · B=Dado dano+1 · U=Dano mágico+1" />
-            <R2 a="Vestimentas" b="W=Armadura+1 · G=Manto+1 · R=IP Corp.+1 · B=IP Esp.+1 · U=IP Mental+1" />
+            {melhorias.map((row, i) => (
+              <R2 key={i} a={row.tipo} b={row.descricao} />
+            ))}
             <Sub text="Propriedades Elementais" />
             <TH cols={['Cor', 'Propriedade', 'Efeito']} widths={[0.7, 1.3, 2]} />
-            <R3 a="Branco" b="Sagrado" c="2× dano em profanas; normal em Incorpóreos" />
-            <R3 a="Branco" b="Vinculado" c="Recupera 50% do dano causado como vida" />
-            <R3 a="Verde" b="Ácido" c="Ignora Armadura e Manto" />
-            <R3 a="Verde" b="Venenoso" c="Atribui condição Envenenado" />
-            <R3 a="Vermelho" b="Elétrico" c="Não pode ser reagido" />
-            <R3 a="Vermelho" b="Ígneo" c="30% de chance de Incendiado" />
-            <R3 a="Preto" b="Necrotizante" c="Diminui Vida Total (condição Necrosado)" />
-            <R3 a="Preto" b="Profano" c="2× dano em sagradas; normal em Incorpóreos" />
-            <R3 a="Azul" b="Gélido" c="30% de chance de Congelado" />
-            <R3 a="Azul" b="Hídrico" c="Atribui condição Molhado" />
+            {propriedadesElementais.map((row, i) => (
+              <R3 key={i} a={row.cor} b={row.propriedade} c={row.efeito} />
+            ))}
             <Sub text="Afiadores (combinações de minerais)" />
-            <R2 a="{WWB}" b="Vinculado" />
-            <R2 a="{WWG}" b="Sagrado" />
-            <R2 a="{GGB}" b="Venenoso" />
-            <R2 a="{GGR}" b="Ácido" />
-            <R2 a="{RRW}" b="Ígneo" />
-            <R2 a="{RRU}" b="Elétrico" />
-            <R2 a="{BBR}" b="Profano" />
-            <R2 a="{BBU}" b="Necrotizante" />
-            <R2 a="{UUW}" b="Gélido" />
-            <R2 a="{UUG}" b="Hídrico" />
+            {afiadores.map((row, i) => (
+              <R2 key={i} a={row.combo} b={row.propriedade} />
+            ))}
           </Section>
 
           {/* ── 14. MATÉRIAS-PRIMAS E ALQUIMIA ── */}
           <Section num="14" title="Matérias-primas e Alquimia">
             <Sub text="Herbologia (Ervas)" />
-            <R2 a="Brancas" b="Curativos" />
-            <R2 a="Verdes" b="Imunizantes" />
-            <R2 a="Vermelhas" b="Estimulantes" />
-            <R2 a="Pretas" b="Danosos" />
-            <R2 a="Azuis" b="Adaptativos" />
+            {herbologia.map((row, i) => (
+              <R2 key={i} a={row.cor} b={row.tipo} />
+            ))}
             <Sub text="Receitas básicas (3 ervas)" />
-            <R2 a="2B + 1" b="Cura 1d8+3 (pura) ou 1d6+2 + remoção de condição" />
-            <R2 a="2V + 1" b="Resistência a danos" />
-            <R2 a="2R + 1" b="Bônus em balizadores ou Dano" />
-            <R2 a="2Pr + 1" b="Causa condições" />
-            <R2 a="2Az + 1" b="Bônus de IP" />
+            {receitasBasicas.map((row, i) => (
+              <R2 key={i} a={row.combinacao} b={row.efeito} />
+            ))}
             <Sub text="Proporções" />
-            <R2 a="1 erva" b="Efeito brando" />
-            <R2 a="2 ervas (2/0)" b="Efeito moderado" />
-            <R2 a="2 ervas (1/1)" b="Poção de mana branda" />
-            <R2 a="3 ervas (3/0/0)" b="Efeito potente" />
-            <R2 a="3 ervas (2/1/0)" b="Especializado" />
-            <R2 a="3 ervas (1/1/1)" b="Mana moderada" />
-            <R2 a="4+ ervas" b="Efeitos superiores / poções de mana" />
+            {proporcoes.map((row, i) => (
+              <R2 key={i} a={row.proporcao} b={row.resultado} />
+            ))}
             <Sub text="Zoologia — Soros (mutações temporárias)" />
-            <R2 a="Branco" b="Voar, Vínculo, Iniciativa, Vigilância" />
-            <R2 a="Verde" b="Atropelar, Regenerar" />
-            <R2 a="Vermelho" b="Ímpeto, Iniciativa" />
-            <R2 a="Preto" b="Toque Mortífero, Amedrontar, Regenerar" />
-            <R2 a="Azul" b="Mergulhar, Voar, Vidência" />
+            {soros.map((row, i) => (
+              <R2 key={i} a={row.cor} b={row.mutacoes} />
+            ))}
             <Sub text="Zoologia — Catalizadores (de ossadas)" />
-            <R2 a="Branco" b="Entrelaçar: une efeitos de 2 mágicas" />
-            <R2 a="Verde" b="Reforçar: potencializa dano/alcance/duração" />
-            <R2 a="Vermelho" b="Acelerar: reduz tempo de conjuração" />
-            <R2 a="Preto" b="Recapitular: replica mágica já conjurada" />
-            <R2 a="Azul" b="Reciclar: modifica características da mágica" />
-            <Note text="Complexidade: Insetos < Peixes/Anfíbios < Répteis < Aves < Mamíferos" />
+            {catalisadores.map((row, i) => (
+              <R2 key={i} a={row.cor} b={row.efeito} />
+            ))}
+            <Note text={complexidadeZoologia} />
             <Sub text="Mineralogia" />
-            <R2 a="Bombas" b="Causam efeitos em área" />
-            <R2 a="Afiadores" b="Atribuem tipo de dano a armas (ver §13)" />
-            <R2 a="Proteções" b="{WWW/GGG/RRR/BBB/UUU} = Proteção contra cor correspondente" />
+            {mineralogia.map((row, i) => (
+              <R2 key={i} a={row.tipo} b={row.descricao} />
+            ))}
           </Section>
 
           {/* ── 15. ARTEFATOS ── */}
           <Section num="15" title="Artefatos">
             <Note text="Objetos mágicos com Durabilidade (número de usos antes de precisar reparo)." />
             <TH cols={['Tipo', 'Produzido por']} />
-            <R2 a="Objetos (acessórios, lanternas, joias)" b="Artesãos" />
-            <R2 a="Condutores (varinhas, cajados)" b="Feiticeiros" />
-            <R2 a="Equipamentos (armas, escudos, armaduras)" b="Ferreiros" />
-            <R2 a="Criaturas mecânicas" b="Moldadores" />
+            {tiposArtefatos.map((row, i) => (
+              <R2 key={i} a={row.tipo} b={row.produzidoPor} />
+            ))}
             <Sub text="Uso e Reparo" />
-            <R2 a="Ativar [1]" b="Custa mana incolor" />
-            <R2 a="Reparar" b="CON [Mecânica] em descanso: 10+=1 · 15+=2 · 20+=3 · 25+=4 · 30+=5 cargas" />
+            {usoReparo.map((row, i) => (
+              <R2 key={i} a={row.acao} b={row.descricao} />
+            ))}
           </Section>
 
           {/* ── 16. CRIATURAS ── */}
           <Section num="16" title="Criaturas">
             <Sub text="Tabela de Classes" />
             <TH cols={['Cl', 'Gr', 'Custo', 'Vida', 'Res', 'Poder', 'Dano', 'Dur']} widths={[0.5, 0.4, 0.7, 0.7, 0.5, 1.1, 0.6, 0.5]} />
-            {[
-              ['f', '1', '{1}', '1–4', '10', '1d20', '1d2', '1'],
-              ['E', '1', '{2}', '4–8', '11', '1d20+1', '1d4', '2–3'],
-              ['D', '1–2', '{3}', '8–14', '12', '2d20+1', '1d6', '4–5'],
-              ['C', '2', '{4–5}', '14–20', '13', '2d20+3', '1d8', '6–7'],
-              ['B', '3', '{6–7}', '20–26', '14', '3d20+3', '1d10', '8–9'],
-              ['A', '3', '{8–9}', '26–32', '15', '3d20+5', '1d12', '10'],
-              ['S', '—', '—', '?', '?', '?', '?', '?'],
-            ].map(([cls, grau, custo, vida, res, pod, dano, dur], i) => (
+            {classesCriaturas.map((row, i) => (
               <View key={i} style={styles.tableRow}>
-                <Text style={[styles.tableKey, { flex: 0.5 }]}>{cls}</Text>
-                <Text style={[styles.tableVal, { flex: 0.4 }]}>{grau}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{custo}</Text>
-                <Text style={[styles.tableVal, { flex: 0.7 }]}>{vida}</Text>
-                <Text style={[styles.tableVal, { flex: 0.5 }]}>{res}</Text>
-                <Text style={[styles.tableVal, { flex: 1.1 }]}>{pod}</Text>
-                <Text style={[styles.tableVal, { flex: 0.6 }]}>{dano}</Text>
-                <Text style={[styles.tableVal, { flex: 0.5 }]}>{dur}</Text>
+                <Text style={[styles.tableKey, { flex: 0.5 }]}>{row.cls}</Text>
+                <Text style={[styles.tableVal, { flex: 0.4 }]}>{row.grau}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.custo}</Text>
+                <Text style={[styles.tableVal, { flex: 0.7 }]}>{row.vida}</Text>
+                <Text style={[styles.tableVal, { flex: 0.5 }]}>{row.res}</Text>
+                <Text style={[styles.tableVal, { flex: 1.1 }]}>{row.poder}</Text>
+                <Text style={[styles.tableVal, { flex: 0.6 }]}>{row.dano}</Text>
+                <Text style={[styles.tableVal, { flex: 0.5 }]}>{row.dur}</Text>
               </View>
             ))}
             <Sub text="Mecânica de Ataque" />
-            <R2 a="Atacar" b="Controlador rola 1d20 ≤ valor de Poder da criatura" />
-            <R2 a="Defender" b="Alvo rola 1d20 ≥ Resistência da criatura" />
+            {mecanicaAtaque.map((row, i) => (
+              <R2 key={i} a={row.acao} b={row.descricao} />
+            ))}
             <Sub text="Habilidades de Criaturas" />
-            <R2 a="Alcance" b="Atinge criaturas com Voar" />
-            <R2 a="Amedrontar" b="Criaturas não atacam espontaneamente; bônus de dano por Classe" />
-            <R2 a="Atropelar" b="Excesso de dano vai ao controlador" />
-            <R2 a="Ímpeto" b="Sem enjoo de invocação" />
-            <R2 a="Incorpóreo" b="Imune a físico + condições; vulnerável a sagrado/profano" />
-            <R2 a="Iniciativa" b="Sempre ataca primeiro em confrontos" />
-            <R2 a="Toque Mortífero" b="Destrói criaturas de mesma classe ou inferior" />
-            <R2 a="Vínculo c/ vida" b="Controlador cura = dano causado pela criatura" />
-            <R2 a="Voar" b="Condição Alado; só atacável por quem tiver Voar/Alcance" />
+            {habilidadesCriaturas.map((row, i) => (
+              <R2 key={i} a={row.habilidade} b={row.descricao} />
+            ))}
           </Section>
 
           {/* ── 17. CONDIÇÕES ── */}
           <Section num="17" title="Condições">
             <TH cols={['Condição', 'Efeito']} />
-            <R2 a="Alado" b="Pode voar; imune a corpo a corpo de criaturas sem Voar/Alcance" />
-            <R2 a="Congelado" b="Imóvel; teste dificílimo (25) de Vigor [Atletismo]; a cada rodada que falhar, dificuldade diminui 1 nível" />
-            <R2 a="Envenenado" b="Acumula marcadores de veneno (efeitos progressivos 2/4/6/8/10)" />
-            <R2 a="Incendiado" b="1d6 dano ígneo/turno; acumula se repetido" />
-            <R2 a="Molhado" b="Desvantagem em testes corporais; vulnerável a elétrico" />
-            <R2 a="Morrendo" b="Com 0 vida; 3 testes de Vigor [Atletismo] para sobreviver" />
-            <R2 a="Necrosado" b="Vida Total reduzida pelo dano; não cura com descanso" />
+            {condicoes.map((row, i) => (
+              <R2 key={i} a={row.condicao} b={row.efeito} />
+            ))}
             <Sub text="Veneno — Marcadores" />
-            <R2 a="2 marcadores" b="Curas recuperam 50%" />
-            <R2 a="4 marcadores" b="Descanso: 1 ação a menos" />
-            <R2 a="6 marcadores" b="Desvantagem (-1d20) em todos os testes" />
-            <R2 a="8 marcadores" b="Combate: 1 ação a menos/turno" />
-            <R2 a="10 marcadores" b="Cai imediatamente (condição Morrendo)" />
+            {venenoMarcadores.map((row, i) => (
+              <R2 key={i} a={row.marcadores} b={row.efeito} />
+            ))}
           </Section>
 
           {/* ── 18. COMBATE ── */}
@@ -659,44 +497,33 @@ export default function RegrasScreen() {
             <Note text="Ações por turno: 1 movimentação + 1 operação + 1 reação + ações extras de Velocidade" />
             <Sub text="Movimentação" />
             <TH cols={['Ação', 'Custo', 'Efeito']} />
-            <R3 a="Deslocar-se" b="[1]" c="Move até 9m" />
-            <R3 a="Esconder-se" b="[1]" c="REF [Furtividade]; necessário para ataque surpresa" />
-            <R3 a="Pegar" b="[1]" c="Sacar arma, pegar item, entregar objeto" />
+            {combateMovimentacao.map((row, i) => (
+              <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
+            ))}
             <Sub text="Operações (Ações Padrão)" />
             <TH cols={['Ação', 'Custo', 'Efeito']} />
-            <R3 a="Atacar" b="[1]" c="Golpe físico" />
-            <R3 a="Usar Item" b="[1]" c="Poções, bombas, outros itens" />
-            <R3 a="Movimentar-se" b="[1]" c="Substitui operação por movimento extra" />
+            {combateOperacoes.map((row, i) => (
+              <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
+            ))}
             <Sub text="Reações" />
             <TH cols={['Reação', 'Custo', 'Efeito']} />
-            <R3 a="Aparar" b="[1]" c="REF [Artes Marciais] oposto; sucesso = metade dano + manobra" />
-            <R3 a="Contra-atacar" b="[1]" c="Se atacante falhar: ataque de REF [Esgrima]" />
-            <R3 a="Esquivar-se" b="[1]" c="REF [Furtividade] oposto; sucesso = zero dano" />
-            <R3 a="Disparar" b="[1]" c="Movimentação extra com teste de [Atletismo]" />
-            <R3 a="Mirar" b="[1]" c="Bônus ao próximo teste de [Pontaria]" />
+            {combateReacoes.map((row, i) => (
+              <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
+            ))}
             <Sub text="Manifestações (Ações Mágicas)" />
             <TH cols={['Ação', 'Custo', 'Efeito']} />
-            <R3 a="Ativar" b="[1]" c="Ativa efeito de artefato" />
-            <R3 a="Canalizar" b="[3]" c="Canaliza mana colorida; gasta 1 Canalização" />
-            <R3 a="Comandar" b="[1]" c="Ativa habilidade de criatura" />
-            <R3 a="Conjurar" b="[1]/[grau]" c="Feitiço=[1]; Encantamento/Invocação=[grau] ações" />
-            <R3 a="Lançar" b="[1]" c="Lança mágica conjurada ou da Memória" />
-            <R3 a="Trucar" b="[0]" c="Lança truque; 1º por turno = gratuito" />
+            {combateManifestacoes.map((row, i) => (
+              <R3 key={i} a={row.acao} b={row.custo} c={row.efeito} />
+            ))}
           </Section>
 
           {/* ── 19. DESCANSO ── */}
           <Section num="19" title="Descanso">
             <Note text="Em cada descanso: recupera mínimo de mana + escolhe 2 ações adicionais" />
             <TH cols={['Ação', 'Teste', 'Resultado']} widths={[0.9, 1.1, 2]} />
-            <R3 a="Repousar" b="VIG [Atletismo]" c="10+=20% vida · 15+=40% · 20+=60% · 25+=80% · 30+=100%" />
-            <R3 a="Praticar" b="CON [AM/Inv/Lábia]" c="10+=1 SAB · 15+=2 · 20+=3 · 25+=4 · 30+=5" />
-            <R3 a="Canalizar" b="VON [Comunhão]" c="10+=1d4 mana · 15+=1d6 · 20+=1d8 · 25+=1d10 · 30+=1d12" />
-            <R3 a="Coletar" b="RAZ [Sobrevivência]" c="10+=1 matéria · 15+=2 · 20+=3 · 25+=4 · 30+=5" />
-            <R3 a="Produzir" b="RAZ [Alquimia]" c="falha=efeito reduzido · 10+=pretendido · 20+=potencializado" />
-            <R3 a="Improvisar" b="RAZ [Criatividade]" c="falha=instável/1 cena · 10+=1 cena · 20+=3 cenas" />
-            <R3 a="Inscrever" b="RAZ [Investigação]" c="falha=reduzido · 10+=pretendido · 20+=potencializado" />
-            <R3 a="Fabricar" b="RAZ [Mecânica]" c="falha=0,5 etapa · 10+=1 etapa · 20+=2 etapas" />
-            <R3 a="Reparar" b="CON [Mecânica]" c="10+=1 carga · 15+=2 · 20+=3 · 25+=4 · 30+=5" />
+            {descansaAcoes.map((row, i) => (
+              <R3 key={i} a={row.acao} b={row.teste} c={row.resultado} />
+            ))}
           </Section>
 
           {/* ── 20. EVOLUÇÃO ── */}
@@ -704,21 +531,13 @@ export default function RegrasScreen() {
             <Note text="Personagens acumulam afinidade de cor (%) pelas ações durante a sessão. Ao atingir 100%: recebe 1 Identidade daquela cor. A contagem reinicia do zero." />
             <Sub text="Tipos de Cena e Afinidade" />
             <TH cols={['Cena', 'Dificuldade', 'Afinidade']} widths={[0.9, 1.3, 1.8]} />
-            <R3 a="CORPO" b="Fácil (1–3 turnos)" c="20% ou 3d10" />
-            <R3 a="CORPO" b="Moderada (4–8)" c="50% ou 7d10" />
-            <R3 a="CORPO" b="Difícil (9+)" c="80% ou 10d10" />
-            <R3 a="MENTE" b="Simples (1 cena)" c="20% ou 3d10" />
-            <R3 a="MENTE" b="Complexa (1+ cenas)" c="50% ou 7d10" />
-            <R3 a="MENTE" b="Desafiadora (1+ sessões)" c="80% ou 10d10" />
-            <R3 a="ESPÍRITO" b="Tranquila" c="20% ou 3d10" />
-            <R3 a="ESPÍRITO" b="Tensa" c="50% ou 7d10" />
-            <R3 a="ESPÍRITO" b="Turbulenta" c="80% ou 10d10" />
+            {evolucaoCenas.map((row, i) => (
+              <R3 key={i} a={row.cena} b={row.dificuldade} c={row.afinidade} />
+            ))}
             <Sub text="Comportamentos × Cor (Combate)" />
-            <R2 a="Branco" b="Estratégico, protetor, líder, autoritário" />
-            <R2 a="Verde" b="Linha de frente, resistente, instintivo, brutal" />
-            <R2 a="Vermelho" b="Rápido, impulsivo, emocional, sem cautela" />
-            <R2 a="Preto" b="Furtivo, oportunista, priorizou sobrevivência" />
-            <R2 a="Azul" b="Evitou confronto direto, explorou fraquezas, tático" />
+            {evolucaoComportamentos.map((row, i) => (
+              <R2 key={i} a={row.cor} b={row.comportamento} />
+            ))}
           </Section>
 
           <View style={{ height: 32 }} />
