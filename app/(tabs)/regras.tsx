@@ -640,6 +640,7 @@ const styles = StyleSheet.create({
   },
 
   tableHeaderRow: {
+    backgroundColor: RPG.surfaceAlt,
     borderBottomWidth: 1,
     borderBottomColor: RPG.goldDim,
     paddingBottom: 4,
@@ -650,6 +651,8 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     gap: 6,
     alignItems: 'flex-start',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: RPG.border,
   },
   tableKey: {
     color: RPG.gold,
