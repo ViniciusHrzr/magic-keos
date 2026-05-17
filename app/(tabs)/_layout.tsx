@@ -40,6 +40,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="mochila"
+        options={{
+          title: 'Mochila',
+          tabBarIcon: ({ color }) => <IconSymbol size={26} name="bag.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="grimorio"
         options={{
           title: 'Grimório',
@@ -58,13 +65,6 @@ export default function TabLayout() {
         options={{
           title: 'Notas',
           tabBarIcon: ({ color }) => <IconSymbol size={26} name="square.and.pencil" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="mochila"
-        options={{
-          title: 'Mochila',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="bag.fill" color={color} />,
         }}
       />
       <Tabs.Screen name="explore" options={{ href: null }} />
