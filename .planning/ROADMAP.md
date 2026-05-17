@@ -6,6 +6,7 @@
 - ✅ **v1.1 Fidelidade ao Livro de Regras** — Phases 5–9 (shipped 2026-05-16)
 - ✅ **v1.2 Tela de Regras — Visual & Estrutura** — Phases 10–11 (shipped 2026-05-17)
 - ✅ **v1.3 Aba Mochila — Equipamentos & Craft** — Phases 12–14 (shipped 2026-05-17)
+- 🔄 **v1.4 Nova UI — aRPG & MTG Style** — Phases 15–20 (active)
 
 ## Phases
 
@@ -37,13 +38,24 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 10: Estrutura & Tipografia** — Cards, separação visual e sistema tipográfico (completed 2026-05-17)
 - [x] **Phase 11: Tabelas & Interatividade** — Estilo RPG nas tabelas e animações de colapsável *(completed 2026-05-17)*
 
-### v1.3 Aba Mochila — Equipamentos & Craft (Active)
+### ✅ v1.3 Aba Mochila — Equipamentos & Craft (Complete — 2026-05-17)
 
 **Milestone Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
 
 - [x] **Phase 12: Schema & Migration** — Definir EquipItem, setar CharacterContext, migrate() automático
 - [x] **Phase 13: Aba Mochila & Slots de Equipamento** — Nova aba, remoção de magia.tsx, slots com picker e nome custom
 - [x] **Phase 14: Inventário, Craft & Artefatos** — FlatList híbrida, hexSlots drag-to-equip, craft com preview, stats inline
+
+### v1.4 Nova UI — aRPG & MTG Style (Active)
+
+**Milestone Goal:** Redesenhar toda a interface com estética Magic: The Gathering de alta fidelidade — Legendary Frames, Power Crests, Skia shaders de mana, barra de vida em camadas, dados visuais por atributo, paperdoll aRPG e grimório otimizado com FlashList.
+
+- [ ] **Phase 15: Fundação Visual MTG** — Skia setup, paleta hex MTG em theme.ts, Legendary Frame component no header
+- [ ] **Phase 16: Atributos & Dados Visuais** — Ícones d4–d12 por atributo, Power Crests para perícias, cards de instância MTG
+- [ ] **Phase 17: Vitalidade & Status** — Barra de vida em 5 camadas, sabedoria dual counter, veneno tracker visual
+- [ ] **Phase 18: Mana com Skia** — Stepper duplo Base/Total por cor, shaders Skia por mana, Canalização grid MTG
+- [ ] **Phase 19: Paperdoll aRPG** — Silhueta centralizada, 5 slots posicionados, estados visual vazio/equipado
+- [ ] **Phase 20: Grimório Otimizado** — FlashList 60fps, filtros símbolos MTG, shared element transition
 
 ## Phase Details
 
@@ -215,6 +227,76 @@ Plans:
 - [x] 14-04-PLAN.md — Hexagonal slots (D-05–D-11) + FlatList híbrida NoteCard/GearCard (D-12–D-14)
 - [x] 14-05-PLAN.md — Drag-and-drop inventário↔hex slots via Reanimated v4 + GestureHandler v2 (D-16–D-18)
 
+### Phase 15: Fundação Visual MTG
+
+**Goal**: Dependências Skia instaladas sem quebrar build, paleta MTG hex aplicada em theme.ts, e Legendary Frame component disponível no header do personagem
+**Depends on**: Phase 14
+**Requirements**: UI-01, UI-02, UI-03
+**Success Criteria** (what must be TRUE):
+  1. @shopify/react-native-skia importável em componente RN sem erro em Expo 52 dev client
+  2. constants/theme.ts contém RPG.branco=#F8F2E2, RPG.verde=#00733E, RPG.vermelho=#D3202A, RPG.preto=#150B00, RPG.azul=#0E68AB, RPG.incolor=#A6ADB5
+  3. LegendaryFrame renderiza no header da ficha com nome do personagem e sabedoria, borda chanfrada estilo MTG, sem quebrar layout existente
+**Plans**: 2 plans
+
+Plans:
+- [ ] 15-01-PLAN.md — Instalar @shopify/react-native-skia + atualizar paleta MTG hex em constants/theme.ts (UI-01, UI-02)
+- [ ] 15-02-PLAN.md — Criar LegendaryFrame.tsx (Skia chamfer border) + integrar no header de index.tsx (UI-03)
+
+### Phase 16: Atributos & Dados Visuais
+
+**Goal**: Ícones de dados (d4–d12) visíveis ao lado de cada atributo nas 3 instâncias; perícias e habilidades usam Power Crests circulares; cards de instância redesenhados com visual MTG
+**Depends on**: Phase 15
+**Requirements**: ATTR-01, ATTR-02, ATTR-03
+**Success Criteria** (what must be TRUE):
+  1. Cada atributo nas instâncias CORPO/MENTE/ESPÍRITO exibe ícone de dado (d4, d6, d8, d10 ou d12) ao lado do valor numérico
+  2. Perícias e habilidades usam Power Crest circular como container de ícone, com opacidade diferenciada por estado ativo/inativo
+  3. Cards das instâncias têm fundo, borda e separação de camadas coerentes com estética MTG (RPG.surface + RPG.goldDim border + elevation)
+**Plans**: TBD
+
+### Phase 17: Vitalidade & Status
+
+**Goal**: Barra de vida unificada em 5 camadas sobrepostas; sabedoria com dois contadores separados e independentes; veneno como tracker visual em grid
+**Depends on**: Phase 16
+**Requirements**: VIT-01, VIT-02, VIT-03
+**Success Criteria** (what must be TRUE):
+  1. Barra de vida exibe: container cinza neutro (Total), preenchimento gradiente verde→vermelho (Atual), overlay roxo bloqueante (Necro), shield overlay esquerdo com valor numérico (Armadura), aura ciano contornando (Manto)
+  2. Sabedoria exibe dois campos independentes: Acumulada e Disponível — cada um com stepper próprio e persistência separada no CharacterContext
+  3. Veneno exibe grid de 10 slots com checkmarks/ícones (não apenas número numérico)
+**Plans**: TBD
+
+### Phase 18: Mana com Skia Shaders
+
+**Goal**: Cada cor de mana tem stepper duplo (Base/Total) e shader Skia único por cor; Canalização redesenhada como grid de checkboxes estilizados MTG
+**Depends on**: Phase 17
+**Requirements**: MANA-01, MANA-02, MANA-03
+**Success Criteria** (what must be TRUE):
+  1. Cada uma das 6 cores (Branco, Verde, Vermelho, Preto, Azul, Incolor) exibe stepper duplo: Base (capacidade máxima) e Total (mana disponível agora)
+  2. Shader Skia ativo e visível por cor: Vermelho=ruído Perlin/fogo, Azul=ondas concêntricas, Verde=partículas ascendentes, Branco=brilho etéreo, Preto=sombra profunda, Incolor=distorção neutra
+  3. Canalização exibe grid de checkboxes estilizados MTG (bordas chanfradas, cor de mana) em vez de lista de texto plano
+**Plans**: TBD
+
+### Phase 19: Paperdoll aRPG
+
+**Goal**: Aba Mochila exibe silhueta centralizada de personagem com 5 slots posicionados ao redor em layout aRPG, com estados visual distintos para vazio vs. equipado
+**Depends on**: Phase 18
+**Requirements**: PAP-01, PAP-02, PAP-03
+**Success Criteria** (what must be TRUE):
+  1. Silhueta de personagem centralizada no topo da aba Mochila com slots Arma, Escudo, Vestimenta, Acessório1, Acessório2 posicionados ao redor da silhueta
+  2. Slot vazio exibe Power Crest do tipo de item (ícone de categoria: espada, escudo, etc.) com opacidade 0.3 como placeholder visual
+  3. Slot com item equipado exibe borda dourada (RPG.gold) ou glow diferenciando claramente do estado vazio
+**Plans**: TBD
+
+### Phase 20: Grimório Otimizado
+
+**Goal**: Grimório usa FlashList para scroll 60fps com 3700+ entradas; filtros exibem símbolos MTG; abrir uma magia usa shared element transition
+**Depends on**: Phase 19
+**Requirements**: GRIM-01, GRIM-02, GRIM-03
+**Success Criteria** (what must be TRUE):
+  1. FlatList substituída por @shopify/flash-list no grimório — scroll suave sem dropped frames em lista completa de magias
+  2. Filtros de cor de mana exibem símbolos/ícones W/U/B/R/G/C (Wizards style) em vez de texto puro
+  3. Tap em magia expande o card via shared element transition: card anima de sua posição na lista até preencher a tela com os detalhes
+**Plans**: TBD
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -233,3 +315,9 @@ Plans:
 | 12. Schema & Migration | v1.3 | 1/1 | Complete | 2026-05-17 |
 | 13. Aba Mochila & Slots | v1.3 | 1/1 | Complete | 2026-05-17 |
 | 14. Inventário, Craft & Artefatos | v1.3 | 5/5 | Complete | 2026-05-17 |
+| 15. Fundação Visual MTG | v1.4 | 0/2 | Pending | — |
+| 16. Atributos & Dados Visuais | v1.4 | 0/? | Pending | — |
+| 17. Vitalidade & Status | v1.4 | 0/? | Pending | — |
+| 18. Mana com Skia | v1.4 | 0/? | Pending | — |
+| 19. Paperdoll aRPG | v1.4 | 0/? | Pending | — |
+| 20. Grimório Otimizado | v1.4 | 0/? | Pending | — |
