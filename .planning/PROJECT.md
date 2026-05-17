@@ -16,16 +16,17 @@ Stack: Expo 52, React Native 0.76, TypeScript strict, Expo Router
 ~4300 LOC adicionadas em v1.0 (24 arquivos TS/TSX)
 Sem testes automatizados; ESLint + TypeScript strict como única validação.
 
-## Current Milestone: v1.3 Aba Mochila — Equipamentos & Craft
+## Current Milestone: v1.4 Nova UI — aRPG & MTG Style
 
-**Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
+**Goal:** Redesenhar toda a interface com estética Magic: The Gathering de alta fidelidade — Legendary Frames, Power Crests, Skia shaders de mana, barra de vida em camadas, dados visuais por atributo, paperdoll aRPG e grimório otimizado com FlashList.
 
 **Target features:**
-- Nova aba "Mochila" extraindo Inventário/Equipamentos de magia.tsx
-- 5 slots de equipamento com picker do livro + nome custom (Arma, Escudo, Vestimenta, Acessório×2)
-- Grade de inventário 2-colunas com slots nomeados (texto livre por slot)
-- Sistema de craft: até 3 melhorias por item, filtradas por tipo (conforme livro)
-- Toggle básico → artefato: efeito ativável (texto livre) + durabilidade numérica
+- Fundação Skia + identidade MTG (paleta hex, Legendary Frame header)
+- Dados (d4–d12) visuais nos atributos + Power Crests nas perícias
+- Barra de vida em 5 camadas + Sabedoria dual counter + Veneno tracker visual
+- Mana redesenhado (Base+Total por 6 cores) com shaders Skia por cor
+- Paperdoll com silhueta + 5 slots posicionados ao redor (aRPG style)
+- Grimório com FlashList + filtros por símbolo MTG + shared element transition
 
 ## Requirements
 
@@ -68,19 +69,40 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 - ✓ **REG-03**: Hierarquia tipográfica (títulos, subtítulos, corpo, labels) — v1.2
 - ✓ **REG-04**: Seções colapsáveis com animação e indicadores de estado visuais — v1.2
 
-### Active (v1.3)
+### Validated (v1.3)
 
-- [ ] **MOCH-01**: Nova aba "Mochila" dedicada a equipamentos e inventário
-- [ ] **MOCH-02**: Seções de Inventário/Equipamentos removidas da aba Magia
-- [ ] **EQP-01**: Slots de equipamento (Arma, Escudo, Vestimenta, Acessório×2) com picker do livro + nome custom
-- [ ] **EQP-02**: Cada slot mostra item selecionado com melhorias aplicadas visíveis
-- [ ] **INV-01**: Grade de 20 slots de inventário (2 colunas) com nome livre por slot
-- [ ] **INV-02**: Usuário pode apagar conteúdo de slot de inventário individualmente
-- [ ] **CRAFT-01**: Até 3 melhorias por slot de equipamento, lista filtrada por tipo (Arma/Escudo/Vestimenta/Acessório)
-- [ ] **CRAFT-02**: Melhorias seguem exatamente o livro: 5 opções por categoria, nomeadas por cor e efeito
-- [ ] **CRAFT-03**: Usuário pode remover qualquer melhoria individualmente
-- [ ] **ARTE-01**: Toggle básico/artefato por item — artefato habilita campo de efeito ativável (texto livre) e durabilidade (inteiro)
-- [ ] **SCHEMA-01**: Migration automática do schema antigo para o novo EquipItem preservando dados existentes
+- ✓ **MOCH-01**: Nova aba "Mochila" dedicada a equipamentos e inventário — v1.3
+- ✓ **MOCH-02**: Seções de Inventário/Equipamentos removidas da aba Magia — v1.3
+- ✓ **EQP-01**: Slots de equipamento (Arma, Escudo, Vestimenta, Acessório×2) com picker do livro + nome custom — v1.3
+- ✓ **EQP-02**: Cada slot mostra item selecionado com melhorias aplicadas visíveis — v1.3
+- ✓ **INV-01**: FlatList híbrida (IQuickNote + IStructuredGear) com drag-to-equip — v1.3
+- ✓ **INV-02**: Usuário pode remover itens individualmente do inventário — v1.3
+- ✓ **CRAFT-01**: Até 3 melhorias por slot, lista filtrada por tipo com dados exatos do livro — v1.3
+- ✓ **CRAFT-02**: Melhorias separadas por linha (1 stat = 1 melhoria), deduplicação por label — v1.3
+- ✓ **CRAFT-03**: Usuário pode remover qualquer melhoria individualmente — v1.3
+- ✓ **ARTE-01**: Toggle básico/artefato — artefato habilita efeito ativável + durabilidade — v1.3
+- ✓ **SCHEMA-01**: Migration automática inventarioSlots→inventarioItems + EquipItem preservando dados — v1.3
+
+### Active (v1.4)
+
+- [ ] **UI-01**: @shopify/react-native-skia instalado e configurado
+- [ ] **UI-02**: Paleta MTG hex exata em constants/theme.ts
+- [ ] **UI-03**: Legendary Frame component no header do personagem
+- [ ] **ATTR-01**: Ícones de dados (d4–d12) visuais nos atributos das 3 instâncias
+- [ ] **ATTR-02**: Power Crests circulares para proficiências/habilidades
+- [ ] **ATTR-03**: Cards das instâncias redesenhados com visual MTG
+- [ ] **VIT-01**: Barra de vida em 5 camadas sobrepostas (Total/Atual/Necro/Armadura/Manto)
+- [ ] **VIT-02**: Sabedoria com dois contadores separados (Acumulada / Disponível)
+- [ ] **VIT-03**: Veneno — tracker visual com grid de slots/checkmarks
+- [ ] **MANA-01**: Stepper duplo Base+Total por cor de mana (6 cores)
+- [ ] **MANA-02**: Shaders Skia por cor de mana
+- [ ] **MANA-03**: Canalização redesenhada como grid MTG
+- [ ] **PAP-01**: Silhueta centralizada com 5 slots ao redor (paperdoll aRPG)
+- [ ] **PAP-02**: Slots vazios com Power Crest opacidade 0.3
+- [ ] **PAP-03**: Itens equipados com borda/glow dourado
+- [ ] **GRIM-01**: FlashList no grimório (60fps)
+- [ ] **GRIM-02**: Filtros de mana com ícones MTG
+- [ ] **GRIM-03**: Shared element transition ao abrir magia
 
 ### Out of Scope
 
@@ -146,4 +168,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-17 — v1.3 milestone started*
+*Last updated: 2026-05-17 — v1.4 milestone started*

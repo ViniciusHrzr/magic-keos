@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.3
-milestone_name: Aba Mochila — Equipamentos & Craft
+milestone: v1.4
+milestone_name: milestone
 status: completed
-stopped_at: Phase 14 context gathered
-last_updated: "2026-05-17T17:33:51.341Z"
+stopped_at: context exhaustion at 75% (2026-05-17)
+last_updated: "2026-05-17T21:13:01.030Z"
 last_activity: 2026-05-17 -- Phase 14 executed (grade 20 slots + craft melhorias + toggle artefato)
 progress:
   total_phases: 10
   completed_phases: 10
-  total_plans: 12
-  completed_plans: 13
+  total_plans: 16
+  completed_plans: 17
   percent: 100
 ---
 
@@ -138,6 +138,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-17T17:33:51.327Z
-Stopped at: Phase 14 context gathered
-Resume file: .planning/phases/14-inventario-craft-artefatos/14-CONTEXT.md
+Last session: 2026-05-17T21:13:01.019Z
+Stopped at: context exhaustion at 75% (2026-05-17)
+Resume file: None

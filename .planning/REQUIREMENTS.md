@@ -1,81 +1,69 @@
-# Requirements — Magic Kéos v1.3
+# Requirements — Magic Kéos App
 
-## Milestone
+## Milestone v1.4 — Nova UI: aRPG & MTG Style
 
-**v1.3 — Aba Mochila: Equipamentos & Craft**
-**Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
+### Visual Foundation
 
----
+- [ ] **UI-01**: App usa @shopify/react-native-skia instalado e configurado sem quebrar build Expo 52
+- [ ] **UI-02**: Paleta MTG hex exata atualizada em constants/theme.ts (Branco/#F8F2E2, Verde/#00733E, Vermelho/#D3202A, Preto/#150B00, Azul/#0E68AB, Incolor/#A6ADB5)
+- [ ] **UI-03**: Legendary Frame component disponível e aplicado no header do personagem (nome + sabedoria com borda chanfrada estilo MTG)
 
-## Active Requirements
+### Atributos & Dados
 
-### Mochila (Aba)
+- [ ] **ATTR-01**: Ícones de dados (d4, d6, d8, d10, d12) exibidos visualmente ao lado de cada atributo nas 3 instâncias (Corpo, Mente, Espírito)
+- [ ] **ATTR-02**: Power Crests circulares usados como containers de ícones para proficiências e habilidades
+- [ ] **ATTR-03**: Cards das instâncias (Corpo/Mente/Espírito) redesenhados com visual MTG — bordas, texturas, separação de camadas
 
-- [ ] **MOCH-01**: Usuário pode acessar nova aba "Mochila" dedicada a equipamentos e inventário
-- [ ] **MOCH-02**: Seções de Inventário e Equipamentos são removidas da aba Magia (relocadas para Mochila)
+### Vitalidade & Status
 
-### Equipamentos (Slots)
+- [ ] **VIT-01**: Barra de vida unificada exibe 5 camadas sobrepostas: Total (container), Atual (gradiente verde→vermelho), Necro (overlay roxo bloqueante), Armadura (shield overlay esquerdo com valor), Manto (aura ciano contornando a barra)
+- [ ] **VIT-02**: Sabedoria exibe dois contadores separados e independentes: Acumulada (total histórico) e Disponível (recurso atual)
+- [ ] **VIT-03**: Veneno exibe tracker visual com grid de slots/checkmarks (não apenas número numérico)
 
-- [ ] **EQP-01**: Usuário pode selecionar tipo base de cada slot (Arma, Escudo, Vestimenta, Acessório 1, Acessório 2) via picker com lista do livro
-- [ ] **EQP-02**: Usuário pode usar nome personalizado em qualquer slot (para artefatos com nome único)
-- [ ] **EQP-03**: Cada slot de equipamento exibe o item selecionado com suas melhorias visíveis em estado colapsado
+### Mana com Skia
 
-### Inventário (Grade)
+- [ ] **MANA-01**: Cada cor de mana (Branco, Verde, Vermelho, Preto, Azul, Incolor) tem stepper duplo: Base (capacidade máxima) e Total (disponível)
+- [ ] **MANA-02**: Shader Skia por cor de mana: Vermelho=fogo Perlin, Azul=ondas concêntricas, Verde=partículas ascendentes, Branco=brilho etéreo, Preto=sombra profunda, Incolor=distorção neutra
+- [ ] **MANA-03**: Canalização redesenhada como grid de checkboxes estilizados MTG (não texto plano)
 
-- [ ] **INV-01**: Usuário pode nomear itens em grade de 20 slots de inventário organizados em 2 colunas
-- [ ] **INV-02**: Usuário pode apagar conteúdo de slot de inventário individualmente (sem apagar outros slots)
+### Paperdoll & Mochila
 
-### Craft (Melhorias)
+- [ ] **PAP-01**: Silhueta de personagem centralizada no topo da aba Mochila com 5 slots de equipamento posicionados ao redor (estilo aRPG paperdoll)
+- [ ] **PAP-02**: Slots vazios exibem Power Crest (ícone de categoria — espada, escudo, etc.) com opacidade 0.3 como placeholder visual
+- [ ] **PAP-03**: Itens equipados refletem status visual com borda dourada ou glow no slot correspondente
 
-- [ ] **CRAFT-01**: Usuário pode adicionar até 3 melhorias a qualquer slot de equipamento, escolhendo de lista filtrada pelo tipo do slot
-- [ ] **CRAFT-02**: Lista de melhorias segue exatamente o livro por categoria:
-  - Armas: Acurácia+1 (branco), Acurácia madeira+1 (verde), Dano físico+1 (vermelho), Dado dano+1 (preto), Dano mágico+1 (azul)
-  - Vestimentas: Armadura+1/Diplomacia+1/Esgrima+1 (branco), Manto+1/Comunhão+1/Pontaria+1 (verde), IP Corp+1/Expressão+1/Atletismo+1 (vermelho), IP Esp+1/Intimidação+1/Furtividade+1 (preto), IP Mental+1/Lábia+1/Artes Marciais+1 (azul)
-  - Escudos: IP Esp+1/Armadura+1 (branco), IP Corp+1/Manto+1 (verde), IP Corp+1/Armadura+1 (vermelho), IP Esp+1/IP Mental+1 (preto), IP Mental+1/Manto+1 (azul)
-  - Acessórios: Foco+1/Mecânica+1 (branco), Canalização+1/Sobrevivência+1 (verde), Velocidade+1/Criatividade+1 (vermelho), Domínio+1/Alquimia+1 (preto), Memória+1/Investigação+1 (azul)
-- [ ] **CRAFT-03**: Usuário pode remover qualquer melhoria individualmente sem afetar as demais
+### Grimório
 
-### Artefatos
-
-- [ ] **ARTE-01**: Usuário pode marcar qualquer item equipado como Artefato (toggle básico/artefato), desbloqueando campo de efeito ativável (texto livre) e campo de durabilidade (inteiro)
-
-### Schema & Migration
-
-- [x] **SCHEMA-01**: Schema de Character migra automaticamente: `inventario: string` → `inventarioSlots: string[]` (20 slots) e `equipamentos: { arma: string, ... }` → `equipamentos: { [slot]: EquipItem | null }`, preservando nomes de itens já preenchidos como `{ nome: existingString, tipo: 'basico', melhorias: [] }`
+- [ ] **GRIM-01**: FlatList do grimório substituída por FlashList (@shopify/flash-list) mantendo 60fps durante scroll intenso
+- [ ] **GRIM-02**: Filtros de cor de mana exibem ícones/símbolos MTG (W/U/B/R/G/C) em vez de texto
+- [ ] **GRIM-03**: Tap em magia no grimório usa shared element transition (card expande para preencher tela com detalhe)
 
 ---
 
-## Future Requirements
+## Future Requirements (deferred)
 
-- Propriedades elementais (Sagrado, Ácido, Elétrico etc.) como melhorias avançadas — v1.4+
-- Afiadores: combinações de 3 melhorias para desbloquear propriedade elemental — v1.4+
-- Múltiplas armas equipadas (mão principal + mão secundária) — v2+
-- Rastreador de uso de artefatos (gasto de mana por uso) — v2+
-
----
+- Propriedades elementais (Sagrado, Ácido, Elétrico) como melhorias avançadas — v1.5+
+- Afiadores: combinações de 3 melhorias para propriedade elemental — v1.5+
+- Ícones 3D/isométricos animados para dados (pulso ao equipar item) — v1.5+
+- Feedback tátil (haptics) em ajuste de mana e vitalidade — v1.5+
+- Item raridade system (Comum → Lendário) com borda colorida — v1.5+
+- Glow Lendário via Skia Canvas (transborda limites do slot) — v1.5+
+- "Orb de Conhecimento" botão no Paperdoll que abre Grimório — v2+
 
 ## Out of Scope
 
-- Cálculo automático de bônus: melhorias são referência visual, não se aplicam automaticamente aos atributos da ficha
-- Gerenciamento de peso/carga — fora do escopo (sistema não usa carga)
-- Loja ou economia in-app — fora do escopo (app local-only)
-- Validação de proficiência no equipamento selecionado — fora do escopo (jogador controla)
-
----
+- Zustand (migração de Context+AsyncStorage): risco alto sem ganho imediato para UI — decisão confirmada
+- Slot Armadura como 6º slot de equipamento: decisão Phase 13 mantida (Armadura = overlay visual na barra de vida)
+- Cálculo automático de bônus de equipamentos em atributos: app é referência visual, não calculadora
+- Backend/servidor, multiplayer, testes automatizados: fora do escopo do app
 
 ## Traceability
 
-| REQ-ID | Phase | Status |
-|--------|-------|--------|
-| SCHEMA-01 | Phase 12 | complete |
-| MOCH-01 | Phase 13 | pending |
-| MOCH-02 | Phase 13 | pending |
-| EQP-01 | Phase 13 | pending |
-| EQP-02 | Phase 13 | pending |
-| EQP-03 | Phase 13 | pending |
-| INV-01 | Phase 14 | pending |
-| INV-02 | Phase 14 | pending |
-| CRAFT-01 | Phase 14 | pending |
-| CRAFT-02 | Phase 14 | pending |
-| CRAFT-03 | Phase 14 | pending |
-| ARTE-01 | Phase 14 | pending |
+| REQ-ID | Phase |
+|--------|-------|
+| UI-01, UI-02, UI-03 | Phase 15 |
+| ATTR-01, ATTR-02, ATTR-03 | Phase 16 |
+| VIT-01, VIT-02, VIT-03 | Phase 17 |
+| MANA-01, MANA-02, MANA-03 | Phase 18 |
+| PAP-01, PAP-02, PAP-03 | Phase 19 |
+| GRIM-01, GRIM-02, GRIM-03 | Phase 20 |

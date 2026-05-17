@@ -32,3 +32,33 @@ Companion digital para Magic no Universo Kéos: estabilização da fundação (p
 
 - Roadmap: `.planning/milestones/v1.0-ROADMAP.md`
 - Requirements: `.planning/milestones/v1.0-REQUIREMENTS.md`
+
+---
+
+## v1.1 — Fidelidade ao Livro de Regras (2026-05-16)
+
+**Shipped:** 2026-05-16 | **Phases:** 5–9 | **Requirements:** Phases 5-9 completos
+
+Correção completa de proficiências (CORPO/MENTE/ESPÍRITO), habilidades e documentação para fidelidade total ao docx oficial. Aba Notas extraída. ProficienciasSection collapsível. Regras 100% dinâmicas via data/regras/*.ts.
+
+---
+
+## v1.2 — Tela de Regras: Visual & Estrutura (2026-05-17)
+
+**Shipped:** 2026-05-17 | **Phases:** 10–11 | **Requirements:** REG-01..REG-12
+
+Hierarquia visual (cards, separação), tipografia RPG, tabelas estilizadas, colapsáveis animados com chevron + haptic.
+
+---
+
+## v1.3 — Aba Mochila: Equipamentos & Craft (2026-05-17)
+
+**Shipped:** 2026-05-17 | **Phases:** 12–14 | **Requirements:** MOCH-01/02, EQP-01/02, INV-01/02, CRAFT-01..03, ARTE-01, SCHEMA-01
+
+Schema EquipItem + migration, nova aba Mochila com 5 slots hexagonais drag-to-equip (Reanimated v4 + GestureHandler v2), FlatList híbrida (IQuickNote + IStructuredGear), craft com preview de melhoria, stats inline sempre visíveis.
+
+---
+
+## v1.4 — Nova UI: aRPG & MTG Style (active)
+
+**Started:** 2026-05-17 | **Phases:** 15–20
