@@ -12,6 +12,7 @@ import {
   LayoutAnimation,
   ActivityIndicator,
   UIManager,
+  FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
@@ -20,6 +21,10 @@ import SectionHeader from '@/components/rpg/SectionHeader';
 import NumericStepper from '@/components/rpg/NumericStepper';
 import { EquipItem } from '@/types/character';
 import { armas, escudos, vestimentas, acessorios, MELHORIAS_POR_SLOT, MelhoriaItem } from '@/data/regras/equipamentos';
+import { InventoryItem, isQuickNote } from '@/types/inventory';
+import HexSlot from '@/components/rpg/HexSlot';
+import NoteCard from '@/components/rpg/NoteCard';
+import GearCard from '@/components/rpg/GearCard';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -53,6 +58,14 @@ const SLOT_ITEMS: Record<SlotKey, string[]> = {
   acessorio2: acessorios.map(r => r.acessorio),
 };
 
+const SLOT_AFFINITY: Record<typeof SLOT_KEYS[number], string> = {
+  arma: RPG.vermelho,
+  escudo: RPG.azul,
+  vestimenta: RPG.verde,
+  acessorio1: RPG.branco,
+  acessorio2: RPG.branco,
+};
+
 const COR_TOKEN: Record<MelhoriaItem['cor'], string> = {
   branco:   RPG.branco,
   verde:    RPG.verde,
@@ -62,7 +75,7 @@ const COR_TOKEN: Record<MelhoriaItem['cor'], string> = {
 };
 
 export default function MochilaScreen() {
-  const { character: c, setEquipamentoItem, setInventarioSlot, isLoaded } = useCharacter();
+  const { character: c, setEquipamentoItem, setInventarioSlot, addInventarioItem, removeInventarioItem, updateInventarioItem, isLoaded } = useCharacter();
   const [pickerSlot, setPickerSlot] = useState<SlotKey | null>(null);
   const [expandedSlot, setExpandedSlot] = useState<SlotKey | null>(null);
   const [crafterSlot, setCrafterSlot] = useState<SlotKey | null>(null);
@@ -110,6 +123,10 @@ export default function MochilaScreen() {
     setEquipamentoItem(slot, { ...item, melhorias: item.melhorias.filter((_, i) => i !== idx) });
   }
 
+  function newNoteId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
+  function handleAddNote() { addInventarioItem({ id: newNoteId(), type: 'note', text: '', qty: 1 }); }
+  function handleAddGear() { addInventarioItem({ id: newNoteId(), type: 'gear', name: '', type_equip: 'outro', melhorias: [] }); }
+
   function toggleTipo(slot: SlotKey) {
     const item = c.equipamentos[slot];
     if (!item) return;
@@ -145,144 +162,56 @@ export default function MochilaScreen() {
             <Text style={styles.title}>Mochila</Text>
           </View>
           <SectionHeader title="Equipamentos" />
-          {SLOT_KEYS.map(slot => {
-            const item = c.equipamentos[slot];
-            const isExpanded = expandedSlot === slot;
-            return (
-              <View
-                key={slot}
-                style={[styles.slotCard, item != null && styles.slotCardFilled]}
-              >
-                <TouchableOpacity
+          <View style={styles.hexContainer}>
+            {SLOT_KEYS.map(slot => {
+              const item = c.equipamentos[slot];
+              return (
+                <HexSlot
+                  key={slot}
+                  slotKey={slot}
+                  label={SLOT_LABELS[slot]}
+                  affinityColor={SLOT_AFFINITY[slot]}
+                  item={item}
+                  melhoriaColors={COR_TOKEN}
                   onPress={() => toggleExpanded(slot)}
-                  activeOpacity={0.8}
-                  style={styles.slotHeader}
-                >
-                  <Text style={styles.slotLabel}>{SLOT_LABELS[slot].toUpperCase()}</Text>
-                  {item != null ? (
-                    <Text style={styles.slotNome} numberOfLines={1}>{item.nome}</Text>
-                  ) : (
-                    <Text style={[styles.slotNome, styles.slotNomeEmpty]}>—</Text>
-                  )}
-                  {item != null && item.melhorias.length > 0 && (
-                    <Text style={styles.slotMelhorias}>{item.melhorias.length} melh.</Text>
-                  )}
-                  <Text style={styles.chevron}>{isExpanded ? '▲' : '▼'}</Text>
-                </TouchableOpacity>
-                {isExpanded && (
-                  <View style={styles.slotBody}>
-                    <TextInput
-                      style={styles.nomeInput}
-                      value={item?.nome ?? ''}
-                      onChangeText={v => editNome(slot, v)}
-                      placeholder="Nome personalizado..."
-                      placeholderTextColor={RPG.textDark}
-                    />
-                    <TouchableOpacity
-                      style={styles.pickerBtn}
-                      onPress={() => setPickerSlot(slot)}
-                      activeOpacity={0.8}
-                    >
-                      <Text style={styles.pickerBtnText}>Escolher do livro</Text>
-                    </TouchableOpacity>
-                    {item != null && (
-                      <TouchableOpacity
-                        style={styles.clearBtn}
-                        onPress={() => clearSlot(slot)}
-                        activeOpacity={0.8}
-                      >
-                        <Text style={styles.clearBtnText}>Remover item</Text>
-                      </TouchableOpacity>
-                    )}
-                    {item != null && (
-                      <>
-                        {item.melhorias.length > 0 && (
-                          <View style={styles.melhoriasList}>
-                            {item.melhorias.map((label, idx) => {
-                              const melhoriaData = MELHORIAS_POR_SLOT[slot].find(m => m.label === label);
-                              const cor = melhoriaData ? COR_TOKEN[melhoriaData.cor] : RPG.textMuted;
-                              return (
-                                <View key={idx} style={[styles.melhoriaBadge, { borderColor: cor }]}>
-                                  <Text style={[styles.melhoriaLabel, { color: cor }]}>{label}</Text>
-                                  <TouchableOpacity onPress={() => removeMelhoria(slot, idx)} activeOpacity={0.7} style={styles.melhoriaRemove}>
-                                    <Text style={[styles.melhoriaRemoveText, { color: cor }]}>×</Text>
-                                  </TouchableOpacity>
-                                </View>
-                              );
-                            })}
-                          </View>
-                        )}
-                        <TouchableOpacity
-                          style={[styles.addMelhoriaBtn, item.melhorias.length >= 3 && styles.addMelhoriaBtnDisabled]}
-                          onPress={() => { if (item.melhorias.length < 3) setCrafterSlot(slot); }}
-                          activeOpacity={item.melhorias.length >= 3 ? 1 : 0.8}
-                        >
-                          <Text style={styles.addMelhoriaBtnText}>
-                            {item.melhorias.length >= 3 ? 'Máx. 3 melhorias' : '+ Adicionar Melhoria'}
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={[styles.tipoToggle, item.tipo === 'artefato' && styles.tipoToggleActive]}
-                          onPress={() => toggleTipo(slot)}
-                          activeOpacity={0.8}
-                        >
-                          <Text style={[styles.tipoToggleText, item.tipo === 'artefato' && styles.tipoToggleTextActive]}>
-                            {item.tipo === 'basico' ? 'Básico' : 'Artefato ✦'}
-                          </Text>
-                        </TouchableOpacity>
-                        {item.tipo === 'artefato' && (
-                          <>
-                            <TextInput
-                              style={[styles.nomeInput, styles.efeitoInput]}
-                              value={item.efeito ?? ''}
-                              onChangeText={v => setEquipamentoItem(slot, { ...item, efeito: v })}
-                              placeholder="Efeito ativável..."
-                              placeholderTextColor={RPG.textDark}
-                              multiline
-                            />
-                            <NumericStepper
-                              label="Durabilidade"
-                              value={item.durabilidade ?? 0}
-                              onChange={v => setEquipamentoItem(slot, { ...item, durabilidade: v })}
-                              min={0}
-                              compact
-                            />
-                          </>
-                        )}
-                      </>
-                    )}
-                  </View>
-                )}
-              </View>
-            );
-          })}
-          <SectionHeader title="Inventário" />
-          <View style={styles.invGrid}>
-            {Array.from({ length: 10 }, (_, row) => (
-              <View key={row} style={styles.invRow}>
-                {[row * 2, row * 2 + 1].map(idx => (
-                  <View key={idx} style={styles.invCell}>
-                    <TextInput
-                      style={styles.invInput}
-                      value={(c.inventarioSlots ?? [])[idx] ?? ''}
-                      onChangeText={v => setInventarioSlot(idx, v)}
-                      placeholder={String(idx + 1)}
-                      placeholderTextColor={RPG.textDark}
-                    />
-                    {((c.inventarioSlots ?? [])[idx] ?? '').trim() !== '' && (
-                      <TouchableOpacity
-                        onPress={() => setInventarioSlot(idx, '')}
-                        activeOpacity={0.7}
-                        style={styles.invClearBtn}
-                      >
-                        <Text style={styles.invClearText}>✕</Text>
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                ))}
-              </View>
-            ))}
+                  isExpanded={expandedSlot === slot}
+                  onPickerOpen={() => setPickerSlot(slot)}
+                  onCrafterOpen={() => setCrafterSlot(slot)}
+                  onClearSlot={() => clearSlot(slot)}
+                  onEditNome={v => editNome(slot, v)}
+                  onRemoveMelhoria={idx => removeMelhoria(slot, idx)}
+                  onToggleTipo={() => toggleTipo(slot)}
+                  onEditEfeito={v => { if (item) setEquipamentoItem(slot, { ...item, efeito: v }); }}
+                  onEditDurabilidade={v => { if (item) setEquipamentoItem(slot, { ...item, durabilidade: v }); }}
+                  availableMelhorias={MELHORIAS_POR_SLOT[slot].map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] }))}
+                />
+              );
+            })}
           </View>
+          <SectionHeader title="Inventário" />
+          <FlatList
+            data={c.inventarioItems ?? []}
+            keyExtractor={(item: InventoryItem) => item.id}
+            scrollEnabled={false}
+            renderItem={({ item }: { item: InventoryItem }) =>
+              isQuickNote(item)
+                ? <NoteCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} />
+                : <GearCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} />
+            }
+            ListEmptyComponent={
+              <Text style={styles.emptyInventory}>Inventário vazio — adicione itens abaixo</Text>
+            }
+            ListFooterComponent={
+              <View style={styles.addItemRow}>
+                <TouchableOpacity style={styles.addItemBtn} onPress={handleAddNote} activeOpacity={0.8}>
+                  <Text style={styles.addItemBtnText}>+ Nota Rápida</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.addItemBtn} onPress={handleAddGear} activeOpacity={0.8}>
+                  <Text style={styles.addItemBtnText}>+ Equipamento</Text>
+                </TouchableOpacity>
+              </View>
+            }
+          />
         </ScrollView>
 
         <Modal
@@ -381,54 +310,30 @@ const styles = StyleSheet.create({
     color: RPG.gold,
     letterSpacing: 1,
   },
-  slotCard: {
-    backgroundColor: RPG.surface,
-    borderWidth: 1,
-    borderColor: RPG.border,
-    borderRadius: 6,
-    marginBottom: 10,
-    overflow: 'hidden',
-  },
-  slotCardFilled: {
-    borderColor: RPG.goldDim,
-  },
-  slotHeader: {
+  hexContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    gap: 8,
-  },
-  slotLabel: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: RPG.textDark,
-    letterSpacing: 1,
-    width: 80,
-  },
-  slotNome: {
-    flex: 1,
-    fontSize: 14,
-    color: RPG.gold,
-    fontWeight: '600',
-  },
-  slotNomeEmpty: {
-    color: RPG.textDark,
-    fontWeight: '400',
-  },
-  slotMelhorias: {
-    fontSize: 11,
-    color: RPG.textMuted,
-  },
-  chevron: {
-    fontSize: 12,
-    color: RPG.textDark,
-    marginLeft: 4,
-  },
-  slotBody: {
-    padding: 12,
-    paddingTop: 0,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     gap: 10,
+    paddingVertical: 8,
+    marginBottom: 8,
   },
+  emptyInventory: {
+    color: RPG.textDark,
+    fontSize: 13,
+    textAlign: 'center',
+    paddingVertical: 20,
+  },
+  addItemRow: { flexDirection: 'row', gap: 8, paddingVertical: 8 },
+  addItemBtn: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: RPG.goldDim,
+    borderRadius: 4,
+    paddingVertical: 8,
+    alignItems: 'center',
+  },
+  addItemBtnText: { color: RPG.gold, fontSize: 13, fontWeight: '600' },
   nomeInput: {
     backgroundColor: RPG.surface,
     borderWidth: 1,
@@ -596,40 +501,5 @@ const styles = StyleSheet.create({
   craftItemAppliedMark: {
     fontSize: 14,
     color: RPG.textMuted,
-  },
-  invGrid: {
-    marginTop: 4,
-    marginBottom: 16,
-  },
-  invRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 8,
-  },
-  invCell: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: RPG.surface,
-    borderWidth: 1,
-    borderColor: RPG.border,
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 0,
-    minHeight: 38,
-  },
-  invInput: {
-    flex: 1,
-    color: RPG.text,
-    fontSize: 13,
-    paddingVertical: 8,
-  },
-  invClearBtn: {
-    paddingHorizontal: 4,
-    paddingVertical: 6,
-  },
-  invClearText: {
-    color: RPG.textDark,
-    fontSize: 13,
   },
 });
