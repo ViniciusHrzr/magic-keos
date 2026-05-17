@@ -1,70 +1,81 @@
-# Requirements — Magic Kéos v1.2
+# Requirements — Magic Kéos v1.3
 
 ## Milestone
 
-**v1.2 — Tela de Regras: Visual & Estrutura**
-**Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas RPG, tipografia com escaneabilidade e seções colapsáveis com feedback — alinhado à vibe dark/gold/premium da ficha existente.
+**v1.3 — Aba Mochila: Equipamentos & Craft**
+**Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
 
 ---
 
 ## Active Requirements
 
-### Hierarquia Visual (REG-01–02)
+### Mochila (Aba)
 
-- [x] **REG-01**: A tela de Regras exibe cada seção principal em um card/bloco visualmente separado do fundo (background distinto, borda ou sombra)
-- [x] **REG-02**: O cabeçalho de cada seção principal tem número, título e divisor visual claramente distintos do conteúdo interno
+- [ ] **MOCH-01**: Usuário pode acessar nova aba "Mochila" dedicada a equipamentos e inventário
+- [ ] **MOCH-02**: Seções de Inventário e Equipamentos são removidas da aba Magia (relocadas para Mochila)
 
-### Tabelas (REG-03–05)
+### Equipamentos (Slots)
 
-- [ ] **REG-03**: Toda tabela tem uma linha de cabeçalho (header) com fundo distinto e texto em bold/gold
-- [ ] **REG-04**: As linhas de dados de tabela têm separação clara (borda inferior ou fundo alternado leve)
-- [ ] **REG-05**: Colunas de tabela são alinhadas de forma consistente em todas as seções
+- [ ] **EQP-01**: Usuário pode selecionar tipo base de cada slot (Arma, Escudo, Vestimenta, Acessório 1, Acessório 2) via picker com lista do livro
+- [ ] **EQP-02**: Usuário pode usar nome personalizado em qualquer slot (para artefatos com nome único)
+- [ ] **EQP-03**: Cada slot de equipamento exibe o item selecionado com suas melhorias visíveis em estado colapsado
 
-### Tipografia (REG-06–09)
+### Inventário (Grade)
 
-- [x] **REG-06**: Títulos de seção: fonte grande (≥16), bold, gold — legível sem expandir
-- [x] **REG-07**: Sub-seções (Sub): fonte média (12–14), semibold, text ou goldLight
-- [x] **REG-08**: Corpo de texto: regular, textMuted, lineHeight ≥ 18 para leitura confortável em sessão
-- [x] **REG-09**: Labels meta (PRÉ-REQ, CUSTO, MÁGICA etc.): uppercase, tiny (≤10), gold, letterSpacing
+- [ ] **INV-01**: Usuário pode nomear itens em grade de 20 slots de inventário organizados em 2 colunas
+- [ ] **INV-02**: Usuário pode apagar conteúdo de slot de inventário individualmente (sem apagar outros slots)
 
-### Seções Colapsáveis (REG-10–12)
+### Craft (Melhorias)
 
-- [ ] **REG-10**: Chevron (▼/▲) anima suavemente entre estado colapsado e expandido
-- [ ] **REG-11**: O cabeçalho colapsável muda de aparência visualmente entre fechado e aberto (cor de fundo, borda ou opacidade)
-- [ ] **REG-12**: Toque no cabeçalho aciona feedback háptico leve (Expo Haptics)
+- [ ] **CRAFT-01**: Usuário pode adicionar até 3 melhorias a qualquer slot de equipamento, escolhendo de lista filtrada pelo tipo do slot
+- [ ] **CRAFT-02**: Lista de melhorias segue exatamente o livro por categoria:
+  - Armas: Acurácia+1 (branco), Acurácia madeira+1 (verde), Dano físico+1 (vermelho), Dado dano+1 (preto), Dano mágico+1 (azul)
+  - Vestimentas: Armadura+1/Diplomacia+1/Esgrima+1 (branco), Manto+1/Comunhão+1/Pontaria+1 (verde), IP Corp+1/Expressão+1/Atletismo+1 (vermelho), IP Esp+1/Intimidação+1/Furtividade+1 (preto), IP Mental+1/Lábia+1/Artes Marciais+1 (azul)
+  - Escudos: IP Esp+1/Armadura+1 (branco), IP Corp+1/Manto+1 (verde), IP Corp+1/Armadura+1 (vermelho), IP Esp+1/IP Mental+1 (preto), IP Mental+1/Manto+1 (azul)
+  - Acessórios: Foco+1/Mecânica+1 (branco), Canalização+1/Sobrevivência+1 (verde), Velocidade+1/Criatividade+1 (vermelho), Domínio+1/Alquimia+1 (preto), Memória+1/Investigação+1 (azul)
+- [ ] **CRAFT-03**: Usuário pode remover qualquer melhoria individualmente sem afetar as demais
+
+### Artefatos
+
+- [ ] **ARTE-01**: Usuário pode marcar qualquer item equipado como Artefato (toggle básico/artefato), desbloqueando campo de efeito ativável (texto livre) e campo de durabilidade (inteiro)
+
+### Schema & Migration
+
+- [ ] **SCHEMA-01**: Schema de Character migra automaticamente: `inventario: string` → `inventarioSlots: string[]` (20 slots) e `equipamentos: { arma: string, ... }` → `equipamentos: { [slot]: EquipItem | null }`, preservando nomes de itens já preenchidos como `{ nome: existingString, tipo: 'basico', melhorias: [] }`
 
 ---
 
 ## Future Requirements
 
-- Seção de Regras com busca textual inline (buscar regra por nome/palavra-chave)
-- Marcadores de "favorito" por seção para acesso rápido na sessão
-- Modo de leitura compacto vs. expandido (densidade configurável)
+- Propriedades elementais (Sagrado, Ácido, Elétrico etc.) como melhorias avançadas — v1.4+
+- Afiadores: combinações de 3 melhorias para desbloquear propriedade elemental — v1.4+
+- Múltiplas armas equipadas (mão principal + mão secundária) — v2+
+- Rastreador de uso de artefatos (gasto de mana por uso) — v2+
 
 ---
 
 ## Out of Scope
 
-- Alterações no conteúdo das regras (`data/regras/`) — conteúdo está correto desde v1.1
-- Novas seções ou novas regras na tela
-- Redesign de outras telas (Ficha, Magia, Grimório, Notas)
-- Backend, sync ou persistência de estado de colapsável entre sessões
+- Cálculo automático de bônus: melhorias são referência visual, não se aplicam automaticamente aos atributos da ficha
+- Gerenciamento de peso/carga — fora do escopo (sistema não usa carga)
+- Loja ou economia in-app — fora do escopo (app local-only)
+- Validação de proficiência no equipamento selecionado — fora do escopo (jogador controla)
 
 ---
 
 ## Traceability
 
-| REQ-ID | Phase | Plan |
-|--------|-------|------|
-| REG-01 | 10 | 10-01 |
-| REG-02 | 10 | 10-01 |
-| REG-06 | 10 | 10-01 |
-| REG-07 | 10 | 10-01 |
-| REG-08 | 10 | 10-01 |
-| REG-09 | 10 | 10-01 |
-| REG-03 | 11 | 11-01 |
-| REG-04 | 11 | 11-01 |
-| REG-05 | 11 | 11-01 |
-| REG-10 | 11 | 11-01 |
-| REG-11 | 11 | 11-01 |
-| REG-12 | 11 | 11-01 |
+| REQ-ID | Phase | Status |
+|--------|-------|--------|
+| MOCH-01 | TBD | pending |
+| MOCH-02 | TBD | pending |
+| EQP-01 | TBD | pending |
+| EQP-02 | TBD | pending |
+| EQP-03 | TBD | pending |
+| INV-01 | TBD | pending |
+| INV-02 | TBD | pending |
+| CRAFT-01 | TBD | pending |
+| CRAFT-02 | TBD | pending |
+| CRAFT-03 | TBD | pending |
+| ARTE-01 | TBD | pending |
+| SCHEMA-01 | TBD | pending |

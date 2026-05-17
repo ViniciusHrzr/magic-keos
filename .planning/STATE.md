@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.2
-milestone_name: Tela de Regras — Visual & Estrutura
-status: Phase 11 complete — milestone v1.2 done
-stopped_at: Completed 11-01-PLAN.md
-last_updated: "2026-05-17T03:41:45Z"
-last_activity: 2026-05-17 — Phase 11 executada (REG-03,04,05,10,11,12 fechados)
+milestone: v1.3
+milestone_name: Aba Mochila — Equipamentos & Craft
+status: planning
+stopped_at: Defining requirements
+last_updated: "2026-05-17T00:00:00Z"
+last_activity: 2026-05-17 — Milestone v1.3 started
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 11 — Tabelas & Interatividade (COMPLETE)
-Plan: 11-01 (Executed — 2 commits, 1 file modified)
-Status: Phase 11 complete — milestone v1.2 done
-Last activity: 2026-05-17 — Phase 11 executada (REG-03,04,05,10,11,12 fechados)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-17 — Milestone v1.3 started
 
 ## Phase 11 — Resumo Completo
 

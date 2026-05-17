@@ -16,15 +16,16 @@ Stack: Expo 52, React Native 0.76, TypeScript strict, Expo Router
 ~4300 LOC adicionadas em v1.0 (24 arquivos TS/TSX)
 Sem testes automatizados; ESLint + TypeScript strict como única validação.
 
-## Current Milestone: v1.2 Tela de Regras — Visual & Estrutura
+## Current Milestone: v1.3 Aba Mochila — Equipamentos & Craft
 
-**Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas com estilo RPG, tipografia com escaneabilidade, e seções colapsáveis com feedback claro — alinhado à vibe dark/gold/premium da ficha existente.
+**Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
 
 **Target features:**
-- Cards e separação visual entre seções (não mais texto plano/HTML cru)
-- Tabelas com estilo RPG (bordas, cores, header consistente)
-- Hierarquia tipográfica: títulos, subtítulos, corpo, labels com pesos/cores/tamanhos
-- Seções colapsáveis com animação/indicadores de estado (aberto/fechado)
+- Nova aba "Mochila" extraindo Inventário/Equipamentos de magia.tsx
+- 5 slots de equipamento com picker do livro + nome custom (Arma, Escudo, Vestimenta, Acessório×2)
+- Grade de inventário 2-colunas com slots nomeados (texto livre por slot)
+- Sistema de craft: até 3 melhorias por item, filtradas por tipo (conforme livro)
+- Toggle básico → artefato: efeito ativável (texto livre) + durabilidade numérica
 
 ## Requirements
 
@@ -60,12 +61,26 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 - ✓ PericiaData com campo descricao; slots mostram nome + descricao + teste — v1.0 gsd-fast
 - ✓ Regras seção 4 dinâmica (rendering de proficiencias.ts) e seção 5 tabela Habilidades — v1.0 gsd-fast
 
-### Active (v1.2)
+### Validated (v1.2)
 
-- [ ] **REG-01**: Hierarquia visual — cards e separação clara entre seções de regras
-- [ ] **REG-02**: Tabelas com estilo RPG (header, bordas, cores coerentes)
-- [ ] **REG-03**: Hierarquia tipográfica (títulos, subtítulos, corpo, labels)
-- [ ] **REG-04**: Seções colapsáveis com animação e indicadores de estado visuais
+- ✓ **REG-01**: Hierarquia visual — cards e separação clara entre seções de regras — v1.2
+- ✓ **REG-02**: Tabelas com estilo RPG (header, bordas, cores coerentes) — v1.2
+- ✓ **REG-03**: Hierarquia tipográfica (títulos, subtítulos, corpo, labels) — v1.2
+- ✓ **REG-04**: Seções colapsáveis com animação e indicadores de estado visuais — v1.2
+
+### Active (v1.3)
+
+- [ ] **MOCH-01**: Nova aba "Mochila" dedicada a equipamentos e inventário
+- [ ] **MOCH-02**: Seções de Inventário/Equipamentos removidas da aba Magia
+- [ ] **EQP-01**: Slots de equipamento (Arma, Escudo, Vestimenta, Acessório×2) com picker do livro + nome custom
+- [ ] **EQP-02**: Cada slot mostra item selecionado com melhorias aplicadas visíveis
+- [ ] **INV-01**: Grade de 20 slots de inventário (2 colunas) com nome livre por slot
+- [ ] **INV-02**: Usuário pode apagar conteúdo de slot de inventário individualmente
+- [ ] **CRAFT-01**: Até 3 melhorias por slot de equipamento, lista filtrada por tipo (Arma/Escudo/Vestimenta/Acessório)
+- [ ] **CRAFT-02**: Melhorias seguem exatamente o livro: 5 opções por categoria, nomeadas por cor e efeito
+- [ ] **CRAFT-03**: Usuário pode remover qualquer melhoria individualmente
+- [ ] **ARTE-01**: Toggle básico/artefato por item — artefato habilita campo de efeito ativável (texto livre) e durabilidade (inteiro)
+- [ ] **SCHEMA-01**: Migration automática do schema antigo para o novo EquipItem preservando dados existentes
 
 ### Out of Scope
 
@@ -131,4 +146,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-16 — v1.2 milestone started*
+*Last updated: 2026-05-17 — v1.3 milestone started*
