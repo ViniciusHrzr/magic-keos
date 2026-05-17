@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Tela de Regras — Visual & Estrutura
-status: Planned — 1 plan, 1 wave
-stopped_at: v1.1 milestone complete
-last_updated: "2026-05-17T03:16:28.104Z"
-last_activity: 2026-05-16 — Phase 10 planned (REG-01, REG-02, REG-06-09)
+status: Phase 10 complete — Phase 11 pending
+stopped_at: Phase 10 executed (card anatomy + typography)
+last_updated: "2026-05-17T00:00:00.000Z"
+last_activity: 2026-05-17 — Phase 10 complete (REG-01, REG-02, REG-06-09)
 progress:
   total_phases: 2
   completed_phases: 1
@@ -25,10 +25,26 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 10 — Estrutura & Tipografia
-Plan: 10-01 (Ready to execute)
-Status: Planned — 1 plan, 1 wave
-Last activity: 2026-05-16 — Phase 10 planned (REG-01, REG-02, REG-06-09)
+Phase: 11 — Tabelas & Interatividade
+Plan: 11-01 (Not yet planned)
+Status: Phase 10 complete — Phase 11 pending
+Last activity: 2026-05-17 — Phase 10 complete (card anatomy + typography, REG-01/02/06-09)
+
+## Phase 10 — Resumo Completo
+
+| Plan | Descrição | Requirements | Status |
+|------|-----------|--------------|--------|
+| 10-01 | Card anatomy + conditional header + sistema tipográfico | REG-01,02,06-09 | ✅ |
+
+Changes applied:
+- `sectionWrap`: card com `backgroundColor: RPG.surface`, `borderTopWidth: 2 / RPG.goldDim`, `marginHorizontal: 8, marginVertical: 6`
+- Section JSX: `style={[styles.sectionHeader, open && styles.sectionHeaderOpen]}`
+- `sectionHeaderOpen`: `backgroundColor: RPG.surface`, `borderBottomWidth: 1 / RPG.goldDim`
+- `sectionNum`: 11px→12px; `sectionTitle`: 14px→16px bold gold
+- `subTitle`: goldDim 10px bold → goldLight 12px semibold uppercase letterSpacing 0.8
+- `lineHeight`: 16→18 em sectionIntro, profDesc, habEfeito, tableVal
+- `profReq`/`habPrereq`: goldDim italic → gold uppercase 10px fontWeight '600'
+- `profTeste`: azulLight + italic preservados
 
 ## Phase 9 — Resumo Completo
 
