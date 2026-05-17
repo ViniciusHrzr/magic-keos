@@ -170,8 +170,11 @@ Plans:
   3. Ficha existente com `equipamentos.arma = "Espada"` migra automaticamente para `equipamentos.arma = { nome: "Espada", tipo: "basico", melhorias: [] }` sem perder o nome
   4. Ficha existente com `inventario = "Corda, Tocha"` migra para `inventarioSlots[0] = "Corda, Tocha"` e demais slots ficam strings vazias
   5. App cold-starts sem erros de TypeScript e sem crash em ficha com schema legado
-**Plans**: TBD
+**Plans**: 1 plan
 **UI hint**: no
+
+Plans:
+- [ ] 12-01-PLAN.md — EquipItem interface + Character schema widening + migrate() guards + context setters + remove broken call sites in magia.tsx
 
 ### Phase 13: Aba Mochila & Slots de Equipamento
 
