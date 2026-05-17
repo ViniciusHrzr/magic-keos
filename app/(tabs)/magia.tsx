@@ -16,7 +16,7 @@ export default function MagiaScreen() {
   const {
     character: c,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
-    setDominio, setInventario, setEquipamento, setMagica, setReceitas,
+    setDominio, setMagica, setReceitas,
     isLoaded,
   } = useCharacter();
 
@@ -352,35 +352,6 @@ export default function MagiaScreen() {
           textAlignVertical="top"
         />
 
-        {/* ── INVENTÁRIO ── */}
-        <SectionHeader title="Inventário" />
-        <TextInput
-          style={styles.bigTextArea}
-          value={c.inventario}
-          onChangeText={setInventario}
-          multiline
-          placeholder="Itens carregados..."
-          placeholderTextColor={RPG.textDark}
-          textAlignVertical="top"
-        />
-
-        {/* ── EQUIPAMENTOS ── */}
-        <SectionHeader title="Equipamentos" />
-        <View style={styles.equipGrid}>
-          {equipSlots.map(({ key, label }) => (
-            <View key={key} style={styles.equipCell}>
-              <Text style={styles.equipLabel}>{label}</Text>
-              <TextInput
-                style={styles.equipInput}
-                value={c.equipamentos[key]}
-                onChangeText={v => setEquipamento(key, v)}
-                placeholder="—"
-                placeholderTextColor={RPG.textDark}
-              />
-            </View>
-          ))}
-        </View>
-
         <View style={{ height: 32 }} />
       </ScrollView>
 
@@ -500,15 +471,6 @@ function DomainView({ domain, spells, onAddMemoria, onAddFoco, onClose }: {
     </ScrollView>
   );
 }
-
-const equipSlots = [
-  { key: 'arma' as const, label: 'Arma' },
-  { key: 'escudo' as const, label: 'Escudo' },
-  { key: 'vestimenta' as const, label: 'Vestimenta' },
-  { key: 'armadura' as const, label: 'Armadura' },
-  { key: 'acessorio1' as const, label: 'Acessório' },
-  { key: 'acessorio2' as const, label: 'Acessório' },
-];
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: RPG.bg },
