@@ -600,41 +600,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
 
-  equipGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    backgroundColor: RPG.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: RPG.border,
-    padding: 4,
-    gap: 4,
-  },
-  equipCell: {
-    width: '48%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: RPG.border,
-    backgroundColor: RPG.surfaceAlt,
-    paddingHorizontal: 6,
-  },
-  equipLabel: {
-    color: RPG.textMuted,
-    fontSize: 10,
-    fontStyle: 'italic',
-    paddingRight: 4,
-    minWidth: 60,
-  },
-  equipInput: {
-    flex: 1,
-    color: RPG.text,
-    fontSize: 12,
-    paddingVertical: 8,
-    height: 36,
-    padding: 0,
-    paddingHorizontal: 2,
-  },
-
   slotBtn: {
     paddingHorizontal: 8,
     paddingVertical: 4,
