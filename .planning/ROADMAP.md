@@ -233,7 +233,7 @@ Plans:
 **Depends on**: Phase 14
 **Requirements**: UI-01, UI-02, UI-03
 **Success Criteria** (what must be TRUE):
-  1. @shopify/react-native-skia importável em componente RN sem erro em Expo 52 dev client
+  1. @shopify/react-native-skia importável em componente RN sem erro em Expo 54 dev client
   2. constants/theme.ts contém RPG.branco=#F8F2E2, RPG.verde=#00733E, RPG.vermelho=#D3202A, RPG.preto=#150B00, RPG.azul=#0E68AB, RPG.incolor=#A6ADB5
   3. LegendaryFrame renderiza no header da ficha com nome do personagem e sabedoria, borda chanfrada estilo MTG, sem quebrar layout existente
 **Plans**: 2 plans

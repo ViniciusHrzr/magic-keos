@@ -1,7 +1,7 @@
 # Magic Kéos — Project Instructions
 
 ## Stack
-Expo 52 · React Native 0.76 · TypeScript strict · Expo Router · AsyncStorage
+Expo 54 · React Native 0.81 · TypeScript strict · Expo Router · AsyncStorage
 
 ## Required Skills — Use Always
 
