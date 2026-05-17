@@ -100,6 +100,11 @@ export default function MochilaScreen() {
     arma: null, escudo: null, vestimenta: null, acessorio1: null, acessorio2: null,
   });
 
+  function getStatSummary(slot: SlotKey, nome: string): string {
+    const idx = SLOT_ITEMS[slot].indexOf(nome);
+    return idx >= 0 ? SLOT_META[slot][idx] : '';
+  }
+
   function pickItem(slot: SlotKey, nome: string) {
     const prev = c.equipamentos[slot];
     setEquipamentoItem(slot, {
@@ -110,17 +115,21 @@ export default function MochilaScreen() {
     setPickerSlot(null);
   }
 
+  function returnEquippedToInventory(slot: SlotKey, equipped: EquipItem) {
+    const stat = getStatSummary(slot, equipped.nome);
+    addInventarioItem({
+      id: newNoteId(),
+      type: 'gear',
+      name: equipped.nome,
+      type_equip: SLOT_TYPE_MAP[slot],
+      melhorias: equipped.melhorias,
+      damage: stat || undefined,
+    });
+  }
+
   function clearSlot(slot: SlotKey) {
     const equipped = c.equipamentos[slot];
-    if (equipped) {
-      addInventarioItem({
-        id: newNoteId(),
-        type: 'gear',
-        name: equipped.nome,
-        type_equip: SLOT_TYPE_MAP[slot],
-        melhorias: equipped.melhorias,
-      });
-    }
+    if (equipped) returnEquippedToInventory(slot, equipped);
     setEquipamentoItem(slot, null);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpandedSlot(null);
@@ -138,11 +147,6 @@ export default function MochilaScreen() {
   function toggleExpanded(slot: SlotKey) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpandedSlot(prev => (prev === slot ? null : slot));
-  }
-
-  function getStatSummary(slot: SlotKey, nome: string): string {
-    const idx = SLOT_ITEMS[slot].indexOf(nome);
-    return idx >= 0 ? SLOT_META[slot][idx] : '';
   }
 
   function addMelhoria(slot: SlotKey, label: string) {
@@ -169,6 +173,8 @@ export default function MochilaScreen() {
         const hitY = absoluteY >= y && absoluteY <= y + h;
         if (hitX && hitY) {
           if (!SLOT_ACCEPTS[slot].includes(item.type_equip)) return;
+          const existing = c.equipamentos[slot];
+          if (existing) returnEquippedToInventory(slot, existing);
           setEquipamentoItem(slot, {
             nome: item.name,
             tipo: 'basico',

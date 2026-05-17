@@ -51,18 +51,17 @@ function HexSlot(props: HexSlotProps) {
           <>
             <Text style={styles.hexName} numberOfLines={1}>{item.nome || label}</Text>
             {statSummary ? (
-              <Text style={styles.hexStat} numberOfLines={1}>{statSummary}</Text>
+              <Text style={styles.hexStat} numberOfLines={2}>{statSummary}</Text>
             ) : null}
-            {item.melhorias.length > 0 && (
-              <View style={styles.hexDots}>
-                {item.melhorias.slice(0, 3).map((ml, i) => (
-                  <View
-                    key={i}
-                    style={[styles.hexDot, { backgroundColor: melhoriaColors[ml] ?? RPG.textMuted }]}
-                  />
-                ))}
-              </View>
-            )}
+            {item.melhorias.slice(0, 3).map((ml, i) => {
+              const cor = melhoriaColors[ml] ?? RPG.textMuted;
+              return (
+                <View key={i} style={styles.hexMelhoriaRow}>
+                  <View style={[styles.hexDot, { backgroundColor: cor }]} />
+                  <Text style={[styles.hexMelhoriaText, { color: cor }]} numberOfLines={1}>{ml}</Text>
+                </View>
+              );
+            })}
           </>
         ) : (
           <>
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   hex: {
-    height: 80,
+    minHeight: 80,
     borderRadius: 16,
     borderWidth: 2,
     backgroundColor: RPG.surface,
@@ -198,15 +197,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 2,
   },
-  hexDots: {
+  hexMelhoriaRow: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 3,
-    marginTop: 4,
+    marginTop: 2,
+    paddingHorizontal: 2,
+    width: '100%',
   },
   hexDot: {
-    width: 6,
-    height: 6,
+    width: 5,
+    height: 5,
     borderRadius: 3,
+    flexShrink: 0,
+  },
+  hexMelhoriaText: {
+    fontSize: 8,
+    fontWeight: '600',
+    flexShrink: 1,
   },
   body: {
     padding: 10,
