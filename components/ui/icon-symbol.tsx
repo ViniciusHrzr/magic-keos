@@ -23,6 +23,7 @@ const MAPPING = {
   'book.fill': 'menu-book',
   'list.bullet': 'list',
   'square.and.pencil': 'edit-note',
+  'bag.fill': 'backpack',
 } as IconMapping;
 
 /**
