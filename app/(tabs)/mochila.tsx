@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   ScrollView,
   View,
@@ -21,10 +21,11 @@ import SectionHeader from '@/components/rpg/SectionHeader';
 import NumericStepper from '@/components/rpg/NumericStepper';
 import { EquipItem } from '@/types/character';
 import { armas, escudos, vestimentas, acessorios, MELHORIAS_POR_SLOT, MelhoriaItem } from '@/data/regras/equipamentos';
-import { InventoryItem, isQuickNote } from '@/types/inventory';
-import HexSlot from '@/components/rpg/HexSlot';
-import NoteCard from '@/components/rpg/NoteCard';
-import GearCard from '@/components/rpg/GearCard';
+import { InventoryItem, IStructuredGear, isQuickNote } from '@/types/inventory';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import DroppableHexSlot, { DroppableHexSlotHandle } from '@/components/rpg/DroppableHexSlot';
+import DraggableNoteCard from '@/components/rpg/DraggableNoteCard';
+import DraggableGearCard from '@/components/rpg/DraggableGearCard';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -33,6 +34,14 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SLOT_KEYS = ['arma', 'escudo', 'vestimenta', 'acessorio1', 'acessorio2'] as const;
 type SlotKey = typeof SLOT_KEYS[number];
+
+const SLOT_ACCEPTS: Record<SlotKey, IStructuredGear['type_equip'][]> = {
+  arma: ['arma'],
+  escudo: ['escudo'],
+  vestimenta: ['vestimenta'],
+  acessorio1: ['acessorio'],
+  acessorio2: ['acessorio'],
+};
 
 const SLOT_LABELS: Record<SlotKey, string> = {
   arma: 'Arma',
@@ -79,6 +88,9 @@ export default function MochilaScreen() {
   const [pickerSlot, setPickerSlot] = useState<SlotKey | null>(null);
   const [expandedSlot, setExpandedSlot] = useState<SlotKey | null>(null);
   const [crafterSlot, setCrafterSlot] = useState<SlotKey | null>(null);
+  const hexRefs = useRef<Record<SlotKey, DroppableHexSlotHandle | null>>({
+    arma: null, escudo: null, vestimenta: null, acessorio1: null, acessorio2: null,
+  });
 
   function pickItem(slot: SlotKey, nome: string) {
     const prev = c.equipamentos[slot];
@@ -123,6 +135,27 @@ export default function MochilaScreen() {
     setEquipamentoItem(slot, { ...item, melhorias: item.melhorias.filter((_, i) => i !== idx) });
   }
 
+  function handleDropAttempt(payload: { item: IStructuredGear; absoluteX: number; absoluteY: number }) {
+    const { item, absoluteX, absoluteY } = payload;
+    (Object.keys(hexRefs.current) as SlotKey[]).forEach(slot => {
+      const ref = hexRefs.current[slot];
+      if (!ref) return;
+      ref.measureInWindow((x, y, w, h) => {
+        const hitX = absoluteX >= x && absoluteX <= x + w;
+        const hitY = absoluteY >= y && absoluteY <= y + h;
+        if (hitX && hitY) {
+          if (!SLOT_ACCEPTS[slot].includes(item.type_equip)) return;
+          setEquipamentoItem(slot, {
+            nome: item.name,
+            tipo: 'basico',
+            melhorias: item.melhorias,
+          });
+          removeInventarioItem(item.id);
+        }
+      });
+    });
+  }
+
   function newNoteId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
   function handleAddNote() { addInventarioItem({ id: newNoteId(), type: 'note', text: '', qty: 1 }); }
   function handleAddGear() { addInventarioItem({ id: newNoteId(), type: 'gear', name: '', type_equip: 'outro', melhorias: [] }); }
@@ -151,6 +184,7 @@ export default function MochilaScreen() {
   const activeCrafterSlot = crafterSlot ?? 'arma';
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.safe} edges={['top']}>
         <ScrollView
@@ -166,7 +200,8 @@ export default function MochilaScreen() {
             {SLOT_KEYS.map(slot => {
               const item = c.equipamentos[slot];
               return (
-                <HexSlot
+                <DroppableHexSlot
+                  ref={r => { hexRefs.current[slot] = r; }}
                   key={slot}
                   slotKey={slot}
                   label={SLOT_LABELS[slot]}
@@ -184,6 +219,7 @@ export default function MochilaScreen() {
                   onEditEfeito={v => { if (item) setEquipamentoItem(slot, { ...item, efeito: v }); }}
                   onEditDurabilidade={v => { if (item) setEquipamentoItem(slot, { ...item, durabilidade: v }); }}
                   availableMelhorias={MELHORIAS_POR_SLOT[slot].map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] }))}
+                  isDropTarget={false}
                 />
               );
             })}
@@ -195,8 +231,8 @@ export default function MochilaScreen() {
             scrollEnabled={false}
             renderItem={({ item }: { item: InventoryItem }) =>
               isQuickNote(item)
-                ? <NoteCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} />
-                : <GearCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} />
+                ? <DraggableNoteCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} />
+                : <DraggableGearCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} onDropAttempt={handleDropAttempt} />
             }
             ListEmptyComponent={
               <Text style={styles.emptyInventory}>Inventário vazio — adicione itens abaixo</Text>
@@ -285,6 +321,7 @@ export default function MochilaScreen() {
         </Modal>
       </SafeAreaView>
     </KeyboardAvoidingView>
+    </GestureHandlerRootView>
   );
 }
 

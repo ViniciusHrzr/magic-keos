@@ -152,7 +152,7 @@ function HexSlot(props: HexSlotProps) {
 
 const styles = StyleSheet.create({
   wrap: {
-    width: '46%',
+    width: '100%',
   },
   hex: {
     height: 80,
