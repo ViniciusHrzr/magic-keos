@@ -29,6 +29,7 @@ export interface HexSlotProps {
   onEditEfeito: (v: string) => void;
   onEditDurabilidade: (v: number) => void;
   availableMelhorias: Array<{ label: string; cor: string }>;
+  statSummary?: string;
 }
 
 function HexSlot(props: HexSlotProps) {
@@ -36,6 +37,7 @@ function HexSlot(props: HexSlotProps) {
     slotKey, label, affinityColor, item, melhoriaColors, onPress,
     isExpanded, onPickerOpen, onCrafterOpen, onClearSlot, onEditNome,
     onRemoveMelhoria, onToggleTipo, onEditEfeito, onEditDurabilidade,
+    statSummary,
   } = props;
 
   return (
@@ -47,7 +49,10 @@ function HexSlot(props: HexSlotProps) {
       >
         {item ? (
           <>
-            <Text style={styles.hexName} numberOfLines={2}>{item.nome || label}</Text>
+            <Text style={styles.hexName} numberOfLines={1}>{item.nome || label}</Text>
+            {statSummary ? (
+              <Text style={styles.hexStat} numberOfLines={1}>{statSummary}</Text>
+            ) : null}
             {item.melhorias.length > 0 && (
               <View style={styles.hexDots}>
                 {item.melhorias.slice(0, 3).map((ml, i) => (
@@ -69,6 +74,9 @@ function HexSlot(props: HexSlotProps) {
 
       {isExpanded && (
         <View style={styles.body}>
+          {statSummary ? (
+            <Text style={styles.statLine}>{statSummary}</Text>
+          ) : null}
           <TextInput
             style={styles.nomeInput}
             value={item?.nome ?? ''}
@@ -168,6 +176,18 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  hexStat: {
+    color: RPG.textMuted,
+    fontSize: 8,
+    textAlign: 'center',
+    marginTop: 1,
+  },
+  statLine: {
+    color: RPG.textMuted,
+    fontSize: 11,
+    fontStyle: 'italic',
+    paddingBottom: 2,
   },
   hexChar: {
     fontSize: 20,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { RPG } from '@/constants/theme';
 import { IStructuredGear, InventoryItem } from '@/types/inventory';
+import { LABEL_TO_COR } from '@/data/regras/equipamentos';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -23,9 +24,15 @@ interface GearCardProps {
   onUpdate: (id: string, patch: Partial<InventoryItem>) => void;
 }
 
+const COR_TOKEN: Record<string, string> = {
+  branco: RPG.branco, verde: RPG.verde, vermelho: RPG.vermelho,
+  preto: RPG.pretoLight, azul: RPG.azul,
+};
+
 function GearCard({ item, onRemove, onUpdate }: GearCardProps) {
   const [loreOpen, setLoreOpen] = useState(false);
   const affinityColor = item.affinity ? (RPG as any)[item.affinity] ?? RPG.textMuted : RPG.textMuted;
+  const hasMelhorias = item.melhorias.length > 0;
 
   function toggleLore() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -33,7 +40,7 @@ function GearCard({ item, onRemove, onUpdate }: GearCardProps) {
   }
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, hasMelhorias && styles.cardWithMelhorias]}>
       <View style={styles.header}>
         <View style={[styles.affinityDot, { backgroundColor: affinityColor }]} />
         <TextInput
@@ -68,6 +75,20 @@ function GearCard({ item, onRemove, onUpdate }: GearCardProps) {
         ))}
       </View>
 
+      {hasMelhorias && (
+        <View style={styles.badgeRow}>
+          {item.melhorias.map((ml, i) => {
+            const cor = LABEL_TO_COR[ml] ? COR_TOKEN[LABEL_TO_COR[ml]] : RPG.textMuted;
+            return (
+              <View key={i} style={[styles.badge, { borderColor: cor }]}>
+                <View style={[styles.badgeDot, { backgroundColor: cor }]} />
+                <Text style={[styles.badgeLabel, { color: cor }]}>{ml}</Text>
+              </View>
+            );
+          })}
+        </View>
+      )}
+
       {loreOpen && item.lore ? (
         <Text style={styles.lore}>{item.lore}</Text>
       ) : null}
@@ -79,6 +100,10 @@ const styles = StyleSheet.create({
   card: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: RPG.border,
+  },
+  cardWithMelhorias: {
+    borderLeftWidth: 2,
+    borderLeftColor: RPG.goldDim,
   },
   header: {
     flexDirection: 'row',
@@ -116,6 +141,24 @@ const styles = StyleSheet.create({
   typeChipText: { color: RPG.textMuted, fontSize: 11 },
   typeChipTextActive: { color: RPG.gold, fontWeight: '600' },
   lore: { color: RPG.textMuted, fontSize: 12, fontStyle: 'italic', padding: 8 },
+  badgeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingBottom: 6,
+  },
+  badge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    borderWidth: 1,
+    borderRadius: 3,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+  },
+  badgeDot: { width: 6, height: 6, borderRadius: 3 },
+  badgeLabel: { fontSize: 10, fontWeight: '600' },
 });
 
 export default React.memo(GearCard);

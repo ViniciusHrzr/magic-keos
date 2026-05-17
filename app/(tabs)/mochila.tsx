@@ -95,6 +95,7 @@ export default function MochilaScreen() {
   const [pickerSlot, setPickerSlot] = useState<SlotKey | null>(null);
   const [expandedSlot, setExpandedSlot] = useState<SlotKey | null>(null);
   const [crafterSlot, setCrafterSlot] = useState<SlotKey | null>(null);
+  const [selectedMelhoria, setSelectedMelhoria] = useState<MelhoriaItem | null>(null);
   const hexRefs = useRef<Record<SlotKey, DroppableHexSlotHandle | null>>({
     arma: null, escudo: null, vestimenta: null, acessorio1: null, acessorio2: null,
   });
@@ -139,10 +140,16 @@ export default function MochilaScreen() {
     setExpandedSlot(prev => (prev === slot ? null : slot));
   }
 
+  function getStatSummary(slot: SlotKey, nome: string): string {
+    const idx = SLOT_ITEMS[slot].indexOf(nome);
+    return idx >= 0 ? SLOT_META[slot][idx] : '';
+  }
+
   function addMelhoria(slot: SlotKey, label: string) {
     const item = c.equipamentos[slot];
     if (!item || item.melhorias.length >= 3) return;
     setEquipamentoItem(slot, { ...item, melhorias: [...item.melhorias, label] });
+    setSelectedMelhoria(null);
     setCrafterSlot(null);
   }
 
@@ -238,6 +245,7 @@ export default function MochilaScreen() {
                   onEditDurabilidade={v => { if (item) setEquipamentoItem(slot, { ...item, durabilidade: v }); }}
                   availableMelhorias={MELHORIAS_POR_SLOT[slot].map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] }))}
                   isDropTarget={false}
+                  statSummary={item ? getStatSummary(slot, item.nome) : undefined}
                 />
               );
             })}
@@ -300,26 +308,43 @@ export default function MochilaScreen() {
         <Modal
           visible={crafterSlot !== null}
           animationType="slide"
-          onRequestClose={() => setCrafterSlot(null)}
+          onRequestClose={() => { setSelectedMelhoria(null); setCrafterSlot(null); }}
         >
           <SafeAreaView style={styles.modal} edges={['top', 'bottom']}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>
                 Melhoria — {SLOT_LABELS[activeCrafterSlot]}
               </Text>
-              <TouchableOpacity onPress={() => setCrafterSlot(null)} activeOpacity={0.7}>
+              <TouchableOpacity onPress={() => { setSelectedMelhoria(null); setCrafterSlot(null); }} activeOpacity={0.7}>
                 <Text style={styles.modalClose}>✕</Text>
               </TouchableOpacity>
             </View>
+            {selectedMelhoria && (
+              <View style={styles.craftPreview}>
+                <View style={[styles.craftPreviewDot, { backgroundColor: COR_TOKEN[selectedMelhoria.cor] }]} />
+                <Text style={styles.craftPreviewText}>
+                  Adicionando: <Text style={{ color: COR_TOKEN[selectedMelhoria.cor], fontWeight: '700' }}>{selectedMelhoria.label}</Text>
+                  {' '}→ total: {(c.equipamentos[activeCrafterSlot]?.melhorias.length ?? 0) + 1}/3
+                </Text>
+                <TouchableOpacity
+                  style={styles.craftConfirmBtn}
+                  onPress={() => addMelhoria(activeCrafterSlot, selectedMelhoria.label)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.craftConfirmText}>Confirmar</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             <ScrollView style={styles.modalList} keyboardShouldPersistTaps="handled">
               {MELHORIAS_POR_SLOT[activeCrafterSlot].map((m, i) => {
                 const cor = COR_TOKEN[m.cor];
                 const jaAplicada = (c.equipamentos[activeCrafterSlot]?.melhorias ?? []).includes(m.label);
+                const isSelected = selectedMelhoria?.label === m.label;
                 return (
                   <TouchableOpacity
                     key={i}
-                    style={[styles.craftItem, jaAplicada && styles.craftItemApplied]}
-                    onPress={() => { if (!jaAplicada) addMelhoria(activeCrafterSlot, m.label); }}
+                    style={[styles.craftItem, jaAplicada && styles.craftItemApplied, isSelected && styles.craftItemSelected]}
+                    onPress={() => { if (!jaAplicada) setSelectedMelhoria(isSelected ? null : m); }}
                     activeOpacity={jaAplicada ? 1 : 0.75}
                   >
                     <View style={[styles.craftCorDot, { backgroundColor: cor }]} />
@@ -327,6 +352,7 @@ export default function MochilaScreen() {
                       {m.label}
                     </Text>
                     {jaAplicada && <Text style={styles.craftItemAppliedMark}>✓</Text>}
+                    {isSelected && <Text style={[styles.craftItemAppliedMark, { color: RPG.gold }]}>◀</Text>}
                   </TouchableOpacity>
                 );
               })}
@@ -533,6 +559,24 @@ const styles = StyleSheet.create({
     minHeight: 60,
     textAlignVertical: 'top',
   },
+  craftPreview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    padding: 12,
+    backgroundColor: RPG.surfaceAlt,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.goldDim,
+  },
+  craftPreviewDot: { width: 10, height: 10, borderRadius: 5, flexShrink: 0 },
+  craftPreviewText: { flex: 1, color: RPG.textMuted, fontSize: 12 },
+  craftConfirmBtn: {
+    backgroundColor: RPG.goldDim,
+    borderRadius: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  craftConfirmText: { color: RPG.bg, fontWeight: '700', fontSize: 12 },
   craftItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -543,6 +587,11 @@ const styles = StyleSheet.create({
   },
   craftItemApplied: {
     opacity: 0.5,
+  },
+  craftItemSelected: {
+    backgroundColor: RPG.surface,
+    borderLeftWidth: 2,
+    borderLeftColor: RPG.gold,
   },
   craftCorDot: {
     width: 12,

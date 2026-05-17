@@ -158,6 +158,12 @@ export const MELHORIAS_POR_SLOT: Record<'arma' | 'escudo' | 'vestimenta' | 'aces
 
 export type SlotMelhorias = typeof MELHORIAS_POR_SLOT;
 
+// Lookup: label → cor (first occurrence wins; same label never has two colors)
+export const LABEL_TO_COR: Record<string, MelhoriaItem['cor']> = {};
+(Object.values(MELHORIAS_POR_SLOT) as MelhoriaItem[][]).forEach(arr =>
+  arr.forEach(m => { if (!(m.label in LABEL_TO_COR)) LABEL_TO_COR[m.label] = m.cor; })
+);
+
 export const propriedadesElementais: PropElementalRow[] = [
   { cor: 'Branco', propriedade: 'Sagrado', efeito: '2× dano em profanas; normal em Incorpóreos' },
   { cor: 'Branco', propriedade: 'Vinculado', efeito: 'Recupera 50% do dano causado como vida' },
