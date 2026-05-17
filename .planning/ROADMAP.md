@@ -174,7 +174,7 @@ Plans:
 **UI hint**: no
 
 Plans:
-- [ ] 12-01-PLAN.md — EquipItem interface + Character schema widening + migrate() guards + context setters + remove broken call sites in magia.tsx
+- [x] 12-01-PLAN.md — EquipItem interface + Character schema widening + migrate() guards + context setters + remove broken call sites in magia.tsx
 
 ### Phase 13: Aba Mochila & Slots de Equipamento
 
@@ -187,8 +187,11 @@ Plans:
   3. Usuário pode tocar em qualquer slot (Arma, Escudo, Vestimenta, Acessório 1, Acessório 2) e escolher um item da lista do livro via picker/modal
   4. Usuário pode inserir ou editar um nome personalizado em qualquer slot (para itens únicos/artefatos nomeados)
   5. O card do slot exibe em estado colapsado o nome do item selecionado e a quantidade de melhorias aplicadas
-**Plans**: TBD
+**Plans**: 1 plan
 **UI hint**: yes
+
+Plans:
+- [ ] 13-01-PLAN.md — Registrar tab Mochila, criar tela com 5 slots colapsáveis, picker modal e nome custom
 
 ### Phase 14: Inventário, Craft & Artefatos
 
