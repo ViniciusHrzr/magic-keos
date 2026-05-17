@@ -562,17 +562,17 @@ O picker de Arma pode exibir `dano` e `especial` como segunda linha (padrão `do
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **O picker de arma deve exibir `dano` e `especial` além do nome?**
    - O que sabemos: `ArmaRow` tem `arma`, `dano`, `especial`. O jogador se beneficia de ver o dano ao escolher.
-   - O que está unclear: Requisito EQP-01 diz apenas "lista do livro" — não especifica nível de detalhe.
-   - Recomendação: Exibir `dano` e `especial` como segunda linha no picker. Custo zero (dados já existem). Alinha com a UX do picker de domínios em magia.tsx que exibe metadados.
+   - O que estava unclear: Requisito EQP-01 diz apenas "lista do livro" — não especifica nível de detalhe.
+   - **RESOLVIDO:** Sim — exibir `dano` e `especial` como segunda linha no picker via `SLOT_META`. Implementado em 13-01-PLAN.md Task 2.
 
 2. **O card expandido deve ter `LayoutAnimation` ou abertura direta?**
    - O que sabemos: `regras.tsx` usa `LayoutAnimation.configureNext(easeInEaseOut)` com resultado suave.
-   - O que está unclear: Se a animação adiciona complexidade desnecessária nesta fase.
-   - Recomendação: Usar `LayoutAnimation` — o padrão já existe no projeto, é uma linha extra e melhora a UX perceptivelmente.
+   - O que estava unclear: Se a animação adiciona complexidade desnecessária nesta fase.
+   - **RESOLVIDO:** Usar `LayoutAnimation` com `UIManager.setLayoutAnimationEnabledExperimental` para Android. Implementado em 13-01-PLAN.md Task 2.
 
 ---
 
