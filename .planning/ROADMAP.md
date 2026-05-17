@@ -191,7 +191,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 13-01-PLAN.md — Registrar tab Mochila, criar tela com 5 slots colapsáveis, picker modal e nome custom
+- [x] 13-01-PLAN.md — Registrar tab Mochila, criar tela com 5 slots colapsáveis, picker modal e nome custom
 
 ### Phase 14: Inventário, Craft & Artefatos
 
@@ -224,5 +224,5 @@ Plans:
 | 10. Estrutura & Tipografia | v1.2 | 1/1 | Complete | 2026-05-17 |
 | 11. Tabelas & Interatividade | v1.2 | 1/1 | Complete | 2026-05-17 |
 | 12. Schema & Migration | v1.3 | 1/1 | Complete | 2026-05-17 |
-| 13. Aba Mochila & Slots | v1.3 | 0/? | Not started | - |
+| 13. Aba Mochila & Slots | v1.3 | 1/1 | Complete | 2026-05-17 |
 | 14. Inventário, Craft & Artefatos | v1.3 | 0/? | Not started | - |

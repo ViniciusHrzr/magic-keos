@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Aba Mochila — Equipamentos & Craft
 status: executing
-stopped_at: "Phase 13 planning complete — 13-01-PLAN.md ready, plan checker PASS"
-last_updated: "2026-05-17T05:20:00.000Z"
-last_activity: 2026-05-17 -- Phase 13 planning complete
+stopped_at: "Phase 13 Plan 01 complete — MochilaScreen built, tsc clean"
+last_updated: "2026-05-17T07:18:00.000Z"
+last_activity: 2026-05-17 -- Phase 13 Plan 01 executed
 progress:
   total_phases: 10
   completed_phases: 8
   total_plans: 10
-  completed_plans: 12
+  completed_plans: 13
   percent: 82
 ---
 
@@ -25,17 +25,17 @@ See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 ## Current Position
 
-Phase: 13 — Aba Mochila & Slots de Equipamento (planned)
-Plan: 01 ready — 0/1 plans executed
-Status: Phase 13 planned, ready to execute
-Last activity: 2026-05-17 -- Phase 13 planning complete (plan checker PASS)
+Phase: 13 — Aba Mochila & Slots de Equipamento (executing)
+Plan: 01 complete — 1/1 plans executed
+Status: Phase 13 Plan 01 complete, ready for Phase 14
+Last activity: 2026-05-17 -- Phase 13 Plan 01 executed (MochilaScreen + 5 slots + picker modal)
 
 ## v1.3 Phase Overview
 
 | Phase | Goal | Requirements | Status |
 |-------|------|--------------|--------|
 | 12. Schema & Migration | Schema EquipItem + migrate() automático sem perda de dados | SCHEMA-01 | ✅ |
-| 13. Aba Mochila & Slots | Nova aba + remoção de magia.tsx + 5 slots com picker | MOCH-01, MOCH-02, EQP-01, EQP-02, EQP-03 | 📋 Planned |
+| 13. Aba Mochila & Slots | Nova aba + remoção de magia.tsx + 5 slots com picker | MOCH-01, MOCH-02, EQP-01, EQP-02, EQP-03 | ✅ |
 | 14. Inventário, Craft & Artefatos | Grade 20 slots + craft 3 melhorias + toggle artefato | INV-01, INV-02, CRAFT-01, CRAFT-02, CRAFT-03, ARTE-01 | Not started |
 
 ## Phase 11 — Resumo Completo
