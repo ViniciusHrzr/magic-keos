@@ -67,15 +67,15 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| MOCH-01 | TBD | pending |
-| MOCH-02 | TBD | pending |
-| EQP-01 | TBD | pending |
-| EQP-02 | TBD | pending |
-| EQP-03 | TBD | pending |
-| INV-01 | TBD | pending |
-| INV-02 | TBD | pending |
-| CRAFT-01 | TBD | pending |
-| CRAFT-02 | TBD | pending |
-| CRAFT-03 | TBD | pending |
-| ARTE-01 | TBD | pending |
-| SCHEMA-01 | TBD | pending |
+| SCHEMA-01 | Phase 12 | pending |
+| MOCH-01 | Phase 13 | pending |
+| MOCH-02 | Phase 13 | pending |
+| EQP-01 | Phase 13 | pending |
+| EQP-02 | Phase 13 | pending |
+| EQP-03 | Phase 13 | pending |
+| INV-01 | Phase 14 | pending |
+| INV-02 | Phase 14 | pending |
+| CRAFT-01 | Phase 14 | pending |
+| CRAFT-02 | Phase 14 | pending |
+| CRAFT-03 | Phase 14 | pending |
+| ARTE-01 | Phase 14 | pending |

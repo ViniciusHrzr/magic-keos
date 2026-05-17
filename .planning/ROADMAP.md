@@ -5,6 +5,7 @@
 - ✅ **v1.0 MVP** — Phases 1–4 (shipped 2026-05-15)
 - ✅ **v1.1 Fidelidade ao Livro de Regras** — Phases 5–9 (shipped 2026-05-16)
 - ✅ **v1.2 Tela de Regras — Visual & Estrutura** — Phases 10–11 (shipped 2026-05-17)
+- 🔄 **v1.3 Aba Mochila — Equipamentos & Craft** — Phases 12–14 (active)
 
 ## Phases
 
@@ -28,6 +29,21 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 6: Proficiências MENTE/ESPÍRITO** — Corrigir descrições das perícias de Alquimia, Criatividade, Investigação, Feiticeiro de Mecânica, Sobrevivência e Espirituais (completed 2026-05-16)
 - [x] **Phase 7: Habilidades** — Corrigir descrições e mecânicas das habilidades corporais/espirituais em habilidades.ts *(completed 2026-05-16)*
 - [x] **Phase 8: Documentação** — Sincronizar GAME_RULES.md com todas as correções aplicadas *(completed 2026-05-16)*
+
+### ✅ v1.2 Tela de Regras — Visual & Estrutura (Complete — 2026-05-17)
+
+**Milestone Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas RPG, tipografia com escaneabilidade e seções colapsáveis com feedback — dark/gold/premium coerente com a ficha existente.
+
+- [x] **Phase 10: Estrutura & Tipografia** — Cards, separação visual e sistema tipográfico (completed 2026-05-17)
+- [x] **Phase 11: Tabelas & Interatividade** — Estilo RPG nas tabelas e animações de colapsável *(completed 2026-05-17)*
+
+### v1.3 Aba Mochila — Equipamentos & Craft (Active)
+
+**Milestone Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
+
+- [ ] **Phase 12: Schema & Migration** — Definir EquipItem, setar CharacterContext, migrate() automático
+- [ ] **Phase 13: Aba Mochila & Slots de Equipamento** — Nova aba, remoção de magia.tsx, slots com picker e nome custom
+- [ ] **Phase 14: Inventário, Craft & Artefatos** — Grade 20 slots, craft com 3 melhorias, toggle artefato
 
 ## Phase Details
 
@@ -109,13 +125,6 @@ Plans:
 - [x] 09-03-PLAN.md — Scripts audit-docx.py + generate-game-rules.py + pre-commit hook + regenerar GAME_RULES.md
 - [x] 09-04 — proficiencias.ts + habilidades.ts texto exato docx; meta.ts (SecaoMeta §1-20); regras.tsx §1-20 zero hardcode (secoes.*); PlanewalkerDings em notacaoMana
 
-### ✅ v1.2 Tela de Regras — Visual & Estrutura (Complete — 2026-05-17)
-
-**Milestone Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas RPG, tipografia com escaneabilidade e seções colapsáveis com feedback — dark/gold/premium coerente com a ficha existente.
-
-- [x] **Phase 10: Estrutura & Tipografia** — Cards, separação visual e sistema tipográfico (completed 2026-05-17)
-- [x] **Phase 11: Tabelas & Interatividade** — Estilo RPG nas tabelas e animações de colapsável *(completed 2026-05-17)*
-
 ### Phase 10: Estrutura & Tipografia
 
 **Goal**: A tela de Regras tem hierarquia visual clara — cards por seção, cabeçalhos distintos e tipografia com escaneabilidade RPG
@@ -150,6 +159,49 @@ Plans:
 Plans:
 - [x] 11-01-PLAN.md — Refatorar TH/R2/R3 com estilo RPG; adicionar animação e haptic no Section collapsível
 
+### Phase 12: Schema & Migration
+
+**Goal**: O schema de Character suporta o modelo completo de equipamentos e inventário, e fichas existentes migram automaticamente sem perda de dados
+**Depends on**: Phase 11
+**Requirements**: SCHEMA-01
+**Success Criteria** (what must be TRUE):
+  1. Interface EquipItem em types/character.ts define `nome`, `tipo` (basico | artefato), `melhorias`, `efeito?`, `durabilidade?` e aceita TypeScript strict sem erros
+  2. CharacterContext expõe setters tipados para equipamentos (por slot) e inventarioSlots (por índice)
+  3. Ficha existente com `equipamentos.arma = "Espada"` migra automaticamente para `equipamentos.arma = { nome: "Espada", tipo: "basico", melhorias: [] }` sem perder o nome
+  4. Ficha existente com `inventario = "Corda, Tocha"` migra para `inventarioSlots[0] = "Corda, Tocha"` e demais slots ficam strings vazias
+  5. App cold-starts sem erros de TypeScript e sem crash em ficha com schema legado
+**Plans**: TBD
+**UI hint**: no
+
+### Phase 13: Aba Mochila & Slots de Equipamento
+
+**Goal**: Usuário acessa uma aba dedicada "Mochila" com 5 slots de equipamento interativos e a aba Magia não exibe mais Inventário/Equipamentos
+**Depends on**: Phase 12
+**Requirements**: MOCH-01, MOCH-02, EQP-01, EQP-02, EQP-03
+**Success Criteria** (what must be TRUE):
+  1. Ícone "Mochila" aparece na tab bar e navega para a nova tela sem erros
+  2. A aba Magia não exibe mais as seções de Inventário e Equipamentos
+  3. Usuário pode tocar em qualquer slot (Arma, Escudo, Vestimenta, Acessório 1, Acessório 2) e escolher um item da lista do livro via picker/modal
+  4. Usuário pode inserir ou editar um nome personalizado em qualquer slot (para itens únicos/artefatos nomeados)
+  5. O card do slot exibe em estado colapsado o nome do item selecionado e a quantidade de melhorias aplicadas
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 14: Inventário, Craft & Artefatos
+
+**Goal**: Usuário gerencia inventário em grade, aplica melhorias do livro em equipamentos e pode marcar itens como artefatos com efeito ativável
+**Depends on**: Phase 13
+**Requirements**: INV-01, INV-02, CRAFT-01, CRAFT-02, CRAFT-03, ARTE-01
+**Success Criteria** (what must be TRUE):
+  1. Grade de 20 slots em 2 colunas exibe na aba Mochila e cada slot aceita texto livre como nome do item
+  2. Usuário pode apagar o conteúdo de qualquer slot de inventário individualmente sem afetar os demais
+  3. Usuário pode adicionar até 3 melhorias a qualquer slot de equipamento, com a lista filtrada pelo tipo do slot (ex.: slot Arma mostra apenas opções de Arma)
+  4. Cada melhoria exibida corresponde exatamente ao livro por categoria e cor (Acurácia+1 branco para Arma, etc.)
+  5. Usuário pode remover qualquer melhoria individualmente sem afetar as demais
+  6. Usuário pode toglar um slot entre "Básico" e "Artefato", e no modo Artefato dois campos extras aparecem: efeito ativável (texto livre) e durabilidade (inteiro)
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -163,5 +215,8 @@ Plans:
 | 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 9. Fidelidade Estrutural | v1.1 | 4/4 | Complete | 2026-05-16 |
-| 10. Estrutura & Tipografia | v1.2 | 1/1 | Complete   | 2026-05-17 |
+| 10. Estrutura & Tipografia | v1.2 | 1/1 | Complete | 2026-05-17 |
 | 11. Tabelas & Interatividade | v1.2 | 1/1 | Complete | 2026-05-17 |
+| 12. Schema & Migration | v1.3 | 0/? | Not started | - |
+| 13. Aba Mochila & Slots | v1.3 | 0/? | Not started | - |
+| 14. Inventário, Craft & Artefatos | v1.3 | 0/? | Not started | - |

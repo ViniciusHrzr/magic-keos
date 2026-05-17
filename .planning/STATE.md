@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Aba Mochila — Equipamentos & Craft
 status: planning
-stopped_at: Defining requirements
+stopped_at: Roadmap created — ready for Phase 12 planning
 last_updated: "2026-05-17T00:00:00Z"
-last_activity: 2026-05-17 — Milestone v1.3 started
+last_activity: 2026-05-17 — Roadmap v1.3 created (Phases 12–14)
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -18,17 +18,25 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
+See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 **Core value:** O app precisa ser confiável e rápido durante a sessão de jogo — perder dados ou travar na mesa quebra a imersão.
-**Current focus:** v1.1 SHIPPED — próxima milestone a definir
+**Current focus:** v1.3 — Aba Mochila: Equipamentos & Craft (Phases 12–14)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 12 — Schema & Migration (not started)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-05-17 — Milestone v1.3 started
+Status: Roadmap approved — ready to plan Phase 12
+Last activity: 2026-05-17 — Roadmap v1.3 created
+
+## v1.3 Phase Overview
+
+| Phase | Goal | Requirements | Status |
+|-------|------|--------------|--------|
+| 12. Schema & Migration | Schema EquipItem + migrate() automático sem perda de dados | SCHEMA-01 | Not started |
+| 13. Aba Mochila & Slots | Nova aba + remoção de magia.tsx + 5 slots com picker | MOCH-01, MOCH-02, EQP-01, EQP-02, EQP-03 | Not started |
+| 14. Inventário, Craft & Artefatos | Grade 20 slots + craft 3 melhorias + toggle artefato | INV-01, INV-02, CRAFT-01, CRAFT-02, CRAFT-03, ARTE-01 | Not started |
 
 ## Phase 11 — Resumo Completo
 
@@ -62,25 +70,6 @@ Changes applied:
 - `profReq`/`habPrereq`: goldDim italic → gold uppercase 10px fontWeight '600'
 - `profTeste`: azulLight + italic preservados
 
-## Phase 9 — Resumo Completo
-
-| Plan | Descrição | Requirements | Status |
-|------|-----------|--------------|--------|
-| 09-01 | Auditoria docx v0.4 §1-3/§6-20 — 9 discrepâncias corrigidas | FIDE-20 | ✅ |
-| 09-02 | Extração dados → data/regras/ (14 módulos TS) + regras.tsx dinâmico | FIDE-21 | ✅ |
-| 09-03 | audit-docx.py + generate-game-rules.py + GAME_RULES.md regenerado | FIDE-22/23 | ✅ |
-| 09-04 | proficiencias.ts + habilidades.ts texto exato; meta.ts; zero hardcode; PlanewalkerDings | FIDE-24/25 | ✅ |
-
-## v1.1 — Todas as Fases
-
-| Phase | Plans | Status | Completed |
-|-------|-------|--------|-----------|
-| 5. Proficiências CORPO | 1/1 | ✅ | 2026-05-16 |
-| 6. Proficiências MENTE/ESPÍRITO | 1/1 | ✅ | 2026-05-16 |
-| 7. Habilidades | 1/1 | ✅ | 2026-05-16 |
-| 8. Documentação | 1/1 | ✅ | 2026-05-16 |
-| 9. Fidelidade Estrutural | 4/4 | ✅ | 2026-05-16 |
-
 ## Accumulated Context
 
 ### Decisions
@@ -100,19 +89,21 @@ Phase 9 Plan 01-03 decisions:
 - 14 módulos TypeScript em data/regras/ — single source of truth
 - audit-docx.py: 36 âncoras verificadas vs docx (exit 0 = sem drift)
 
-Key carry-forwards for v1.2:
+Key carry-forwards for v1.3:
 
 - React Context + AsyncStorage architecture validated — stick with it
-- migrate() schema versioning é dívida técnica — deferred para v1.2+
-- FICHA-04 (index.tsx extraction) deferred para v1.2+
+- migrate() usa guards acumulativos por tipo — SCHEMA-01 amplia esse padrão para EquipItem
+- Equipment data já existe em data/regras/equipamentos.ts (armas[], escudos[], vestimentas[], acessorios[], melhorias[]) — Phase 13 picker usa essa fonte
+- magia.tsx tem seções Inventário e Equipamentos — Phase 13 remove-as (MOCH-02)
+- Tab bar atual: index.tsx, magia.tsx, grimorio.tsx, regras.tsx, notas.tsx — Phase 13 insere mochila.tsx
 
 ### Pending Todos
 
-None.
+None — start with `/gsd:plan-phase 12`
 
 ### Blockers/Concerns
 
-None — v1.1 shipped clean.
+None.
 
 ## Deferred Items
 
@@ -121,6 +112,10 @@ None — v1.1 shipped clean.
 | v1.2 | FICHA-04: index.tsx extração de componentes | Deferred | v1.0 Phase 2 |
 | v1.2 | Schema versioning no migrate() | Deferred | v1.0 Phase 1 |
 | v1.2 | Remover MemoGrid.tsx (dead code) | Deferred | v1.0 gsd-fast |
+| v1.4+ | Propriedades elementais (Sagrado, Ácido, Elétrico) como melhorias avançadas | Deferred | v1.3 requirements |
+| v1.4+ | Afiadores: combinações de 3 melhorias para propriedade elemental | Deferred | v1.3 requirements |
+| v2 | Múltiplas armas equipadas (mão principal + mão secundária) | Deferred | v1.3 requirements |
+| v2 | Rastreador de uso de artefatos (gasto de mana por uso) | Deferred | v1.3 requirements |
 | v2 | Rolador de dados coloridos | Deferred | Roadmap init |
 | v2 | Rastreador de turno de combate | Deferred | Roadmap init |
 | v2 | Calculadora de evolução de personagem | Deferred | Roadmap init |
@@ -130,6 +125,6 @@ None — v1.1 shipped clean.
 
 ## Session Continuity
 
-Last session: 2026-05-17T03:41:45Z
-Stopped at: Completed 11-01-PLAN.md
+Last session: 2026-05-17
+Stopped at: Roadmap v1.3 created — Phases 12, 13, 14 defined
 Resume file: None
