@@ -665,6 +665,7 @@ const styles = StyleSheet.create({
     color: RPG.textMuted,
     fontSize: 11,
     flex: 2,
+    lineHeight: 18,
   },
   colFirst: {
     minWidth: 80,
@@ -688,14 +689,14 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontStyle: 'italic',
     paddingVertical: 5,
-    lineHeight: 16,
+    lineHeight: 18,
   },
 
   subTitle: {
-    color: RPG.goldDim,
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 1,
+    color: RPG.goldLight,
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0.8,
     textTransform: 'uppercase',
     paddingTop: 10,
     paddingBottom: 2,
@@ -732,14 +733,16 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   profReq: {
-    color: RPG.goldDim,
+    color: RPG.gold,
     fontSize: 10,
-    fontStyle: 'italic',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   profDesc: {
     color: RPG.textMuted,
     fontSize: 11,
-    lineHeight: 16,
+    lineHeight: 18,
     paddingTop: 2,
   },
   profTeste: {
@@ -771,15 +774,17 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   habPrereq: {
-    color: RPG.goldDim,
+    color: RPG.gold,
     fontSize: 10,
-    fontStyle: 'italic',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
     paddingTop: 1,
   },
   habEfeito: {
     color: RPG.text,
     fontSize: 11,
-    lineHeight: 16,
+    lineHeight: 18,
     paddingTop: 2,
   },
   habMagicasWrap: {
