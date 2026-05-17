@@ -4,7 +4,7 @@
 
 - ✅ **v1.0 MVP** — Phases 1–4 (shipped 2026-05-15)
 - ✅ **v1.1 Fidelidade ao Livro de Regras** — Phases 5–9 (shipped 2026-05-16)
-- 🔄 **v1.2 Tela de Regras — Visual & Estrutura** — Phases 10–11 (in progress)
+- ✅ **v1.2 Tela de Regras — Visual & Estrutura** — Phases 10–11 (shipped 2026-05-17)
 
 ## Phases
 
@@ -109,12 +109,12 @@ Plans:
 - [x] 09-03-PLAN.md — Scripts audit-docx.py + generate-game-rules.py + pre-commit hook + regenerar GAME_RULES.md
 - [x] 09-04 — proficiencias.ts + habilidades.ts texto exato docx; meta.ts (SecaoMeta §1-20); regras.tsx §1-20 zero hardcode (secoes.*); PlanewalkerDings em notacaoMana
 
-### 🔄 v1.2 Tela de Regras — Visual & Estrutura (In Progress)
+### ✅ v1.2 Tela de Regras — Visual & Estrutura (Complete — 2026-05-17)
 
 **Milestone Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas RPG, tipografia com escaneabilidade e seções colapsáveis com feedback — dark/gold/premium coerente com a ficha existente.
 
 - [x] **Phase 10: Estrutura & Tipografia** — Cards, separação visual e sistema tipográfico (completed 2026-05-17)
-- [ ] **Phase 11: Tabelas & Interatividade** — Estilo RPG nas tabelas e animações de colapsável
+- [x] **Phase 11: Tabelas & Interatividade** — Estilo RPG nas tabelas e animações de colapsável *(completed 2026-05-17)*
 
 ### Phase 10: Estrutura & Tipografia
 
@@ -164,4 +164,4 @@ Plans:
 | 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 9. Fidelidade Estrutural | v1.1 | 4/4 | Complete | 2026-05-16 |
 | 10. Estrutura & Tipografia | v1.2 | 1/1 | Complete   | 2026-05-17 |
-| 11. Tabelas & Interatividade | v1.2 | 0/1 | Pending | — |
+| 11. Tabelas & Interatividade | v1.2 | 1/1 | Complete | 2026-05-17 |

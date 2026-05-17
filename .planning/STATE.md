@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Tela de Regras — Visual & Estrutura
-status: Phase 10 complete — Phase 11 pending
-stopped_at: Phase 10 executed (card anatomy + typography)
-last_updated: "2026-05-17T00:00:00.000Z"
-last_activity: 2026-05-17 — Phase 10 complete (REG-01, REG-02, REG-06-09)
+status: Phase 11 complete — milestone v1.2 done
+stopped_at: Completed 11-01-PLAN.md
+last_updated: "2026-05-17T03:41:45Z"
+last_activity: 2026-05-17 — Phase 11 executada (REG-03,04,05,10,11,12 fechados)
 progress:
   total_phases: 2
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
-  percent: 50
+  completed_phases: 2
+  total_plans: 2
+  completed_plans: 2
+  percent: 100
 ---
 
 # Project State
@@ -25,10 +25,25 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 11 — Tabelas & Interatividade
-Plan: 11-01 (Ready to execute)
-Status: Phase 11 planned — 1 plan, 1 wave
-Last activity: 2026-05-17 — Phase 11 planned (REG-03–05, REG-10–12)
+Phase: 11 — Tabelas & Interatividade (COMPLETE)
+Plan: 11-01 (Executed — 2 commits, 1 file modified)
+Status: Phase 11 complete — milestone v1.2 done
+Last activity: 2026-05-17 — Phase 11 executada (REG-03,04,05,10,11,12 fechados)
+
+## Phase 11 — Resumo Completo
+
+| Plan | Descrição | Requirements | Status |
+|------|-----------|--------------|--------|
+| 11-01 | Tabelas RPG (surfaceAlt header + hairline rows) + Section animação chevron + haptic | REG-03,04,05,10,11,12 | ✅ |
+
+Changes applied:
+
+- `tableHeaderRow`: add `backgroundColor: RPG.surfaceAlt` — header distinto das data rows (REG-03)
+- `tableRow`: add `borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: RPG.border` — separação sutil (REG-04)
+- `Section`: `toggle()` com `LayoutAnimation.configureNext(easeInEaseOut)` + `Animated.timing(rotation)` 0→1 + `Haptics.impactAsync(Light)` (REG-10, REG-12)
+- Chevron: `<Animated.Text style={[styles.chevron, { transform: [{ rotate }] }]}>▼</Animated.Text>` — rotação 0deg→180deg (REG-10)
+- REG-11: já satisfeito pela Phase 10 (sectionHeaderOpen) — LayoutAnimation anima a transição de cor
+- REG-05: verificado por design — nenhuma mudança necessária
 
 ## Phase 10 — Resumo Completo
 
@@ -37,6 +52,7 @@ Last activity: 2026-05-17 — Phase 11 planned (REG-03–05, REG-10–12)
 | 10-01 | Card anatomy + conditional header + sistema tipográfico | REG-01,02,06-09 | ✅ |
 
 Changes applied:
+
 - `sectionWrap`: card com `backgroundColor: RPG.surface`, `borderTopWidth: 2 / RPG.goldDim`, `marginHorizontal: 8, marginVertical: 6`
 - Section JSX: `style={[styles.sectionHeader, open && styles.sectionHeaderOpen]}`
 - `sectionHeaderOpen`: `backgroundColor: RPG.surface`, `borderBottomWidth: 1 / RPG.goldDim`
@@ -114,6 +130,6 @@ None — v1.1 shipped clean.
 
 ## Session Continuity
 
-Last session: 2026-05-17T03:16:28.087Z
-Stopped at: v1.1 milestone complete
+Last session: 2026-05-17T03:41:45Z
+Stopped at: Completed 11-01-PLAN.md
 Resume file: None
