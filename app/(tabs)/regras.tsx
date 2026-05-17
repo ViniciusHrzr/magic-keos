@@ -12,7 +12,7 @@ import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import { proficiencias, periciaOrdem } from '@/data/proficiencias';
-import { habilidades } from '@/data/habilidades';
+import { habilidades, MagicaHabilidade } from '@/data/habilidades';
 import {
   cores, guildas,
   instancias, pontosIdentidade, atributosCORPO, atributosMENTE, atributosESPIRITO,
@@ -91,7 +91,7 @@ function ProfBlock({ nome, desc, teste, req }: { nome: string; desc: string; tes
   );
 }
 
-function HabBlock({ nome, prereq, custo, efeito }: { nome: string; prereq: string; custo: string; efeito: string }) {
+function HabBlock({ nome, prereq, custo, efeito, magicas }: { nome: string; prereq: string; custo: string; efeito: string; magicas?: MagicaHabilidade[] }) {
   return (
     <View style={styles.habBlock}>
       <View style={styles.habHeader}>
@@ -100,6 +100,17 @@ function HabBlock({ nome, prereq, custo, efeito }: { nome: string; prereq: strin
       </View>
       <Text style={styles.habPrereq}>Req: {prereq}</Text>
       <Text style={styles.habEfeito}>{efeito}</Text>
+      {magicas && magicas.length > 0 && (
+        <View style={styles.habMagicasWrap}>
+          <Text style={styles.habMagicasLabel}>MÁGICA</Text>
+          {magicas.map((m, i) => (
+            <Text key={i} style={styles.habMagicasItem}>
+              {m.nome} ({m.dominio}){' '}
+              <Text style={styles.habManaFont}>{m.custo}</Text>
+            </Text>
+          ))}
+        </View>
+      )}
     </View>
   );
 }
@@ -112,7 +123,7 @@ function Section({ num, title, children }: { num: string; title: string; childre
   const [open, setOpen] = useState(false);
   return (
     <View style={styles.sectionWrap}>
-      <TouchableOpacity style={styles.sectionHeader} onPress={() => setOpen(o => !o)} activeOpacity={0.7}>
+      <TouchableOpacity style={[styles.sectionHeader, open && styles.sectionHeaderOpen]} onPress={() => setOpen(o => !o)} activeOpacity={0.7}>
         <Text style={styles.sectionNum}>{num}</Text>
         <Text style={styles.sectionTitle}>{title}</Text>
         <Text style={styles.chevron}>{open ? '▲' : '▼'}</Text>
@@ -231,6 +242,7 @@ export default function RegrasScreen() {
                         prereq={h.prerequisito}
                         custo={habCusto(h.custo)}
                         efeito={h.descricao}
+                        magicas={h.magicas}
                       />
                     ))}
                 </React.Fragment>
@@ -584,8 +596,11 @@ const styles = StyleSheet.create({
   },
 
   sectionWrap: {
-    borderBottomWidth: 1,
-    borderBottomColor: RPG.border,
+    backgroundColor: RPG.surface,
+    borderTopWidth: 2,
+    borderTopColor: RPG.goldDim,
+    marginHorizontal: 8,
+    marginVertical: 6,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -595,9 +610,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     gap: 8,
   },
+  sectionHeaderOpen: {
+    backgroundColor: RPG.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.goldDim,
+  },
   sectionNum: {
     color: RPG.goldDim,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     minWidth: 20,
     textAlign: 'right',
@@ -605,7 +625,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     flex: 1,
     color: RPG.gold,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.5,
   },
@@ -761,5 +781,28 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 16,
     paddingTop: 2,
+  },
+  habMagicasWrap: {
+    marginTop: 4,
+    paddingTop: 4,
+    borderTopWidth: 1,
+    borderTopColor: RPG.border,
+    gap: 1,
+  },
+  habMagicasLabel: {
+    color: RPG.gold,
+    fontSize: 9,
+    fontWeight: '700',
+    letterSpacing: 0.6,
+  },
+  habMagicasItem: {
+    color: RPG.textMuted,
+    fontSize: 10,
+    fontStyle: 'italic',
+  },
+  habManaFont: {
+    fontFamily: 'PlanewalkerDings',
+    fontStyle: 'normal',
+    fontSize: 12,
   },
 });
