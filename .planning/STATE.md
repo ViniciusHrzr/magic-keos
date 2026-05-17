@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Tela de Regras — Visual & Estrutura
-status: ready_to_execute
-stopped_at: ~
-last_updated: "2026-05-16T00:00:00.000Z"
-last_activity: "2026-05-16 — Phase 10 planned (1 plan, 1 wave)"
+status: Planned — 1 plan, 1 wave
+stopped_at: v1.1 milestone complete
+last_updated: "2026-05-17T03:16:28.104Z"
+last_activity: 2026-05-16 — Phase 10 planned (REG-01, REG-02, REG-06-09)
 progress:
   total_phases: 2
-  completed_phases: 0
-  total_plans: 2
-  completed_plans: 0
-  percent: 0
+  completed_phases: 1
+  total_plans: 1
+  completed_plans: 1
+  percent: 50
 ---
 
 # Project State
@@ -54,12 +54,14 @@ Last activity: 2026-05-16 — Phase 10 planned (REG-01, REG-02, REG-06-09)
 ### Decisions
 
 Phase 9 Plan 04 decisions:
+
 - proficiencias.ts: nomes corrigidos (Armas de Uma Mão/Duas Mãos/Arremesso/Especialização em Arma/Mestria em Arma), prerequisitos sem abreviações, descricao e teste com texto exato do docx
 - habilidades.ts: descricao=teste em todas as habilidades; Toque Mortífero trigger correto; Grimório/Iniciativa/Fúria/Regenerar/Salvaguarda/Vidência com texto exato e nomes de reação
 - meta.ts (SecaoMeta): zero strings de regra hardcoded em regras.tsx — tudo via secoes.X.num/titulo/nota/subs/colunas
 - PlanewalkerDings: mapeamento completo do app — único gap era notacaoMana.simbolo em regras.tsx §10
 
 Phase 9 Plan 01-03 decisions:
+
 - Eventos Climáticos adicionados ao GAME_RULES.md §12
 - dR fracasso crítico corrigido em GAME_RULES.md §4
 - MENTE e ESPÍRITO §20 padronizados com "ou Xd10"
@@ -67,6 +69,7 @@ Phase 9 Plan 01-03 decisions:
 - audit-docx.py: 36 âncoras verificadas vs docx (exit 0 = sem drift)
 
 Key carry-forwards for v1.2:
+
 - React Context + AsyncStorage architecture validated — stick with it
 - migrate() schema versioning é dívida técnica — deferred para v1.2+
 - FICHA-04 (index.tsx extraction) deferred para v1.2+
@@ -95,6 +98,6 @@ None — v1.1 shipped clean.
 
 ## Session Continuity
 
-Last session: 2026-05-16T18:00:00.000Z
+Last session: 2026-05-17T03:16:28.087Z
 Stopped at: v1.1 milestone complete
 Resume file: None

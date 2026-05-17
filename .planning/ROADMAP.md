@@ -113,7 +113,7 @@ Plans:
 
 **Milestone Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas RPG, tipografia com escaneabilidade e seções colapsáveis com feedback — dark/gold/premium coerente com a ficha existente.
 
-- [ ] **Phase 10: Estrutura & Tipografia** — Cards, separação visual e sistema tipográfico
+- [x] **Phase 10: Estrutura & Tipografia** — Cards, separação visual e sistema tipográfico (completed 2026-05-17)
 - [ ] **Phase 11: Tabelas & Interatividade** — Estilo RPG nas tabelas e animações de colapsável
 
 ### Phase 10: Estrutura & Tipografia
@@ -131,7 +131,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 10-01-PLAN.md — Redesenhar estrutura visual de regras.tsx: cards por seção, separação de cabeçalho, sistema tipográfico (tamanhos, pesos, cores, lineHeight)
+- [x] 10-01-PLAN.md — Redesenhar estrutura visual de regras.tsx: cards por seção, separação de cabeçalho, sistema tipográfico (tamanhos, pesos, cores, lineHeight)
 
 ### Phase 11: Tabelas & Interatividade
 
@@ -163,5 +163,5 @@ Plans:
 | 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 9. Fidelidade Estrutural | v1.1 | 4/4 | Complete | 2026-05-16 |
-| 10. Estrutura & Tipografia | v1.2 | 0/1 | Pending | — |
+| 10. Estrutura & Tipografia | v1.2 | 1/1 | Complete   | 2026-05-17 |
 | 11. Tabelas & Interatividade | v1.2 | 0/1 | Pending | — |

@@ -11,8 +11,8 @@
 
 ### Hierarquia Visual (REG-01–02)
 
-- [ ] **REG-01**: A tela de Regras exibe cada seção principal em um card/bloco visualmente separado do fundo (background distinto, borda ou sombra)
-- [ ] **REG-02**: O cabeçalho de cada seção principal tem número, título e divisor visual claramente distintos do conteúdo interno
+- [x] **REG-01**: A tela de Regras exibe cada seção principal em um card/bloco visualmente separado do fundo (background distinto, borda ou sombra)
+- [x] **REG-02**: O cabeçalho de cada seção principal tem número, título e divisor visual claramente distintos do conteúdo interno
 
 ### Tabelas (REG-03–05)
 
@@ -22,10 +22,10 @@
 
 ### Tipografia (REG-06–09)
 
-- [ ] **REG-06**: Títulos de seção: fonte grande (≥16), bold, gold — legível sem expandir
-- [ ] **REG-07**: Sub-seções (Sub): fonte média (12–14), semibold, text ou goldLight
-- [ ] **REG-08**: Corpo de texto: regular, textMuted, lineHeight ≥ 18 para leitura confortável em sessão
-- [ ] **REG-09**: Labels meta (PRÉ-REQ, CUSTO, MÁGICA etc.): uppercase, tiny (≤10), gold, letterSpacing
+- [x] **REG-06**: Títulos de seção: fonte grande (≥16), bold, gold — legível sem expandir
+- [x] **REG-07**: Sub-seções (Sub): fonte média (12–14), semibold, text ou goldLight
+- [x] **REG-08**: Corpo de texto: regular, textMuted, lineHeight ≥ 18 para leitura confortável em sessão
+- [x] **REG-09**: Labels meta (PRÉ-REQ, CUSTO, MÁGICA etc.): uppercase, tiny (≤10), gold, letterSpacing
 
 ### Seções Colapsáveis (REG-10–12)
 
