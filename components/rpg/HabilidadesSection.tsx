@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { RPG } from '@/constants/theme';
 import SectionHeader from '@/components/rpg/SectionHeader';
-import { habilidades, INSTANCIA_LABEL, TIPO_LABEL, InstanciaKey, TipoHabilidade } from '@/data/habilidades';
+import { habilidades, INSTANCIA_LABEL, TIPO_LABEL, InstanciaKey, TipoHabilidade, MagicaHabilidade } from '@/data/habilidades';
 
 interface Props {
   selected: string[];
@@ -122,6 +122,19 @@ export default function HabilidadesSection({ selected, onChange }: Props) {
                     </View>
                     <Text style={styles.slotName} numberOfLines={1}>{hab.nome}</Text>
                     <Text style={styles.slotDesc} numberOfLines={2}>{hab.descricao}</Text>
+                    {hab.magicas && hab.magicas.length > 0 && (
+                      <View style={styles.slotMagicasWrap}>
+                        <Text style={styles.slotMagicasLabel}>MÁGICA </Text>
+                        <Text style={styles.slotMagicasValue} numberOfLines={1}>
+                          {hab.magicas.map((m, mi) => (
+                            <React.Fragment key={mi}>
+                              {mi > 0 ? ' · ' : ''}{m.nome}{' '}
+                              <Text style={styles.slotManaFont}>{m.custo}</Text>
+                            </React.Fragment>
+                          ))}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 ) : (
                   <Text style={styles.slotPlaceholder}>Toque para selecionar…</Text>
@@ -210,6 +223,17 @@ export default function HabilidadesSection({ selected, onChange }: Props) {
                         <Text style={[styles.habDesc, isElsewhere && styles.habDescElsewhere]}>
                           {hab.descricao}
                         </Text>
+                        {hab.magicas && hab.magicas.length > 0 && (
+                          <View style={styles.magicasWrap}>
+                            <Text style={styles.magicasLabel}>MÁGICA</Text>
+                            {hab.magicas.map((m, mi) => (
+                              <Text key={mi} style={styles.magicasItem}>
+                                {m.nome} ({m.dominio}){' '}
+                                <Text style={styles.manaFont}>{m.custo}</Text>
+                              </Text>
+                            ))}
+                          </View>
+                        )}
                       </View>
                       {isCurrent && <Text style={styles.checkMark}>✓</Text>}
                       {isElsewhere && <Text style={styles.elsewhereTag}>em uso</Text>}
@@ -278,6 +302,10 @@ const styles = StyleSheet.create({
   tipoText: { fontSize: 8, fontWeight: '700', letterSpacing: 0.4 },
   slotName: { fontSize: 12, color: RPG.goldLight, fontWeight: '600' },
   slotDesc: { fontSize: 10, color: RPG.textMuted, lineHeight: 14, marginTop: 2 },
+  slotMagicasWrap: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 2 },
+  slotMagicasLabel: { fontSize: 8, color: RPG.gold, fontWeight: '700', letterSpacing: 0.5 },
+  slotMagicasValue: { fontSize: 8, color: RPG.textMuted, fontStyle: 'italic', flex: 1 },
+  slotManaFont: { fontFamily: 'PlanewalkerDings', fontStyle: 'normal', fontSize: 9 },
   slotTesteRow: { flexDirection: 'row', marginTop: 2 },
   slotTesteLabel: { fontSize: 9, color: RPG.gold, fontWeight: '700', letterSpacing: 0.5 },
   slotTesteValue: { fontSize: 9, color: RPG.textMuted, flex: 1 },
@@ -349,6 +377,10 @@ const styles = StyleSheet.create({
   metaValue: { fontSize: 9, color: RPG.textMuted, flex: 1 },
   habDesc: { fontSize: 11, color: RPG.textMuted, lineHeight: 16 },
   habDescElsewhere: { color: RPG.textDark },
+  magicasWrap: { marginTop: 4, gap: 1 },
+  magicasLabel: { fontSize: 9, color: RPG.gold, fontWeight: '700', letterSpacing: 0.6 },
+  magicasItem: { fontSize: 9, color: RPG.textMuted, fontStyle: 'italic' },
+  manaFont: { fontFamily: 'PlanewalkerDings', fontStyle: 'normal', fontSize: 11 },
   testeRow: { flexDirection: 'row', flexWrap: 'wrap' },
   testeLabel: { fontSize: 9, color: RPG.gold, fontWeight: '700', letterSpacing: 0.6 },
   testeValue: { fontSize: 9, color: RPG.textMuted, flex: 1 },

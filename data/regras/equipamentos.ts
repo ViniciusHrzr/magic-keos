@@ -29,6 +29,11 @@ export interface MelhoriaRow {
   descricao: string
 }
 
+export interface MelhoriaItem {
+  label: string;
+  cor: 'branco' | 'verde' | 'vermelho' | 'preto' | 'azul';
+}
+
 export interface PropElementalRow {
   cor: string
   propriedade: string
@@ -83,6 +88,46 @@ export const melhorias: MelhoriaRow[] = [
   { tipo: 'Armas', descricao: 'W=Acurácia+1 · G=Acurácia madeira+1 · R=Dano físico+1 · B=Dado dano+1 · U=Dano mágico+1' },
   { tipo: 'Vestimentas', descricao: 'W=Armadura+1 · G=Manto+1 · R=IP Corp.+1 · B=IP Esp.+1 · U=IP Mental+1' },
 ]
+
+export const MELHORIAS_POR_SLOT: Record<'arma' | 'escudo' | 'vestimenta' | 'acessorio1' | 'acessorio2', MelhoriaItem[]> = {
+  arma: [
+    { label: 'Acurácia+1',         cor: 'branco'   },
+    { label: 'Acurácia madeira+1', cor: 'verde'    },
+    { label: 'Dano físico+1',      cor: 'vermelho' },
+    { label: 'Dado dano+1',        cor: 'preto'    },
+    { label: 'Dano mágico+1',      cor: 'azul'     },
+  ],
+  escudo: [
+    { label: 'IP Esp+1/Armadura+1',  cor: 'branco'   },
+    { label: 'IP Corp+1/Manto+1',    cor: 'verde'    },
+    { label: 'IP Corp+1/Armadura+1', cor: 'vermelho' },
+    { label: 'IP Esp+1/IP Mental+1', cor: 'preto'    },
+    { label: 'IP Mental+1/Manto+1',  cor: 'azul'     },
+  ],
+  vestimenta: [
+    { label: 'Armadura+1/Diplomacia+1/Esgrima+1',    cor: 'branco'   },
+    { label: 'Manto+1/Comunhão+1/Pontaria+1',        cor: 'verde'    },
+    { label: 'IP Corp+1/Expressão+1/Atletismo+1',    cor: 'vermelho' },
+    { label: 'IP Esp+1/Intimidação+1/Furtividade+1', cor: 'preto'    },
+    { label: 'IP Mental+1/Lábia+1/Artes Marciais+1', cor: 'azul'     },
+  ],
+  acessorio1: [
+    { label: 'Foco+1/Mecânica+1',            cor: 'branco'   },
+    { label: 'Canalização+1/Sobrevivência+1', cor: 'verde'    },
+    { label: 'Velocidade+1/Criatividade+1',   cor: 'vermelho' },
+    { label: 'Domínio+1/Alquimia+1',          cor: 'preto'    },
+    { label: 'Memória+1/Investigação+1',      cor: 'azul'     },
+  ],
+  acessorio2: [
+    { label: 'Foco+1/Mecânica+1',            cor: 'branco'   },
+    { label: 'Canalização+1/Sobrevivência+1', cor: 'verde'    },
+    { label: 'Velocidade+1/Criatividade+1',   cor: 'vermelho' },
+    { label: 'Domínio+1/Alquimia+1',          cor: 'preto'    },
+    { label: 'Memória+1/Investigação+1',      cor: 'azul'     },
+  ],
+};
+
+export type SlotMelhorias = typeof MELHORIAS_POR_SLOT;
 
 export const propriedadesElementais: PropElementalRow[] = [
   { cor: 'Branco', propriedade: 'Sagrado', efeito: '2× dano em profanas; normal em Incorpóreos' },
