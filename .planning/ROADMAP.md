@@ -41,7 +41,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 **Milestone Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
 
-- [ ] **Phase 12: Schema & Migration** — Definir EquipItem, setar CharacterContext, migrate() automático
+- [x] **Phase 12: Schema & Migration** — Definir EquipItem, setar CharacterContext, migrate() automático
 - [ ] **Phase 13: Aba Mochila & Slots de Equipamento** — Nova aba, remoção de magia.tsx, slots com picker e nome custom
 - [ ] **Phase 14: Inventário, Craft & Artefatos** — Grade 20 slots, craft com 3 melhorias, toggle artefato
 
@@ -220,6 +220,6 @@ Plans:
 | 9. Fidelidade Estrutural | v1.1 | 4/4 | Complete | 2026-05-16 |
 | 10. Estrutura & Tipografia | v1.2 | 1/1 | Complete | 2026-05-17 |
 | 11. Tabelas & Interatividade | v1.2 | 1/1 | Complete | 2026-05-17 |
-| 12. Schema & Migration | v1.3 | 0/? | Not started | - |
+| 12. Schema & Migration | v1.3 | 1/1 | Complete | 2026-05-17 |
 | 13. Aba Mochila & Slots | v1.3 | 0/? | Not started | - |
 | 14. Inventário, Craft & Artefatos | v1.3 | 0/? | Not started | - |

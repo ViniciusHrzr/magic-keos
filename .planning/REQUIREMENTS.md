@@ -41,7 +41,7 @@
 
 ### Schema & Migration
 
-- [ ] **SCHEMA-01**: Schema de Character migra automaticamente: `inventario: string` → `inventarioSlots: string[]` (20 slots) e `equipamentos: { arma: string, ... }` → `equipamentos: { [slot]: EquipItem | null }`, preservando nomes de itens já preenchidos como `{ nome: existingString, tipo: 'basico', melhorias: [] }`
+- [x] **SCHEMA-01**: Schema de Character migra automaticamente: `inventario: string` → `inventarioSlots: string[]` (20 slots) e `equipamentos: { arma: string, ... }` → `equipamentos: { [slot]: EquipItem | null }`, preservando nomes de itens já preenchidos como `{ nome: existingString, tipo: 'basico', melhorias: [] }`
 
 ---
 
@@ -67,7 +67,7 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| SCHEMA-01 | Phase 12 | pending |
+| SCHEMA-01 | Phase 12 | complete |
 | MOCH-01 | Phase 13 | pending |
 | MOCH-02 | Phase 13 | pending |
 | EQP-01 | Phase 13 | pending |

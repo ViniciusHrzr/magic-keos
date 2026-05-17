@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Aba Mochila — Equipamentos & Craft
 status: executing
-stopped_at: Roadmap v1.3 created — Phases 12, 13, 14 defined
-last_updated: "2026-05-17T04:53:14.225Z"
-last_activity: 2026-05-17 -- Phase 12 planning complete
+stopped_at: "Completed 12-01-PLAN.md — schema migration complete, tsc exit 0"
+last_updated: "2026-05-17T05:06:35Z"
+last_activity: 2026-05-17 -- Phase 12 Plan 01 complete
 progress:
   total_phases: 10
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 10
-  completed_plans: 10
-  percent: 70
+  completed_plans: 12
+  percent: 82
 ---
 
 # Project State
@@ -25,16 +25,16 @@ See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 ## Current Position
 
-Phase: 12 — Schema & Migration (not started)
-Plan: —
-Status: Ready to execute
-Last activity: 2026-05-17 -- Phase 12 planning complete
+Phase: 12 — Schema & Migration (complete)
+Plan: 01 done — 1/1 plans complete
+Status: Phase 12 complete, ready for Phase 13
+Last activity: 2026-05-17 -- Phase 12 Plan 01 complete (tsc exit 0)
 
 ## v1.3 Phase Overview
 
 | Phase | Goal | Requirements | Status |
 |-------|------|--------------|--------|
-| 12. Schema & Migration | Schema EquipItem + migrate() automático sem perda de dados | SCHEMA-01 | Not started |
+| 12. Schema & Migration | Schema EquipItem + migrate() automático sem perda de dados | SCHEMA-01 | ✅ |
 | 13. Aba Mochila & Slots | Nova aba + remoção de magia.tsx + 5 slots com picker | MOCH-01, MOCH-02, EQP-01, EQP-02, EQP-03 | Not started |
 | 14. Inventário, Craft & Artefatos | Grade 20 slots + craft 3 melhorias + toggle artefato | INV-01, INV-02, CRAFT-01, CRAFT-02, CRAFT-03, ARTE-01 | Not started |
 
@@ -88,6 +88,13 @@ Phase 9 Plan 01-03 decisions:
 - MENTE e ESPÍRITO §20 padronizados com "ou Xd10"
 - 14 módulos TypeScript em data/regras/ — single source of truth
 - audit-docx.py: 36 âncoras verificadas vs docx (exit 0 = sem drift)
+
+Phase 12 Plan 01 decisions:
+
+- EquipItem interface usa string literal union `'basico' | 'artefato'` (não enum), compatível com TypeScript strict mode
+- Guard B migração usa cast `(parsed.equipamentos as any)[slot]` para iterar 6 slots sem erro TS
+- Slot `armadura` mantido no tuple de migrate() Guard B — Phase 13 decide se expõe na UI (6 slots) ou remove para alinhar com EQP-01 (5 slots)
+- Seções Inventário e Equipamentos removidas de magia.tsx — relocam para mochila.tsx na Phase 13
 
 Key carry-forwards for v1.3:
 
