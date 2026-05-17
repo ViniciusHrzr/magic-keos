@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 ## Current Position
 
 Phase: 11 — Tabelas & Interatividade
-Plan: 11-01 (Not yet planned)
-Status: Phase 10 complete — Phase 11 pending
-Last activity: 2026-05-17 — Phase 10 complete (card anatomy + typography, REG-01/02/06-09)
+Plan: 11-01 (Ready to execute)
+Status: Phase 11 planned — 1 plan, 1 wave
+Last activity: 2026-05-17 — Phase 11 planned (REG-03–05, REG-10–12)
 
 ## Phase 10 — Resumo Completo
 

@@ -148,7 +148,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 11-01-PLAN.md — Refatorar TH/R2/R3 com estilo RPG; adicionar animação e haptic no Section collapsível
+- [x] 11-01-PLAN.md — Refatorar TH/R2/R3 com estilo RPG; adicionar animação e haptic no Section collapsível
 
 ## Progress
 
