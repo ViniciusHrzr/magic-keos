@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Tela de Regras — Visual & Estrutura
-status: planning
+status: ready_to_execute
 stopped_at: ~
 last_updated: "2026-05-16T00:00:00.000Z"
-last_activity: "2026-05-16 — Milestone v1.2 started"
+last_activity: "2026-05-16 — Phase 10 planned (1 plan, 1 wave)"
 progress:
   total_phases: 2
   completed_phases: 0
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-05-16 — Milestone v1.2 started
+Phase: 10 — Estrutura & Tipografia
+Plan: 10-01 (Ready to execute)
+Status: Planned — 1 plan, 1 wave
+Last activity: 2026-05-16 — Phase 10 planned (REG-01, REG-02, REG-06-09)
 
 ## Phase 9 — Resumo Completo
 
