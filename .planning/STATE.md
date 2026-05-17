@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Aba Mochila — Equipamentos & Craft
-status: executing
-stopped_at: "Phase 13 Plan 01 complete — MochilaScreen built, tsc clean"
-last_updated: "2026-05-17T07:18:00.000Z"
-last_activity: 2026-05-17 -- Phase 13 Plan 01 executed
+status: completed
+stopped_at: Phase 14 context gathered
+last_updated: "2026-05-17T17:33:51.341Z"
+last_activity: 2026-05-17 -- Phase 14 executed (grade 20 slots + craft melhorias + toggle artefato)
 progress:
   total_phases: 10
-  completed_phases: 8
-  total_plans: 10
+  completed_phases: 10
+  total_plans: 12
   completed_plans: 13
-  percent: 82
+  percent: 100
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 ## Current Position
 
-Phase: 13 — Aba Mochila & Slots de Equipamento (executing)
+Phase: 14 — Inventário, Craft & Artefatos (complete)
 Plan: 01 complete — 1/1 plans executed
-Status: Phase 13 Plan 01 complete, ready for Phase 14
-Last activity: 2026-05-17 -- Phase 13 Plan 01 executed (MochilaScreen + 5 slots + picker modal)
+Status: Phase 14 complete — all 9 automated checks passed, human UAT pending
+Last activity: 2026-05-17 -- Phase 14 executed (grade 20 slots + craft melhorias + toggle artefato)
 
 ## v1.3 Phase Overview
 
@@ -36,7 +36,7 @@ Last activity: 2026-05-17 -- Phase 13 Plan 01 executed (MochilaScreen + 5 slots 
 |-------|------|--------------|--------|
 | 12. Schema & Migration | Schema EquipItem + migrate() automático sem perda de dados | SCHEMA-01 | ✅ |
 | 13. Aba Mochila & Slots | Nova aba + remoção de magia.tsx + 5 slots com picker | MOCH-01, MOCH-02, EQP-01, EQP-02, EQP-03 | ✅ |
-| 14. Inventário, Craft & Artefatos | Grade 20 slots + craft 3 melhorias + toggle artefato | INV-01, INV-02, CRAFT-01, CRAFT-02, CRAFT-03, ARTE-01 | Not started |
+| 14. Inventário, Craft & Artefatos | Grade 20 slots + craft 3 melhorias + toggle artefato | INV-01, INV-02, CRAFT-01, CRAFT-02, CRAFT-03, ARTE-01 | ✅ |
 
 ## Phase 11 — Resumo Completo
 
@@ -96,17 +96,23 @@ Phase 12 Plan 01 decisions:
 - Slot `armadura` mantido no tuple de migrate() Guard B — Phase 13 decide se expõe na UI (6 slots) ou remove para alinhar com EQP-01 (5 slots)
 - Seções Inventário e Equipamentos removidas de magia.tsx — relocam para mochila.tsx na Phase 13
 
+Phase 13 Plan 01 decisions:
+
+- `armadura` slot excluído de SLOT_KEYS — slot de compatibilidade não exposto na UI (5 slots conforme EQP-01)
+- `activePickerSlot = pickerSlot ?? 'arma'` fallback para TypeScript quando Modal não está visível
+- Dead styles equipGrid/equipCell/equipLabel/equipInput removidos de magia.tsx — resolvem grep MOCH-02
+- UIManager.setLayoutAnimationEnabledExperimental(true) guard para Android com LayoutAnimation
+
 Key carry-forwards for v1.3:
 
 - React Context + AsyncStorage architecture validated — stick with it
 - migrate() usa guards acumulativos por tipo — SCHEMA-01 amplia esse padrão para EquipItem
-- Equipment data já existe em data/regras/equipamentos.ts (armas[], escudos[], vestimentas[], acessorios[], melhorias[]) — Phase 13 picker usa essa fonte
-- magia.tsx tem seções Inventário e Equipamentos — Phase 13 remove-as (MOCH-02)
-- Tab bar atual: index.tsx, magia.tsx, grimorio.tsx, regras.tsx, notas.tsx — Phase 13 insere mochila.tsx
+- Equipment data em data/regras/equipamentos.ts já usado pelo picker da Mochila
+- Phase 14 adiciona: grade inventário 20 slots, craft 3 melhorias, toggle artefato
 
 ### Pending Todos
 
-None — start with `/gsd:plan-phase 12`
+None — Phase 14 complete, v1.3 all phases done. Next: human UAT then `/gsd:complete-milestone`
 
 ### Blockers/Concerns
 
@@ -132,6 +138,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-17
-Stopped at: Roadmap v1.3 created — Phases 12, 13, 14 defined
-Resume file: None
+Last session: 2026-05-17T17:33:51.327Z
+Stopped at: Phase 14 context gathered
+Resume file: .planning/phases/14-inventario-craft-artefatos/14-CONTEXT.md
