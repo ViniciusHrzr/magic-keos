@@ -264,12 +264,12 @@ export default function MochilaScreen() {
                   <View key={idx} style={styles.invCell}>
                     <TextInput
                       style={styles.invInput}
-                      value={c.inventarioSlots[idx] ?? ''}
+                      value={(c.inventarioSlots ?? [])[idx] ?? ''}
                       onChangeText={v => setInventarioSlot(idx, v)}
                       placeholder={String(idx + 1)}
                       placeholderTextColor={RPG.textDark}
                     />
-                    {(c.inventarioSlots[idx] ?? '').trim() !== '' && (
+                    {((c.inventarioSlots ?? [])[idx] ?? '').trim() !== '' && (
                       <TouchableOpacity
                         onPress={() => setInventarioSlot(idx, '')}
                         activeOpacity={0.7}

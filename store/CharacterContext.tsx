@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Character, defaultCharacter, AttrDice, SkillValue, EquipItem } from '@/types/character';
+import { InventoryItem } from '@/types/inventory';
 
 const CHARS_KEY  = '@magic_keos_chars_v2';
 const CUR_KEY    = '@magic_keos_current_v2';
@@ -43,6 +44,22 @@ function migrate(raw: any): Character {
       }
     }
   }
+  // Guard C: inventarioSlots string[] → inventarioItems InventoryItem[]
+  if (Array.isArray((parsed as any).inventarioSlots) && !Array.isArray(parsed.inventarioItems)) {
+    const slots: string[] = (parsed as any).inventarioSlots;
+    parsed.inventarioItems = slots
+      .filter((s: string) => typeof s === 'string' && s.trim() !== '')
+      .map((s: string) => ({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5) + Math.random().toString(36).slice(2, 4),
+        type: 'note' as const,
+        text: s.trim(),
+        qty: 1,
+      }));
+    delete (parsed as any).inventarioSlots;
+  }
+  if (!Array.isArray(parsed.inventarioItems)) {
+    parsed.inventarioItems = [];
+  }
   return { ...defaultCharacter, ...parsed };
 }
 
@@ -69,6 +86,9 @@ interface CharacterContextType {
   setFoco: (update: Partial<Character['foco']>) => void;
   setDominio: (idx: number, v: string) => void;
   setInventarioSlot: (idx: number, v: string) => void;
+  addInventarioItem: (item: InventoryItem) => void;
+  removeInventarioItem: (id: string) => void;
+  updateInventarioItem: (id: string, patch: Partial<InventoryItem>) => void;
   setEquipamentoItem: (slot: keyof Character['equipamentos'], item: EquipItem | null) => void;
   setMagica: (idx: number, v: string) => void;
   setReceitas: (v: string) => void;
@@ -179,7 +199,22 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
   const setDominio = useCallback((idx: number, v: string) =>
     update(p => { const d = [...p.dominios]; d[idx] = v; return { ...p, dominios: d }; }), [update]);
   const setInventarioSlot = useCallback((idx: number, v: string) =>
-    update(p => { const slots = [...p.inventarioSlots]; slots[idx] = v; return { ...p, inventarioSlots: slots }; }), [update]);
+    update(p => { const slots = [...(p.inventarioSlots ?? [])]; slots[idx] = v; return { ...p, inventarioSlots: slots }; }), [update]);
+
+  const addInventarioItem = useCallback((item: InventoryItem) =>
+    update(p => ({ ...p, inventarioItems: [...(p.inventarioItems ?? []), item] })), [update]);
+
+  const removeInventarioItem = useCallback((id: string) =>
+    update(p => ({ ...p, inventarioItems: (p.inventarioItems ?? []).filter(i => i.id !== id) })), [update]);
+
+  const updateInventarioItem = useCallback((id: string, patch: Partial<InventoryItem>) =>
+    update(p => ({
+      ...p,
+      inventarioItems: (p.inventarioItems ?? []).map(i =>
+        i.id === id ? { ...i, ...patch } as InventoryItem : i
+      ),
+    })), [update]);
+
   const setEquipamentoItem = useCallback((slot: keyof Character['equipamentos'], item: EquipItem | null) =>
     update(p => ({ ...p, equipamentos: { ...p.equipamentos, [slot]: item } })), [update]);
   const setMagica = useCallback((idx: number, v: string) =>
@@ -265,7 +300,8 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     setInstanceIP, setAttrDice, setSkill,
     setProficiencias, setHabilidades, setNotas,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
-    setDominio, setInventarioSlot, setEquipamentoItem, setMagica, setReceitas,
+    setDominio, setInventarioSlot, addInventarioItem, removeInventarioItem, updateInventarioItem,
+    setEquipamentoItem, setMagica, setReceitas,
     charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
   }), [
     character, isLoaded,
@@ -273,7 +309,8 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     setInstanceIP, setAttrDice, setSkill,
     setProficiencias, setHabilidades, setNotas,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
-    setDominio, setInventarioSlot, setEquipamentoItem, setMagica, setReceitas,
+    setDominio, setInventarioSlot, addInventarioItem, removeInventarioItem, updateInventarioItem,
+    setEquipamentoItem, setMagica, setReceitas,
     charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
   ]);
 

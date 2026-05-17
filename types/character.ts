@@ -1,3 +1,5 @@
+import type { InventoryItem } from '@/types/inventory';
+
 export type DieColor = 'branco' | 'verde' | 'vermelho' | 'preto' | 'azul' | null;
 export type AttrDice = [DieColor, DieColor, DieColor, DieColor, DieColor];
 
@@ -99,7 +101,9 @@ export interface Character {
 
   dominios: string[];
 
-  inventarioSlots: string[];
+  /** @deprecated kept only for migrate() Guard C — use inventarioItems */
+  inventarioSlots?: string[];
+  inventarioItems: InventoryItem[];
 
   equipamentos: {
     arma: EquipItem | null;
@@ -175,7 +179,7 @@ export const defaultCharacter: Character = {
   canalizacao: { base: 0, temp: 0, boxes: Array(15).fill(false) },
   foco: { base: 0, temp: 0, entries: Array(15).fill('') },
   dominios: Array(12).fill(''),
-  inventarioSlots: Array(20).fill('') as string[],
+  inventarioItems: [],
   equipamentos: { arma: null, escudo: null, vestimenta: null, armadura: null, acessorio1: null, acessorio2: null },
   magicas: Array(20).fill(''),
   receitas: '',
