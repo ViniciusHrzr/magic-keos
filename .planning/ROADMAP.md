@@ -4,6 +4,7 @@
 
 - ✅ **v1.0 MVP** — Phases 1–4 (shipped 2026-05-15)
 - ✅ **v1.1 Fidelidade ao Livro de Regras** — Phases 5–9 (shipped 2026-05-16)
+- 🔄 **v1.2 Tela de Regras — Visual & Estrutura** — Phases 10–11 (in progress)
 
 ## Phases
 
@@ -108,6 +109,47 @@ Plans:
 - [x] 09-03-PLAN.md — Scripts audit-docx.py + generate-game-rules.py + pre-commit hook + regenerar GAME_RULES.md
 - [x] 09-04 — proficiencias.ts + habilidades.ts texto exato docx; meta.ts (SecaoMeta §1-20); regras.tsx §1-20 zero hardcode (secoes.*); PlanewalkerDings em notacaoMana
 
+### 🔄 v1.2 Tela de Regras — Visual & Estrutura (In Progress)
+
+**Milestone Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas RPG, tipografia com escaneabilidade e seções colapsáveis com feedback — dark/gold/premium coerente com a ficha existente.
+
+- [ ] **Phase 10: Estrutura & Tipografia** — Cards, separação visual e sistema tipográfico
+- [ ] **Phase 11: Tabelas & Interatividade** — Estilo RPG nas tabelas e animações de colapsável
+
+### Phase 10: Estrutura & Tipografia
+
+**Goal**: A tela de Regras tem hierarquia visual clara — cards por seção, cabeçalhos distintos e tipografia com escaneabilidade RPG
+**Depends on**: Phase 9
+**Requirements**: REG-01, REG-02, REG-06, REG-07, REG-08, REG-09
+**Success Criteria** (what must be TRUE):
+  1. Cada seção da tela de Regras está envolvida em um card/bloco com background e borda distintos do scroll background
+  2. O cabeçalho de cada seção (número + título) é visivelmente separado do corpo por divisor ou diferença de estilo
+  3. Títulos de seção: ≥ 16px, bold, RPG.gold — legíveis sem expandir a seção
+  4. Sub-seções usam fonte 12–14, semibold, text/goldLight — hierarquia clara em relação ao corpo
+  5. Corpo de texto tem lineHeight ≥ 18 — confortável para leitura em sessão longa
+  6. Labels meta (PRÉ-REQ, CUSTO, MÁGICA etc.) estão uppercase, ≤ 10px, gold, letterSpacing
+**Plans**: 1 plan
+
+Plans:
+- [ ] 10-01-PLAN.md — Redesenhar estrutura visual de regras.tsx: cards por seção, separação de cabeçalho, sistema tipográfico (tamanhos, pesos, cores, lineHeight)
+
+### Phase 11: Tabelas & Interatividade
+
+**Goal**: Tabelas têm estilo RPG consistente e seções colapsáveis comunicam seu estado com animação e feedback
+**Depends on**: Phase 10
+**Requirements**: REG-03, REG-04, REG-05, REG-10, REG-11, REG-12
+**Success Criteria** (what must be TRUE):
+  1. Toda tabela tem header row com fundo distinto (goldDim/surfaceAlt) e texto bold
+  2. Linhas de dados têm borda inferior clara ou fundo alternado — não parecem texto plano
+  3. Colunas de tabela são alinhadas de forma consistente em todas as 15+ seções de regras
+  4. Chevron anima suavemente (LayoutAnimation ou Animated) ao expandir/colapsar seção
+  5. Cabeçalho colapsável tem aparência visivelmente diferente quando aberto vs. fechado (cor, borda, opacidade)
+  6. Toque no cabeçalho aciona haptic leve via Expo Haptics
+**Plans**: 1 plan
+
+Plans:
+- [ ] 11-01-PLAN.md — Refatorar TH/R2/R3 com estilo RPG; adicionar animação e haptic no Section collapsível
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -121,3 +163,5 @@ Plans:
 | 7. Habilidades | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Documentação | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 9. Fidelidade Estrutural | v1.1 | 4/4 | Complete | 2026-05-16 |
+| 10. Estrutura & Tipografia | v1.2 | 0/1 | Pending | — |
+| 11. Tabelas & Interatividade | v1.2 | 0/1 | Pending | — |
