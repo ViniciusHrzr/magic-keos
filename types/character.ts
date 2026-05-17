@@ -6,6 +6,14 @@ export interface SkillValue {
   temp: number;
 }
 
+export interface EquipItem {
+  nome: string;
+  tipo: 'basico' | 'artefato';
+  melhorias: string[];
+  efeito?: string;
+  durabilidade?: number;
+}
+
 export interface Character {
   nome: string;
 
@@ -91,15 +99,15 @@ export interface Character {
 
   dominios: string[];
 
-  inventario: string;
+  inventarioSlots: string[];
 
   equipamentos: {
-    arma: string;
-    escudo: string;
-    vestimenta: string;
-    armadura: string;
-    acessorio1: string;
-    acessorio2: string;
+    arma: EquipItem | null;
+    escudo: EquipItem | null;
+    vestimenta: EquipItem | null;
+    armadura: EquipItem | null;
+    acessorio1: EquipItem | null;
+    acessorio2: EquipItem | null;
   };
 
   magicas: string[];
@@ -167,8 +175,8 @@ export const defaultCharacter: Character = {
   canalizacao: { base: 0, temp: 0, boxes: Array(15).fill(false) },
   foco: { base: 0, temp: 0, entries: Array(15).fill('') },
   dominios: Array(12).fill(''),
-  inventario: '',
-  equipamentos: { arma: '', escudo: '', vestimenta: '', armadura: '', acessorio1: '', acessorio2: '' },
+  inventarioSlots: Array(20).fill('') as string[],
+  equipamentos: { arma: null, escudo: null, vestimenta: null, armadura: null, acessorio1: null, acessorio2: null },
   magicas: Array(20).fill(''),
   receitas: '',
 };
