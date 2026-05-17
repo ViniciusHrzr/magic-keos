@@ -12,7 +12,6 @@ import {
   LayoutAnimation,
   ActivityIndicator,
   UIManager,
-  FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
@@ -34,6 +33,14 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SLOT_KEYS = ['arma', 'escudo', 'vestimenta', 'acessorio1', 'acessorio2'] as const;
 type SlotKey = typeof SLOT_KEYS[number];
+
+const SLOT_TYPE_MAP: Record<SlotKey, IStructuredGear['type_equip']> = {
+  arma: 'arma',
+  escudo: 'escudo',
+  vestimenta: 'vestimenta',
+  acessorio1: 'acessorio',
+  acessorio2: 'acessorio',
+};
 
 const SLOT_ACCEPTS: Record<SlotKey, IStructuredGear['type_equip'][]> = {
   arma: ['arma'],
@@ -103,6 +110,16 @@ export default function MochilaScreen() {
   }
 
   function clearSlot(slot: SlotKey) {
+    const equipped = c.equipamentos[slot];
+    if (equipped) {
+      addInventarioItem({
+        id: newNoteId(),
+        type: 'gear',
+        name: equipped.nome,
+        type_equip: SLOT_TYPE_MAP[slot],
+        melhorias: equipped.melhorias,
+      });
+    }
     setEquipamentoItem(slot, null);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpandedSlot(null);
@@ -185,12 +202,13 @@ export default function MochilaScreen() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <SafeAreaView style={styles.safe} edges={['top']}>
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.content}
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
         >
           <View style={styles.titleBar}>
             <Text style={styles.title}>Mochila</Text>
@@ -225,29 +243,25 @@ export default function MochilaScreen() {
             })}
           </View>
           <SectionHeader title="Inventário" />
-          <FlatList
-            data={c.inventarioItems ?? []}
-            keyExtractor={(item: InventoryItem) => item.id}
-            scrollEnabled={false}
-            renderItem={({ item }: { item: InventoryItem }) =>
-              isQuickNote(item)
-                ? <DraggableNoteCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} />
-                : <DraggableGearCard item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} onDropAttempt={handleDropAttempt} />
-            }
-            ListEmptyComponent={
+          <View style={styles.inventarioContainer}>
+            {(c.inventarioItems ?? []).length === 0 ? (
               <Text style={styles.emptyInventory}>Inventário vazio — adicione itens abaixo</Text>
-            }
-            ListFooterComponent={
-              <View style={styles.addItemRow}>
-                <TouchableOpacity style={styles.addItemBtn} onPress={handleAddNote} activeOpacity={0.8}>
-                  <Text style={styles.addItemBtnText}>+ Nota Rápida</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.addItemBtn} onPress={handleAddGear} activeOpacity={0.8}>
-                  <Text style={styles.addItemBtnText}>+ Equipamento</Text>
-                </TouchableOpacity>
-              </View>
-            }
-          />
+            ) : (
+              (c.inventarioItems ?? []).map((item: InventoryItem) =>
+                isQuickNote(item)
+                  ? <DraggableNoteCard key={item.id} item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} />
+                  : <DraggableGearCard key={item.id} item={item} onRemove={removeInventarioItem} onUpdate={updateInventarioItem} onDropAttempt={handleDropAttempt} />
+              )
+            )}
+            <View style={styles.addItemRow}>
+              <TouchableOpacity style={styles.addItemBtn} onPress={handleAddNote} activeOpacity={0.8}>
+                <Text style={styles.addItemBtnText}>+ Nota Rápida</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.addItemBtn} onPress={handleAddGear} activeOpacity={0.8}>
+                <Text style={styles.addItemBtnText}>+ Equipamento</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </ScrollView>
 
         <Modal
@@ -354,6 +368,11 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingVertical: 8,
     marginBottom: 8,
+    zIndex: 1,
+  },
+  inventarioContainer: {
+    overflow: 'visible',
+    zIndex: 2,
   },
   emptyInventory: {
     color: RPG.textDark,
