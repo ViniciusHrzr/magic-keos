@@ -572,7 +572,7 @@ const COR_TOKEN: Record<MelhoriaItem['cor'], string> = {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED — by Plan 01 execution 2026-05-17)
 
 1. **Labels de vestimenta com múltiplas opções por cor**
    - O que sabemos: REQUIREMENTS.md CRAFT-02 lista `'Armadura+1/Diplomacia+1/Esgrima+1'` como uma única melhoria branca de vestimenta

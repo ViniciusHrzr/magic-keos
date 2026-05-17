@@ -42,8 +42,8 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 **Milestone Goal:** Criar aba dedicada com slots de equipamento interativos (picker do livro + nome custom), grade de inventário nomeada, e sistema de craft com melhorias tabeladas (até 3 por item) e suporte a artefatos com efeito ativável.
 
 - [x] **Phase 12: Schema & Migration** — Definir EquipItem, setar CharacterContext, migrate() automático
-- [ ] **Phase 13: Aba Mochila & Slots de Equipamento** — Nova aba, remoção de magia.tsx, slots com picker e nome custom
-- [ ] **Phase 14: Inventário, Craft & Artefatos** — Grade 20 slots, craft com 3 melhorias, toggle artefato
+- [x] **Phase 13: Aba Mochila & Slots de Equipamento** — Nova aba, remoção de magia.tsx, slots com picker e nome custom
+- 🔄 **Phase 14: Inventário, Craft & Artefatos** — Grade 20 slots, craft com 3 melhorias, toggle artefato (Plan 01 complete; Plans 02–05 active)
 
 ## Phase Details
 
@@ -205,8 +205,15 @@ Plans:
   4. Cada melhoria exibida corresponde exatamente ao livro por categoria e cor (Acurácia+1 branco para Arma, etc.)
   5. Usuário pode remover qualquer melhoria individualmente sem afetar as demais
   6. Usuário pode toglar um slot entre "Básico" e "Artefato", e no modo Artefato dois campos extras aparecem: efeito ativável (texto livre) e durabilidade (inteiro)
-**Plans**: TBD
+**Plans**: 5 plans
 **UI hint**: yes
+
+Plans:
+- [x] 14-01-PLAN.md — Craft UI (melhorias + modal), artefato toggle, grade inventário string[] (COMPLETE)
+- [ ] 14-02-PLAN.md — Tab order: mover Mochila para 3ª posição em _layout.tsx (D-19/D-20)
+- [ ] 14-03-PLAN.md — Schema migration: InventoryItem union discriminada + types/inventory.ts + migrate() Guard C (D-12–D-15)
+- [ ] 14-04-PLAN.md — Hexagonal slots (D-05–D-11) + FlatList híbrida NoteCard/GearCard (D-12–D-14)
+- [ ] 14-05-PLAN.md — Drag-and-drop inventário↔hex slots via Reanimated v4 + GestureHandler v2 (D-16–D-18)
 
 ## Progress
 
@@ -225,4 +232,4 @@ Plans:
 | 11. Tabelas & Interatividade | v1.2 | 1/1 | Complete | 2026-05-17 |
 | 12. Schema & Migration | v1.3 | 1/1 | Complete | 2026-05-17 |
 | 13. Aba Mochila & Slots | v1.3 | 1/1 | Complete | 2026-05-17 |
-| 14. Inventário, Craft & Artefatos | v1.3 | 0/? | Not started | - |
+| 14. Inventário, Craft & Artefatos | v1.3 | 1/5 | Active | — |
