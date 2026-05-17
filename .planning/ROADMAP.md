@@ -5,7 +5,7 @@
 - ✅ **v1.0 MVP** — Phases 1–4 (shipped 2026-05-15)
 - ✅ **v1.1 Fidelidade ao Livro de Regras** — Phases 5–9 (shipped 2026-05-16)
 - ✅ **v1.2 Tela de Regras — Visual & Estrutura** — Phases 10–11 (shipped 2026-05-17)
-- 🔄 **v1.3 Aba Mochila — Equipamentos & Craft** — Phases 12–14 (active)
+- ✅ **v1.3 Aba Mochila — Equipamentos & Craft** — Phases 12–14 (shipped 2026-05-17)
 
 ## Phases
 
@@ -43,7 +43,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 - [x] **Phase 12: Schema & Migration** — Definir EquipItem, setar CharacterContext, migrate() automático
 - [x] **Phase 13: Aba Mochila & Slots de Equipamento** — Nova aba, remoção de magia.tsx, slots com picker e nome custom
-- 🔄 **Phase 14: Inventário, Craft & Artefatos** — Grade 20 slots, craft com 3 melhorias, toggle artefato (Plan 01 complete; Plans 02–05 active)
+- [x] **Phase 14: Inventário, Craft & Artefatos** — FlatList híbrida, hexSlots drag-to-equip, craft com preview, stats inline
 
 ## Phase Details
 
@@ -209,11 +209,11 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [x] 14-01-PLAN.md — Craft UI (melhorias + modal), artefato toggle, grade inventário string[] (COMPLETE)
-- [ ] 14-02-PLAN.md — Tab order: mover Mochila para 3ª posição em _layout.tsx (D-19/D-20)
-- [ ] 14-03-PLAN.md — Schema migration: InventoryItem union discriminada + types/inventory.ts + migrate() Guard C (D-12–D-15)
-- [ ] 14-04-PLAN.md — Hexagonal slots (D-05–D-11) + FlatList híbrida NoteCard/GearCard (D-12–D-14)
-- [ ] 14-05-PLAN.md — Drag-and-drop inventário↔hex slots via Reanimated v4 + GestureHandler v2 (D-16–D-18)
+- [x] 14-01-PLAN.md — Craft UI (melhorias + modal), artefato toggle, grade inventário string[]
+- [x] 14-02-PLAN.md — Tab order: mover Mochila para 3ª posição em _layout.tsx (D-19/D-20)
+- [x] 14-03-PLAN.md — Schema migration: InventoryItem union discriminada + types/inventory.ts + migrate() Guard C (D-12–D-15)
+- [x] 14-04-PLAN.md — Hexagonal slots (D-05–D-11) + FlatList híbrida NoteCard/GearCard (D-12–D-14)
+- [x] 14-05-PLAN.md — Drag-and-drop inventário↔hex slots via Reanimated v4 + GestureHandler v2 (D-16–D-18)
 
 ## Progress
 
@@ -232,4 +232,4 @@ Plans:
 | 11. Tabelas & Interatividade | v1.2 | 1/1 | Complete | 2026-05-17 |
 | 12. Schema & Migration | v1.3 | 1/1 | Complete | 2026-05-17 |
 | 13. Aba Mochila & Slots | v1.3 | 1/1 | Complete | 2026-05-17 |
-| 14. Inventário, Craft & Artefatos | v1.3 | 1/5 | Active | — |
+| 14. Inventário, Craft & Artefatos | v1.3 | 5/5 | Complete | 2026-05-17 |
