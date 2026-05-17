@@ -16,15 +16,15 @@ Stack: Expo 52, React Native 0.76, TypeScript strict, Expo Router
 ~4300 LOC adicionadas em v1.0 (24 arquivos TS/TSX)
 Sem testes automatizados; ESLint + TypeScript strict como única validação.
 
-## Current Milestone: v1.1 Fidelidade ao Livro de Regras
+## Current Milestone: v1.2 Tela de Regras — Visual & Estrutura
 
-**Goal:** Garantir que todo conteúdo de regras do app seja 100% fiel ao livro oficial "Magic no Universo Kéos v.0.4.docx".
+**Goal:** Redesenhar `regras.tsx` com hierarquia visual, tabelas com estilo RPG, tipografia com escaneabilidade, e seções colapsáveis com feedback claro — alinhado à vibe dark/gold/premium da ficha existente.
 
 **Target features:**
-- Corrigir `data/proficiencias.ts` — descrições de proficiências incorretas em 10+ perícias
-- Corrigir `data/habilidades.ts` — descrições e mecânicas erradas em habilidades corporais/espirituais
-- Atualizar `.planning/GAME_RULES.md` — sync com o docx após as correções
-- `app/(tabs)/regras.tsx` — seções 4 e 5 já renderizam a partir dos data files (automático após correção dos dados)
+- Cards e separação visual entre seções (não mais texto plano/HTML cru)
+- Tabelas com estilo RPG (bordas, cores, header consistente)
+- Hierarquia tipográfica: títulos, subtítulos, corpo, labels com pesos/cores/tamanhos
+- Seções colapsáveis com animação/indicadores de estado (aberto/fechado)
 
 ## Requirements
 
@@ -60,14 +60,12 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 - ✓ PericiaData com campo descricao; slots mostram nome + descricao + teste — v1.0 gsd-fast
 - ✓ Regras seção 4 dinâmica (rendering de proficiencias.ts) e seção 5 tabela Habilidades — v1.0 gsd-fast
 
-### Active (v1.1)
+### Active (v1.2)
 
-- [ ] **FIDE-01**: Corrigir descrições de proficiências em `proficiencias.ts` contra o docx original
-- [ ] **FIDE-02**: Corrigir descrições e mecânicas de habilidades em `habilidades.ts` contra o docx original
-- [ ] **FIDE-03**: Atualizar `GAME_RULES.md` para refletir as correções aplicadas
-- [ ] **FICHA-04**: index.tsx dividida em componentes menores (deferred de v1.0; ainda > 300 linhas)
-- [ ] Versionamento de schema no migrate() (atualmente acumulação de guards por tipo)
-- [ ] Remover MemoGrid.tsx (dead code — não importado desde gsd-fast magia rewrite)
+- [ ] **REG-01**: Hierarquia visual — cards e separação clara entre seções de regras
+- [ ] **REG-02**: Tabelas com estilo RPG (header, bordas, cores coerentes)
+- [ ] **REG-03**: Hierarquia tipográfica (títulos, subtítulos, corpo, labels)
+- [ ] **REG-04**: Seções colapsáveis com animação e indicadores de estado visuais
 
 ### Out of Scope
 
@@ -115,5 +113,22 @@ Sem testes automatizados; ESLint + TypeScript strict como única validação.
 | Chips com key `pericia:nome` | Evita colisões entre proficiências homônimas | ✓ Good |
 | FICHA-04 diferido (index.tsx extração) | Trade-off praticidade vs. perfeição técnica; app funcional > arquitetura ideal | ⚠ Revisit em v1.1 |
 
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd:complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
+
 ---
-*Last updated: 2026-05-16 — v1.1 milestone started*
+*Last updated: 2026-05-16 — v1.2 milestone started*

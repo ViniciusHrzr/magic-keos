@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Fidelidade ao Livro de Regras
-status: completed
-stopped_at: milestone complete (2026-05-16)
-last_updated: "2026-05-16T18:00:00.000Z"
-last_activity: "2026-05-16 — Phase 9 Plan 04 executed: proficiencias.ts + habilidades.ts texto exato, meta.ts (SecaoMeta §1-20), regras.tsx §1-20 zero hardcode, PlanewalkerDings notacaoMana (FIDE-24/25) — v1.1 SHIPPED"
+milestone: v1.2
+milestone_name: Tela de Regras — Visual & Estrutura
+status: planning
+stopped_at: ~
+last_updated: "2026-05-16T00:00:00.000Z"
+last_activity: "2026-05-16 — Milestone v1.2 started"
 progress:
-  total_phases: 9
-  completed_phases: 9
-  total_plans: 11
-  completed_plans: 11
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,12 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-16 — v1.1 milestone)
 
 ## Current Position
 
-Phase: 9 of 9 (Fidelidade Estrutural — COMPLETE)
-Plan: 09-04 (Plan 4 of 4 — executed)
-Status: Phase 9 COMPLETA — milestone v1.1 SHIPPED
-Last activity: 2026-05-16 — Phase 9 Plan 04: proficiencias.ts + habilidades.ts texto exato do livro, meta.ts criado, regras.tsx §1-20 zero hardcode via secoes.*, PlanewalkerDings em notacaoMana §10
-
-Progress: [██████████] 100% (11 of 11 plans complete)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-16 — Milestone v1.2 started
 
 ## Phase 9 — Resumo Completo
 
