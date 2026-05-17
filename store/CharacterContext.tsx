@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Character, defaultCharacter, AttrDice, SkillValue } from '@/types/character';
+import { Character, defaultCharacter, AttrDice, SkillValue, EquipItem } from '@/types/character';
 
 const CHARS_KEY  = '@magic_keos_chars_v2';
 const CUR_KEY    = '@magic_keos_current_v2';
@@ -30,6 +30,19 @@ function migrate(raw: any): Character {
   if (typeof parsed.proficiencias === 'string') parsed.proficiencias = [];
   if (typeof parsed.habilidades === 'string') parsed.habilidades = [];
   if (!parsed.notas) parsed.notas = '';
+  if (typeof (parsed as any).inventario === 'string') {
+    const legacyValue = (parsed as any).inventario as string;
+    parsed.inventarioSlots = [legacyValue, ...Array(19).fill('')];
+    delete (parsed as any).inventario;
+  }
+  if (parsed.equipamentos) {
+    for (const slot of ['arma', 'escudo', 'vestimenta', 'armadura', 'acessorio1', 'acessorio2'] as const) {
+      const val = (parsed.equipamentos as any)[slot];
+      if (typeof val === 'string') {
+        (parsed.equipamentos as any)[slot] = val.trim() ? { nome: val, tipo: 'basico' as const, melhorias: [] } : null;
+      }
+    }
+  }
   return { ...defaultCharacter, ...parsed };
 }
 
@@ -55,8 +68,8 @@ interface CharacterContextType {
   setCanalizacao: (update: Partial<Character['canalizacao']>) => void;
   setFoco: (update: Partial<Character['foco']>) => void;
   setDominio: (idx: number, v: string) => void;
-  setInventario: (v: string) => void;
-  setEquipamento: (k: keyof Character['equipamentos'], v: string) => void;
+  setInventarioSlot: (idx: number, v: string) => void;
+  setEquipamentoItem: (slot: keyof Character['equipamentos'], item: EquipItem | null) => void;
   setMagica: (idx: number, v: string) => void;
   setReceitas: (v: string) => void;
   charList: CharInfo[];
@@ -165,9 +178,10 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     update(p => ({ ...p, foco: { ...p.foco, ...patch } })), [update]);
   const setDominio = useCallback((idx: number, v: string) =>
     update(p => { const d = [...p.dominios]; d[idx] = v; return { ...p, dominios: d }; }), [update]);
-  const setInventario = useCallback((v: string) => update(p => ({ ...p, inventario: v })), [update]);
-  const setEquipamento = useCallback((k: keyof Character['equipamentos'], v: string) =>
-    update(p => ({ ...p, equipamentos: { ...p.equipamentos, [k]: v } })), [update]);
+  const setInventarioSlot = useCallback((idx: number, v: string) =>
+    update(p => { const slots = [...p.inventarioSlots]; slots[idx] = v; return { ...p, inventarioSlots: slots }; }), [update]);
+  const setEquipamentoItem = useCallback((slot: keyof Character['equipamentos'], item: EquipItem | null) =>
+    update(p => ({ ...p, equipamentos: { ...p.equipamentos, [slot]: item } })), [update]);
   const setMagica = useCallback((idx: number, v: string) =>
     update(p => { const m = [...p.magicas]; m[idx] = v; return { ...p, magicas: m }; }), [update]);
   const setReceitas = useCallback((v: string) => update(p => ({ ...p, receitas: v })), [update]);
@@ -251,7 +265,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     setInstanceIP, setAttrDice, setSkill,
     setProficiencias, setHabilidades, setNotas,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
-    setDominio, setInventario, setEquipamento, setMagica, setReceitas,
+    setDominio, setInventarioSlot, setEquipamentoItem, setMagica, setReceitas,
     charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
   }), [
     character, isLoaded,
@@ -259,7 +273,7 @@ export function CharacterProvider({ children }: { children: React.ReactNode }) {
     setInstanceIP, setAttrDice, setSkill,
     setProficiencias, setHabilidades, setNotas,
     setVelocidade, setMemoria, setCanalizacao, setFoco,
-    setDominio, setInventario, setEquipamento, setMagica, setReceitas,
+    setDominio, setInventarioSlot, setEquipamentoItem, setMagica, setReceitas,
     charList, currentId, switchTo, createChar, deleteChar, exportJson, importJson,
   ]);
 
