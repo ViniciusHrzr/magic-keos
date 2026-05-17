@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   ScrollView,
   View,
@@ -6,7 +6,10 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
+  Animated,
+  LayoutAnimation,
 } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
@@ -121,12 +124,31 @@ function HabBlock({ nome, prereq, custo, efeito, magicas }: { nome: string; prer
 
 function Section({ num, title, children }: { num: string; title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
+  const rotation = useRef(new Animated.Value(0)).current;
+
+  const toggle = () => {
+    const nextOpen = !open;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    Animated.timing(rotation, {
+      toValue: nextOpen ? 1 : 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+    setOpen(nextOpen);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
+  const rotate = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
+
   return (
     <View style={styles.sectionWrap}>
-      <TouchableOpacity style={[styles.sectionHeader, open && styles.sectionHeaderOpen]} onPress={() => setOpen(o => !o)} activeOpacity={0.7}>
+      <TouchableOpacity style={[styles.sectionHeader, open && styles.sectionHeaderOpen]} onPress={toggle} activeOpacity={0.7}>
         <Text style={styles.sectionNum}>{num}</Text>
         <Text style={styles.sectionTitle}>{title}</Text>
-        <Text style={styles.chevron}>{open ? '▲' : '▼'}</Text>
+        <Animated.Text style={[styles.chevron, { transform: [{ rotate }] }]}>▼</Animated.Text>
       </TouchableOpacity>
       {open && <View style={styles.sectionBody}>{children}</View>}
     </View>
