@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.4
-milestone_name: Nova UI aRPG MTG Style
+milestone_name: Nova UI — aRPG & MTG Style
 status: in_progress
-last_updated: "2026-05-18T00:00:00.000Z"
-last_activity: 2026-05-18 -- Phase 15 complete (Skia install + MTG palette + LegendaryFrame)
+last_updated: "2026-05-18"
+last_activity: 2026-05-18 -- Phase 17 planned (VidaBar + VenenoTracker checkmarks)
 progress:
-  total_phases: 6
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
-  percent: 17
+  total_phases: 20
+  completed_phases: 12
+  total_plans: 22
+  completed_plans: 21
+  percent: 60
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 ## Current Position
 
-Phase: 15 — Fundação Visual MTG (complete)
-Plan: 02 complete — 2/2 plans executed
-Status: Phase 15 complete — Skia 2.2.12 installed, MTG palette applied, LegendaryFrame approved
-Last activity: 2026-05-18 -- Phase 15 complete (LegendaryFrame + skiaAvailable guard + RN fallback)
+Phase: 17 — Vitalidade & Status (planned, ready to execute)
+Plan: 0/2 plans executed
+Status: Phase 16 complete; Phase 17 planned — 17-01 (VidaBar), 17-02 (VenenoTracker checkmarks)
+Last activity: 2026-05-18 -- Phase 17 planned (VidaBar + VenenoTracker checkmarks)
 
 ## v1.3 Phase Overview
 
@@ -137,6 +137,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-17T21:13:01.019Z
-Stopped at: context exhaustion at 75% (2026-05-17)
+Last session: 2026-05-18T03:39:31.716Z
+Stopped at: context exhaustion at 78% (2026-05-18)
 Resume file: None
