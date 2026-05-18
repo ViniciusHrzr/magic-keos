@@ -22,7 +22,7 @@
 
 ### Mana com Skia
 
-- [ ] **MANA-01**: Cada cor de mana (Branco, Verde, Vermelho, Preto, Azul, Incolor) tem stepper duplo: Base (capacidade máxima) e Total (disponível)
+- [ ] **MANA-01**: Cada cor de mana (Branco, Verde, Vermelho, Preto, Azul, Incolor) tem stepper duplo: Base (mana mínima garantida após descanso) e Total (mana disponível agora)
 - [ ] **MANA-02**: Shader Skia por cor de mana: Vermelho=fogo Perlin, Azul=ondas concêntricas, Verde=partículas ascendentes, Branco=brilho etéreo, Preto=sombra profunda, Incolor=distorção neutra
 - [ ] **MANA-03**: Canalização redesenhada como grid de checkboxes estilizados MTG (não texto plano)
 

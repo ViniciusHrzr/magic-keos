@@ -270,7 +270,7 @@ Plans:
 **Depends on**: Phase 17
 **Requirements**: MANA-01, MANA-02, MANA-03
 **Success Criteria** (what must be TRUE):
-  1. Cada uma das 6 cores (Branco, Verde, Vermelho, Preto, Azul, Incolor) exibe stepper duplo: Base (capacidade máxima) e Total (mana disponível agora)
+  1. Cada uma das 6 cores (Branco, Verde, Vermelho, Preto, Azul, Incolor) exibe stepper duplo: Base (mana mínima garantida após descanso) e Total (mana disponível agora)
   2. Shader Skia ativo e visível por cor: Vermelho=ruído Perlin/fogo, Azul=ondas concêntricas, Verde=partículas ascendentes, Branco=brilho etéreo, Preto=sombra profunda, Incolor=distorção neutra
   3. Canalização exibe grid de checkboxes estilizados MTG (bordas chanfradas, cor de mana) em vez de lista de texto plano
 **Plans**: TBD
