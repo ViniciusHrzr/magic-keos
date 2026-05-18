@@ -18,7 +18,6 @@ import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import ProficienciasSection from '@/components/rpg/ProficienciasSection';
 import HabilidadesSection from '@/components/rpg/HabilidadesSection';
 import LegendaryFrame from '@/components/rpg/LegendaryFrame';
-import VidaBar from '@/components/rpg/VidaBar';
 
 export default function FichaScreen() {
   const [showManager, setShowManager] = useState(false);
@@ -62,7 +61,20 @@ export default function FichaScreen() {
 
         {/* ── VIDA ── */}
         <SectionHeader title="Vida" />
-        <VidaBar vida={c.vida} onVidaChange={setVida} />
+        <View style={styles.vidaRow}>
+          {(['total', 'necro', 'atual', 'armadura', 'manto'] as const).map(k => (
+            <View key={k} style={styles.vidaCell}>
+              <Text style={styles.vidaIcon}>{vidaIcon(k)}</Text>
+              <NumericStepper
+                compact
+                value={c.vida[k]}
+                onChange={v => setVida(k, v)}
+                color={k === 'armadura' || k === 'manto' ? RPG.textMuted : RPG.redLight}
+              />
+              <Text style={styles.vidaLabel}>{k}</Text>
+            </View>
+          ))}
+        </View>
 
         {/* ── MANA ── */}
         <SectionHeader title="Mana" />
@@ -236,6 +248,17 @@ function InstanceBlock({ title, ipBase, ipBonus, onIpChange, attrs, skills, onDi
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
+function vidaIcon(k: string): string {
+  switch (k) {
+    case 'total': return '♥';
+    case 'necro': return '☠';
+    case 'atual': return '♡';
+    case 'armadura': return '⬡';
+    case 'manto': return '◈';
+    default: return '●';
+  }
+}
+
 const manaTypes = [
   { key: 'incolor' as const, label: 'Inc', color: RPG.incolor, diamondColor: RPG.incolor },
   { key: 'branco' as const, label: 'Bco', color: RPG.branco, diamondColor: RPG.branco },
@@ -265,6 +288,29 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: RPG.border,
+  },
+
+  vidaRow: {
+    flexDirection: 'row',
+    backgroundColor: RPG.surface,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
+  },
+  vidaCell: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 4,
+  },
+  vidaIcon: {
+    fontSize: 18,
+    color: RPG.red,
+  },
+  vidaLabel: {
+    color: RPG.textMuted,
+    fontSize: 9,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
 
   manaTable: {

@@ -1,0 +1,85 @@
+Blueprint Visual: Guia de Design para a Nova Interface do Magic Kéos RPG
+1. Visão Geral e Pilares de Design
+Este documento define as diretrizes de arquitetura de interface e experiência do usuário (UX) para a reestruturação completa do sistema Magic Kéos RPG. Como Arquiteto de Interface Sênior, o objetivo é transcender a funcionalidade de uma ficha digital, transformando-a em uma peça de design de alta fidelidade que ecoa a sofisticação de Magic: The Gathering (MtG). A interface deve ser projetada com foco em state-based styling, garantindo que cada interação do jogador forneça um feedback visual imediato e imersivo.
+O projeto sustenta-se em três pilares fundamentais:
+Autenticidade Crítica: Fidelidade absoluta ao sistema de 6 cores (incluindo a distinção mecânica de Incolor), utilizando a semiótica visual do "Design Force" para alinhar atributos a personalidades e cores.
+Imersão Profunda: Aplicação de Legendary Frames e texturas orgânicas que remetam ao tato do papel antigo e à profundidade dos cards físicos.
+Eficiência Operacional: Navegação otimizada para dispositivos móveis (Expo/React Native), permitindo a gestão de dados complexos com o mínimo de carga cognitiva.
+--------------------------------------------------------------------------------
+2. Identidade Visual e Estética Magic: The Gathering
+A estratégia visual deve ser enraizada nos atributos baseados na personalidade de cada cor, conforme o guia de licenciamento oficial da Wizards of the Coast.
+Paleta de Cores de Mana (Hex Codes):
+Branco (#F8F2E2): Marfim e dourado metálico; representa ordem e proteção.
+Verde (#00733E): Verde floresta profundo; representa crescimento e instinto.
+Vermelho (#D3202A): Carmesim vibrante; representa energia, caos e agressividade.
+Preto (#150B00): Ônix e sombras púrpuras; representa sacrifício e poder sombrio.
+Azul (#0E68AB): Safira e cobalto; representa intelecto, controle e fluidez.
+Incolor (#A6ADB5): Cinza pedra e metal polido; para elementos neutros e artefatos.
+Tipografia e Molduras:
+Legendary Frames: Reservados para o cabeçalho do personagem (Nome, Sabedoria) e títulos das Instâncias principais.
+Power Crests: Ícones de habilidades e perícias devem ser emoldurados em cristas circulares, facilitando a visual affordance e o reconhecimento rápido.
+Elementos Gráficos:
+Texturas de pergaminho antigo com bordas chanfradas para criar profundidade física (efeito 2.5D).
+Uso de sombras projetadas (elevation) para separar camadas de informação, simulando cards sobrepostos em uma mesa.
+--------------------------------------------------------------------------------
+3. Arquitetura das Instâncias e Sistema de Atributos
+A interface divide-se nas três instâncias fundamentais: Corpo, Mente e Espírito, cada uma gerenciando seus próprios atributos e perícias associadas.
+Visualização de Dados e Dados (Dice):
+Os atributos devem exibir a iconografia dos dados correspondentes (d4 a d12).
+Campos de IP (Índice de Proteção) devem utilizar um layout de campo duplo (Base / Bônus) para transparência no cálculo de dano.
+Módulos de Status Adicionais (Source Accuracy):
+Sabedoria: Módulo dedicado exibindo dois contadores: Acumulada (total histórico) e Disponível (recurso atual).
+Veneno: Tracker visual baseado em um grid de slots (checkmarks) para indicar o nível de intoxicação do personagem.
+Afinidade: Interface de seleção radial ou linear para definir o elemento de afinidade do personagem, alterando sutilmente a cor de destaque da UI.
+Gestão de Vitalidade (Health Bar Overlays): Para otimizar o real estate da tela, Armadura e Manto não devem ser barras isoladas, mas sim sobreposições visuais (overlays) na barra principal.
+Tipo de Recurso
+Representação na UI
+Lógica de Design
+Vida Total
+Container da Barra
+Background em cinza neutro profundo.
+Vida Atual
+Preenchimento Dinâmico
+Gradiente de verde (saudável) a vermelho (crítico).
+Vida Necro
+Overlay de Dano
+Camada roxo-acinzentada que "bloqueia" a recuperação da barra.
+Armadura
+Shield Overlay
+Ícone de escudo metálico sobreposto à esquerda da barra com valor numérico.
+Manto
+Aura Overlay
+Brilho ciano translúcido contornando a barra de vida.
+--------------------------------------------------------------------------------
+4. O Sistema de Mana de 6 Cores
+O tracker de Mana exige uma implementação que siga rigorosamente a estética de MtG, utilizando os glifos oficiais dentro de círculos coloridos.
+Componente Stepper Duplo:
+Cada cor (Branco, Verde, Vermelho, Preto, Azul, Incolor) deve possuir um par de campos numéricos: Base (capacidade máxima permitida) e Total (mana disponível no momento).
+O design deve ser empilhado verticalmente ou lado a lado com tipografia de alta legibilidade, garantindo que o jogador saiba instantaneamente quanto recurso possui para conjuração.
+Distinção Visual: A Mana Incolor deve ser visualmente neutra para não ser confundida com as cores específicas, mantendo a integridade das regras de conjuração do sistema Kéos.
+--------------------------------------------------------------------------------
+5. Layout da Página "Mochila" (Inventário e Equipamento)
+A tela de inventário deve equilibrar itens estruturados e campos de texto livre para flexibilidade.
+Paperdoll de Equipamentos:
+Layout centralizado no topo com slots dedicados para: Arma, Escudo, Vestimenta, Armadura e 2 Acessórios.
+Utilizar placeholders visuais inspirados em silhuetas de armaduras de MtG.
+Módulos de Inventário Flexível:
+Receitas de Alquimia: Campo de texto livre expansível para anotações personalizadas.
+Inventário Geral: Lista vertical de cards expansíveis para itens diversos, consumíveis e tesouros.
+Visual Affordance: Itens equipados no paperdoll devem refletir seu status com um brilho dourado ou borda diferenciada.
+--------------------------------------------------------------------------------
+6. Grimório e Gestão de Magias
+Com um banco de dados de 736 mágicas, a performance de renderização é o foco técnico principal.
+Filtragem e Busca:
+Controles de filtragem por Cor (ícones de mana), Grau (1-3) e Tipo.
+Campo de busca por texto com debounce para evitar lags na interface.
+Performance de Ativos:
+O app carrega ~4.9 MB de imagens bundled (média de 6.9 KB por imagem). Utilize FlatList otimizada com initialNumToRender e windowSize controlados para garantir scroll suave.
+Velocidade, Memória e Foco:
+Canalização: Grid de checkboxes para marcação rápida de turnos de preparação.
+Memória e Foco: Sistema de stepper (Base/Temporal) acompanhado por um grid de slots de texto. Diferente das checkboxes, estes slots são caixas de texto editáveis que representam o conteúdo mental ocupado pelo personagem.
+--------------------------------------------------------------------------------
+7. Recursos de Qualidade de Vida (QoL) e Navegação
+Persistência de Dados: Implementação rigorosa de AsyncStorage para salvar estados de forma atômica em cada alteração de stepper ou campo de texto, prevenindo perda de progresso.
+Fluxo de Adição Rápida: O Grimório deve conter botões de ação direta ("Adicionar Domínio" ou "Equipar Mágica") que injetam os dados diretamente na aba "Magia" do personagem, eliminando a necessidade de digitação manual.
+Feedback Tátil: Implementar micro-interações (haptics) ao ajustar manas e vitalidade, reforçando a sensação de manipulação de um artefato físico.

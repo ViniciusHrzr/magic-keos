@@ -1,0 +1,92 @@
+Guia de Implementação: Nova UI Magic Kéos (aRPG & MTG Style)
+Este documento estabelece as diretrizes técnicas e arquiteturais para a transição do Magic Kéos de uma interface baseada em texto para um sistema de aRPG (Action RPG) de alta fidelidade visual. A implementação deve fundir a funcionalidade de uma ficha de personagem complexa com a estética icônica de Magic: The Gathering (MTG), utilizando tecnologias de ponta em React Native para garantir performance de 60fps e imersão total.
+--------------------------------------------------------------------------------
+1. Reestruturação do Motor de Estado e Persistência
+A migração de string (texto livre) para um sistema de objetos é crítica. Devemos garantir a integridade dos dados históricos dos jogadores durante essa transição.
+1.1. Interface de Dados Técnica (TypeScript)
+O objeto Item deve ser exaustivo para suportar o cálculo automático de bônus nas instâncias e perícias.
+export type ManaColor = 'Incolor' | 'Branco' | 'Verde' | 'Vermelho' | 'Preto' | 'Azul';
+export type ItemRarity = 'Comum' | 'Incomum' | 'Raro' | 'Épico' | 'Lendário';
+export type ItemSlot = 'Arma' | 'Escudo' | 'Vestimenta' | 'Armadura' | 'Acessorio' | 'Consumivel';
+
+export interface Item {
+  id: string;
+  nome: string;
+  tipo: ItemSlot;
+  raridade: ItemRarity;
+  descricao: string;
+  ip_bonus: number; // Incremento direto na Armadura/IP
+  modificadores: {
+    instancia: 'Corpo' | 'Mente' | 'Espirito' | null;
+    valor: number;
+    pericia_alvo?: string; // Ex: "Atletismo", "Arcanismo"
+  };
+  afinidade_obrigatoria?: string;
+  isEquipped: boolean;
+}
+1.2. Lógica de Migração Não-Destrutiva
+Ao carregar o estado via AsyncStorage, o sistema deve detectar dados legados e encapsulá-los, preservando o histórico do usuário.
+const migrateInventory = (rawLegacyData: string | any[]): Item[] => {
+  if (Array.isArray(rawLegacyData)) return rawLegacyData;
+  
+  if (typeof rawLegacyData === 'string' && rawLegacyData.trim().length > 0) {
+    return [{
+      id: crypto.randomUUID(),
+      nome: "Item Legado",
+      tipo: 'Consumivel',
+      raridade: 'Comum',
+      descricao: rawLegacyData,
+      ip_bonus: 0,
+      modificadores: { instancia: null, valor: 0 },
+      isEquipped: false
+    }];
+  }
+  return [];
+};
+Recomendação Arquitetural: Utilize Zustand para o gerenciamento de estado global, garantindo atualizações atômicas e facilitando a persistência seletiva com o middleware persist.
+--------------------------------------------------------------------------------
+2. Layout de Equipamentos (Paperdoll) e Visual Hierarchy
+O "Paperdoll" não é apenas visual; é o hub central de status. O layout deve organizar os slots ao redor da silhueta do personagem, respeitando a sobreposição visual (Z-index).
+Z-Index Layering: A Vestimenta deve ser renderizada na camada inferior à Armadura. Efeitos de brilho (Glow) de itens Lendários devem utilizar Canvas do Skia para transbordar os limites do slot sem causar clipping.
+Slots Centrais:
+Mão Direita/Esquerda: Slots para Arma e Escudo.
+Tronco: Dois slots sobrepostos (Vestimenta -> Armadura).
+Acessórios: Dois slots laterais para anéis/amuletos.
+Componente EquipmentSlot
+Deve ser implementado como um Pressable customizado.
+Vazio: Renderiza o "Power Crest" (brasão de poder) do tipo de item com opacidade de 0.3.
+Validadores: O sistema de drop/equip deve validar se item.tipo === slot.tipo. Caso contrário, disparar um feedback visual de tremor (shake) via Reanimated.
+--------------------------------------------------------------------------------
+3. Integração Total de Stats e Life Pools
+A UI deve refletir todos os dados do Grimório e Ficha original de forma coesa.
+Vida de 5 Camadas: Exiba a vida de forma segmentada: Total, Necro, Atual, Armadura e Manto. Use barras de progresso customizadas com texturas de pergaminho ou gema.
+Sabedoria e Veneno:
+Sabedoria: Contador numérico com estética de "Mana Crystal".
+Veneno: Tracker de slots (checkboxes customizados) estilizados como frascos de veneno.
+Instâncias e Dados: Ao lado dos atributos (Corpo, Mente, Espírito), os dados de d4 a d12 devem ser ícones 3D/Isométricos que pulsam quando o item equipado altera o degrau do dado.
+--------------------------------------------------------------------------------
+4. Estética MTG com Skia e Shaders (VFX)
+Para atingir a qualidade de um produto licenciado, utilizaremos Shaders (Runtime Effects) para os indicadores de mana.
+4.1. Shaders de Mana (Skia)
+Cada cor de mana deve possuir um "fogo fátuo" único renderizado via skia-shader:
+Vermelho (Caos): Shader de ruído de Perlin com gradiente de fogo (Laranja/Vermelho).
+Verde (Natureza): Partículas ascendentes e gradientes de esmeralda.
+Azul (Conhecimento): Efeito de ondulação (Wave) concêntrica.
+Branco/Preto/Incolor: Brilho etéreo, sombras profundas e distorção de vácuo, respectivamente.
+4.2. Animações de Transição
+Shared Element Transitions: Ao selecionar um item na FlashList, o card deve se expandir para ocupar a tela, revelando os detalhes do IP Base/Bônus e Perícias modificadas.
+Feedback de Equip: Ao equipar, utilize withSpring no Reanimated para criar uma sensação de "encaixe" magnético do item no slot, acompanhado de um flash de luz Skia na cor da raridade do item.
+--------------------------------------------------------------------------------
+5. Navegação Unificada: Paperdoll para Grimório
+O fluxo de usuário deve ser contínuo. O acesso ao Grimório (736 mágicas) deve ser integrado através de um gesto de "swipe" ou um botão de "Orb de Conhecimento" na interface do Paperdoll.
+Filtros de Mana: Utilize os Símbolos de Mana (W, U, B, R, G) como botões de filtro rápidos, mantendo a fidelidade visual ao guia de estilo MTG.
+--------------------------------------------------------------------------------
+6. Critérios de Sucesso e Validação de Estilo
+A implementação será considerada concluída apenas se atender a estes requisitos rigorosos:
+Checklist Técnico
+[ ] Performance: FlashList mantendo 60fps durante scroll intenso de itens.
+[ ] Persistência: Migração de strings legadas para objetos Item funcional e testada.
+[ ] Cálculo Dinâmico: Instâncias (Corpo/Mente/Espírito) refletindo bônus de itens em tempo real (ex: "8 [+2]").
+[ ] Imersão Visual: Proibição de Button, Switch ou Alert nativos. Toda interação deve usar componentes customizados com bordas chanfradas, texturas de metal/pedra e tipografia clássica.
+[ ] VFX Skia: Shaders de mana operando em baixa carga de CPU, delegando o processamento de GPU para evitar engasgos na main thread.
+Nota de Design: "A interface não é uma ferramenta; é um artefato mágico. Cada interação deve reforçar o peso do destino do personagem em Magic Kéos."
