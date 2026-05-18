@@ -368,7 +368,13 @@ const styles = StyleSheet.create({
   },
 
   instanceBlock: {
-    marginTop: 4,
+    backgroundColor: RPG.surface,
+    borderWidth: 1,
+    borderColor: RPG.goldDim,
+    borderRadius: 4,
+    marginHorizontal: 8,
+    marginVertical: 6,
+    overflow: 'hidden',
   },
   instanceContent: {
     backgroundColor: RPG.surface,

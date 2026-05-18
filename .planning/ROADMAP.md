@@ -51,7 +51,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 **Milestone Goal:** Redesenhar toda a interface com estética Magic: The Gathering de alta fidelidade — Legendary Frames, Power Crests, Skia shaders de mana, barra de vida em camadas, dados visuais por atributo, paperdoll aRPG e grimório otimizado com FlashList.
 
 - [x] **Phase 15: Fundação Visual MTG** — Skia setup, paleta hex MTG em theme.ts, Legendary Frame component no header *(completed 2026-05-18)*
-- [ ] **Phase 16: Atributos & Dados Visuais** — Ícones d4–d12 por atributo, Power Crests para perícias, cards de instância MTG
+- [x] **Phase 16: Atributos & Dados Visuais** — Power Crests para proficiências/habilidades, cards de instância MTG (ATTR-01 removido — não alinhado com regras) *(completed 2026-05-18)*
 - [ ] **Phase 17: Vitalidade & Status** — Barra de vida em 5 camadas, sabedoria dual counter, veneno tracker visual
 - [ ] **Phase 18: Mana com Skia** — Stepper duplo Base/Total por cor, shaders Skia por mana, Canalização grid MTG
 - [ ] **Phase 19: Paperdoll aRPG** — Silhueta centralizada, 5 slots posicionados, estados visual vazio/equipado
