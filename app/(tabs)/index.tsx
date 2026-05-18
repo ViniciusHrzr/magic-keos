@@ -18,6 +18,7 @@ import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import ProficienciasSection from '@/components/rpg/ProficienciasSection';
 import HabilidadesSection from '@/components/rpg/HabilidadesSection';
 import LegendaryFrame from '@/components/rpg/LegendaryFrame';
+import ManaRow from '@/components/rpg/ManaRow';
 
 export default function FichaScreen() {
   const [showManager, setShowManager] = useState(false);
@@ -80,23 +81,23 @@ export default function FichaScreen() {
         <SectionHeader title="Mana" />
         <View style={styles.manaTable}>
           <View style={styles.manaHeaderRow}>
+            <View style={styles.manaCanvasHeaderCol} />
             <View style={styles.manaColorCol} />
             <Text style={styles.manaHeaderCell}>Base</Text>
             <Text style={styles.manaHeaderCell}>Total</Text>
           </View>
           {manaTypes.map(({ key, label, color, diamondColor }) => (
-            <View key={key} style={styles.manaTableRow}>
-              <View style={styles.manaColorCol}>
-                <View style={[styles.manaDiamond, { backgroundColor: diamondColor, borderColor: color }]} />
-                <Text style={[styles.manaLabel, { color }]}>{label}</Text>
-              </View>
-              <View style={styles.manaStepperCell}>
-                <NumericStepper compact value={c.mana[key].base} onChange={v => setMana(key, 'base', v)} color={color} />
-              </View>
-              <View style={styles.manaStepperCell}>
-                <NumericStepper compact value={c.mana[key].total} onChange={v => setMana(key, 'total', v)} color={color} />
-              </View>
-            </View>
+            <ManaRow
+              key={key}
+              manaKey={key}
+              label={label}
+              color={color}
+              diamondColor={diamondColor}
+              base={c.mana[key].base}
+              total={c.mana[key].total}
+              onBaseChange={v => setMana(key, 'base', v)}
+              onTotalChange={v => setMana(key, 'total', v)}
+            />
           ))}
         </View>
 
@@ -328,6 +329,9 @@ const styles = StyleSheet.create({
     borderBottomColor: RPG.goldDim,
     marginBottom: 2,
   },
+  manaCanvasHeaderCol: {
+    width: 50,
+  },
   manaHeaderCell: {
     flex: 1,
     textAlign: 'center',
@@ -337,34 +341,11 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
-  manaTableRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: RPG.border,
-  },
   manaColorCol: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    width: 70,
-  },
-  manaStepperCell: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  manaDiamond: {
-    width: 12,
-    height: 12,
-    transform: [{ rotate: '45deg' }],
-    borderRadius: 1,
-    borderWidth: 1.5,
-  },
-  manaLabel: {
-    fontSize: 11,
-    textTransform: 'uppercase',
-    letterSpacing: 0.3,
+    width: 60,
   },
 
   instanceBlock: {
