@@ -31,7 +31,9 @@ export default function VenenoTracker({ value, onChange }: Props) {
               styles.bubble,
               i < value && styles.filled,
               i < value && i >= 7 && styles.filledCritical,
-            ]} />
+            ]}>
+              {i < value && <Text style={styles.checkmark}>✓</Text>}
+            </View>
           </TouchableOpacity>
         ))}
       </View>
@@ -68,6 +70,8 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: RPG.textDark,
     backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   filled: {
     backgroundColor: '#4a1a1a',
@@ -91,5 +95,12 @@ const styles = StyleSheet.create({
     color: '#ff4444',
     fontWeight: 'bold',
     fontStyle: 'normal',
+  },
+  checkmark: {
+    color: RPG.text,
+    fontSize: 14,
+    textAlign: 'center',
+    lineHeight: 26,
+    fontWeight: 'bold',
   },
 });
