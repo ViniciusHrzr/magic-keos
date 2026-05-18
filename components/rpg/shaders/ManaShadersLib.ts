@@ -1,6 +1,10 @@
+import { Platform } from 'react-native';
 import { Skia } from '@shopify/react-native-skia';
 
-export const skiaAvailable = Skia != null && typeof (Skia as any).RuntimeEffect?.Make === 'function';
+export const skiaAvailable =
+  Platform.OS !== 'web' &&
+  Skia != null &&
+  typeof (Skia as any).RuntimeEffect?.Make === 'function';
 
 function makeEffect(sksl: string) {
   if (!skiaAvailable) return null;

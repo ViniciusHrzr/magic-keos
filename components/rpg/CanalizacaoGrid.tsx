@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { Canvas, Path, Skia } from '@shopify/react-native-skia';
 import { RPG } from '@/constants/theme';
 
@@ -7,7 +7,10 @@ const CHECKBOX_SIZE = 22;
 const CHAMFER = 5;
 const STROKE_WIDTH = 1.5;
 
-const skiaAvailable = Skia != null && typeof (Skia as any).Path?.Make === 'function';
+const skiaAvailable =
+  Platform.OS !== 'web' &&
+  Skia != null &&
+  typeof (Skia as any).Path?.Make === 'function';
 
 function makeChamferPath(w: number, h: number, c: number) {
   const path = Skia.Path.Make();
