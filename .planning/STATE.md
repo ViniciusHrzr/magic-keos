@@ -9,7 +9,7 @@ progress:
   total_phases: 20
   completed_phases: 12
   total_plans: 22
-  completed_plans: 21
+  completed_plans: 23
   percent: 60
 ---
 
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 ## Current Position
 
-Phase: 17 — Vitalidade & Status (planned, ready to execute)
-Plan: 0/2 plans executed
-Status: Phase 16 complete; Phase 17 planned — 17-01 (VidaBar), 17-02 (VenenoTracker checkmarks)
-Last activity: 2026-05-18 -- Phase 17 planned (VidaBar + VenenoTracker checkmarks)
+Phase: 17 — Vitalidade & Status (executed, pending human visual checkpoint)
+Plan: 2/2 plans executed
+Status: VidaBar layered bar + VenenoTracker checkmarks implemented; awaiting visual review
+Last activity: 2026-05-18 -- Phase 17 executed (VIT-01 VidaBar, VIT-03 VenenoTracker ✓)
 
 ## v1.3 Phase Overview
 
