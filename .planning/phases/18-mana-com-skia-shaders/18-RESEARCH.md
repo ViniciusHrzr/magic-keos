@@ -555,20 +555,23 @@ Fase não instala pacotes novos. Todos os pacotes usados já estão instalados e
 
 ---
 
-## Questões em Aberto
+## Questões em Aberto (RESOLVED)
 
 1. **Qual mana cor usar para CanalizacaoGrid?**
    - O que sabemos: Canalização não tem uma cor de mana própria na estrutura `character.ts`
    - O que está incerto: se deve ser gold (cor padrão do jogo) ou uma cor escolhida pelo usuário
    - Recomendação: usar `RPG.gold` como default; adicionar prop `color` opcional
+   - → RESOLVED: 18-02-PLAN.md usa `RPG.gold` (fill checked) e `RPG.goldDim` (stroke unchecked)
 
 2. **Canvas por checkbox vs. Canvas único na grid?**
    - O que sabemos: Canvas único é mais eficiente em memória (uma surface GPU)
    - O que está incerto: se o hit testing com coordenadas manuais é desejável nesse projeto
    - Recomendação: começar com Canvas por checkbox (padrão mais simples e análogo ao LegendaryFrame); otimizar se necessário
+   - → RESOLVED: 18-02-PLAN.md adota Canvas por checkbox (um por cell)
 
 3. **Animação contínua vs. idle quando mana = 0?**
    - Recomendação: desativar animação quando `total === 0` — implementar via condicional no `useDerivedValue` que retorna uniforms fixos
+   - → RESOLVED: 18-01-PLAN.md Task 2 implementa `active = total > 0` gate; hooks rodam sempre, apenas o render muda
 
 ---
 

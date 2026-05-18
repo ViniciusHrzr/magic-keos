@@ -52,7 +52,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 - [x] **Phase 15: Fundação Visual MTG** — Skia setup, paleta hex MTG em theme.ts, Legendary Frame component no header *(completed 2026-05-18)*
 - [x] **Phase 16: Atributos & Dados Visuais** — Power Crests para proficiências/habilidades, cards de instância MTG (ATTR-01 removido — não alinhado com regras) *(completed 2026-05-18)*
-- [ ] **Phase 17: Vitalidade & Status** — Barra de vida em 5 camadas, sabedoria dual counter, veneno tracker visual
+- [x] **Phase 17: Vitalidade & Status** — VenenoTracker checkmarks (VIT-03 done; VIT-01 reverted, VIT-02 deferred) *(completed 2026-05-18)*
 - [ ] **Phase 18: Mana com Skia** — Stepper duplo Base/Total por cor, shaders Skia por mana, Canalização grid MTG
 - [ ] **Phase 19: Paperdoll aRPG** — Silhueta centralizada, 5 slots posicionados, estados visual vazio/equipado
 - [ ] **Phase 20: Grimório Otimizado** — FlashList 60fps, filtros símbolos MTG, shared element transition
@@ -317,7 +317,7 @@ Plans:
 | 14. Inventário, Craft & Artefatos | v1.3 | 5/5 | Complete | 2026-05-17 |
 | 15. Fundação Visual MTG | v1.4 | 0/2 | Pending | — |
 | 16. Atributos & Dados Visuais | v1.4 | 0/? | Pending | — |
-| 17. Vitalidade & Status | v1.4 | 0/? | Pending | — |
-| 18. Mana com Skia | v1.4 | 0/? | Pending | — |
+| 17. Vitalidade & Status | v1.4 | 1/2 | Complete | 2026-05-18 |
+| 18. Mana com Skia | v1.4 | 0/2 | Planned | — |
 | 19. Paperdoll aRPG | v1.4 | 0/? | Pending | — |
 | 20. Grimório Otimizado | v1.4 | 0/? | Pending | — |

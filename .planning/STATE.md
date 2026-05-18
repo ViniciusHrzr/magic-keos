@@ -4,13 +4,13 @@ milestone: v1.4
 milestone_name: Nova UI — aRPG & MTG Style
 status: in_progress
 last_updated: "2026-05-18"
-last_activity: 2026-05-18 -- Phase 17 planned (VidaBar + VenenoTracker checkmarks)
+last_activity: 2026-05-18 -- Phase 17 closed (VIT-03 done; VIT-01 reverted, VIT-02 deferred)
 progress:
   total_phases: 20
-  completed_phases: 12
+  completed_phases: 13
   total_plans: 22
-  completed_plans: 23
-  percent: 60
+  completed_plans: 25
+  percent: 65
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 ## Current Position
 
-Phase: 17 — Vitalidade & Status (executed, pending human visual checkpoint)
-Plan: 2/2 plans executed
-Status: VidaBar layered bar + VenenoTracker checkmarks implemented; awaiting visual review
-Last activity: 2026-05-18 -- Phase 17 executed (VIT-01 VidaBar, VIT-03 VenenoTracker ✓)
+Phase: 18 — Mana com Skia Shaders (planned, ready to execute)
+Plan: 0/2 plans
+Status: 2 plans created — 18-01 (MANA-02 shaders) + 18-02 (MANA-03 CanalizacaoGrid); Wave 1 parallelizable
+Last activity: 2026-05-18 -- Phase 18 planned (MANA-02 ManaRow/ManaShadersLib, MANA-03 CanalizacaoGrid)
 
 ## v1.3 Phase Overview
 
