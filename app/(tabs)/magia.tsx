@@ -6,6 +6,7 @@ import { RPG } from '@/constants/theme';
 import SectionHeader from '@/components/rpg/SectionHeader';
 import NumericStepper from '@/components/rpg/NumericStepper';
 import CheckboxGrid from '@/components/rpg/CheckboxGrid';
+import CanalizacaoGrid from '@/components/rpg/CanalizacaoGrid';
 
 import { grimoire, Spell, SpellColor } from '@/data/grimoire';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
@@ -125,7 +126,7 @@ export default function MagiaScreen() {
               />
             </View>
             <View style={styles.gridWrap}>
-              <CheckboxGrid
+              <CanalizacaoGrid
                 boxes={c.canalizacao.boxes}
                 onChange={boxes => setCanalizacao({ boxes })}
               />
