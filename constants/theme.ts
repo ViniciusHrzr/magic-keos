@@ -18,19 +18,19 @@ export const RPG = {
   redLight: '#e74c3c',
 
   // Mana & identity colors
-  branco: '#e8e0cc',
-  verde: '#3a8a3a',
-  vermelho: '#b52020',
-  preto: '#2a2030',
-  azul: '#1a5ab0',
+  branco: '#F8F2E2',
+  verde: '#00733E',
+  vermelho: '#D3202A',
+  preto: '#150B00',
+  azul: '#0E68AB',
 
-  brancoLight: '#f5f0e0',
-  verdeLight: '#4aaa4a',
-  vermelhoLight: '#e03030',
-  pretoLight: '#6a5882',
-  azulLight: '#2878e0',
+  brancoLight: '#FBF8F0',
+  verdeLight: '#1A9E5A',
+  vermelhoLight: '#E84050',
+  pretoLight: '#4A3828',
+  azulLight: '#2E8FD0',
 
-  incolor: '#888070',
+  incolor: '#A6ADB5',
 };
 
 export const Colors = {

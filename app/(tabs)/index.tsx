@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
-  ScrollView, View, Text, TextInput, StyleSheet,
-  KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator,
+  ScrollView, View, Text, StyleSheet,
+  KeyboardAvoidingView, Platform, ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
@@ -17,9 +17,11 @@ import { AttrDice, SkillValue } from '@/types/character';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import ProficienciasSection from '@/components/rpg/ProficienciasSection';
 import HabilidadesSection from '@/components/rpg/HabilidadesSection';
+import LegendaryFrame from '@/components/rpg/LegendaryFrame';
 
 export default function FichaScreen() {
   const [showManager, setShowManager] = useState(false);
+  const [frameWidth, setFrameWidth] = useState(0);
   const {
     character: c,
     setNome, setSabedoria, setVida, setMana, setVeneno, setAfinidade,
@@ -37,20 +39,17 @@ export default function FichaScreen() {
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
 
         {/* ── HEADER ── */}
-        <View style={styles.titleBar}>
-          <View style={styles.titleRow}>
-            <Text style={styles.gameTitle}>Magic Kéos</Text>
-            <TouchableOpacity style={styles.fichasBtn} onPress={() => setShowManager(true)} activeOpacity={0.7}>
-              <Text style={styles.fichasBtnText}>Fichas</Text>
-            </TouchableOpacity>
-          </View>
-          <TextInput
-            style={styles.nameInput}
-            value={c.nome}
-            onChangeText={setNome}
-            placeholder="Nome do personagem"
-            placeholderTextColor={RPG.textDark}
-          />
+        <View onLayout={e => setFrameWidth(e.nativeEvent.layout.width)}>
+          {frameWidth > 0 && (
+            <LegendaryFrame
+              nome={c.nome}
+              onNomeChange={setNome}
+              sabedoriaAcumulada={c.sabedoria.acumulada}
+              sabedoriaDisponivel={c.sabedoria.disponivel}
+              onFichasPress={() => setShowManager(true)}
+              width={frameWidth}
+            />
+          )}
         </View>
 
         {/* ── SABEDORIA ── */}
@@ -274,56 +273,6 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: RPG.bg },
   scroll: { flex: 1 },
   content: { paddingBottom: 16 },
-
-  titleBar: {
-    backgroundColor: RPG.headerBg,
-    padding: 12,
-    borderBottomWidth: 2,
-    borderBottomColor: RPG.gold,
-    alignItems: 'center',
-    gap: 6,
-  },
-  titleRow: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  gameTitle: {
-    textAlign: 'center',
-    color: RPG.gold,
-    fontSize: 20,
-    fontFamily: 'serif',
-    fontWeight: 'bold',
-    letterSpacing: 3,
-    textTransform: 'uppercase',
-  },
-  fichasBtn: {
-    position: 'absolute',
-    right: 0,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: RPG.gold,
-    borderRadius: 4,
-  },
-  fichasBtnText: {
-    color: RPG.gold,
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-  nameInput: {
-    color: RPG.text,
-    fontSize: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: RPG.borderLight,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    minWidth: 200,
-    textAlign: 'center',
-    fontFamily: 'serif',
-    fontStyle: 'italic',
-  },
 
   row2col: {
     flexDirection: 'row',
