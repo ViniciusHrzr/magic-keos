@@ -23,6 +23,10 @@ export default function RootLayout() {
         <ThemeProvider value={DarkTheme}>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="spell-detail"
+              options={{ headerShown: false, animation: 'none' }}
+            />
           </Stack>
           <StatusBar style="light" />
         </ThemeProvider>

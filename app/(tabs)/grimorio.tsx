@@ -1,17 +1,17 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import {
-  View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, ScrollView, Image, ActivityIndicator,
+  View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import Animated from 'react-native-reanimated';
 import { grimoire, domains, Spell, SpellColor, SpellType } from '@/data/grimoire';
 import { RPG } from '@/constants/theme';
 import { useCharacter } from '@/store/CharacterContext';
-import spellImages from '@/data/spellImages';
 import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import { COLOR_HEX, GRAU_COLORS } from '@/constants/spell-constants';
-import StatPill from '@/components/rpg/StatPill';
-import SpellDetailCard from '@/components/rpg/SpellDetailCard';
+import { selectedSpell } from '@/store/selectedSpell';
 
 const COLOR_PIP: Record<SpellColor, string> = {
   branco: 'a', verde: 'g', vermelho: 'd', preto: 'b', azul: 'u',
@@ -61,13 +61,12 @@ let _activeType: SpellType | null = null;
 
 export default function GrimorioScreen() {
   const { character: c, setDominio, setMagica, isLoaded } = useCharacter();
-  const insets = useSafeAreaInsets();
+  const router = useRouter();
   const [search, setSearch] = useState(_search);
   const [activeColor, setActiveColor] = useState<SpellColor | null>(_activeColor);
   const [activeGrau, setActiveGrau] = useState<number | null>(_activeGrau);
   const [activeType, setActiveType] = useState<SpellType | null>(_activeType);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
-  const [selected, setSelected] = useState<Spell | null>(null);
 
   const domainGroups = useMemo<DomainGroup[]>(() =>
     domains.map(d => ({
@@ -145,20 +144,29 @@ export default function GrimorioScreen() {
     }
     // type === 'spell'
     const { spell } = item;
+    const tagKey = `spell-${spell.nome}`;
     return (
-      <TouchableOpacity style={styles.spellRow} onPress={() => setSelected(spell)} activeOpacity={0.75}>
-        <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[spell.grau] }]}>
-          <Text style={[styles.grauText, { color: GRAU_COLORS[spell.grau] }]}>{spell.grau}</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.spellName} numberOfLines={1}>{spell.nome}</Text>
-          <Text style={styles.spellMeta}>{TYPE_LABELS[spell.tipo]} · {spell.atributo}</Text>
-        </View>
-        <Text style={styles.spellCusto}>{spell.custo || '—'}</Text>
+      <TouchableOpacity
+        onPress={() => { selectedSpell.set(spell); router.push('/spell-detail'); }}
+        activeOpacity={0.75}
+      >
+        <Animated.View
+          style={styles.spellRow}
+          // @ts-expect-error sharedTransitionTag não está nos tipos do Reanimated 4.x mas funciona em runtime via herança da v3 API
+          sharedTransitionTag={tagKey}
+        >
+          <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[spell.grau] }]}>
+            <Text style={[styles.grauText, { color: GRAU_COLORS[spell.grau] }]}>{spell.grau}</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.spellName} numberOfLines={1}>{spell.nome}</Text>
+            <Text style={styles.spellMeta}>{TYPE_LABELS[spell.tipo]} · {spell.atributo}</Text>
+          </View>
+          <Text style={styles.spellCusto}>{spell.custo || '—'}</Text>
+        </Animated.View>
       </TouchableOpacity>
     );
-  }, [expanded, toggleDomain, c.dominios, addDomainToFicha]);
-  // setSelected é estável via useState — omitido intencionalmente do dep array
+  }, [expanded, toggleDomain, c.dominios, addDomainToFicha, router]);
 
   const flatItems = useMemo(
     () => buildFlatItems(filteredGroups, expanded),
@@ -236,21 +244,6 @@ export default function GrimorioScreen() {
         extraData={expanded}
         contentContainerStyle={styles.list}
       />
-
-      <Modal visible={!!selected} transparent animationType="slide" onRequestClose={() => setSelected(null)}>
-        <View style={styles.modalBg}>
-          <View style={[styles.modalCard, { paddingBottom: insets.bottom }]}>
-            {selected && (
-              <SpellDetailCard
-                spell={selected}
-                onClose={() => setSelected(null)}
-                magicas={c.magicas}
-                onAddMagica={setMagica}
-              />
-            )}
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
     </ErrorBoundary>
   );
@@ -417,17 +410,5 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontSize: 14,
     color: RPG.textMuted,
-  },
-
-  modalBg: {
-    flex: 1,
-    backgroundColor: '#000000bb',
-    justifyContent: 'flex-end',
-  },
-  modalCard: {
-    backgroundColor: RPG.surface,
-    borderTopWidth: 2,
-    borderTopColor: RPG.gold,
-    maxHeight: '75%',
   },
 });
