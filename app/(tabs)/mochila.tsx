@@ -89,6 +89,13 @@ const COR_TOKEN: Record<MelhoriaItem['cor'], string> = {
   azul:     RPG.azul,
 };
 
+// label → hex (for PaperdollSection melhoria badge colors)
+const MELHORIA_COLOR: Record<string, string> = Object.fromEntries(
+  (Object.values(MELHORIAS_POR_SLOT) as MelhoriaItem[][])
+    .flat()
+    .map(m => [m.label, COR_TOKEN[m.cor]])
+);
+
 export default function MochilaScreen() {
   const { character: c, setEquipamentoItem, setInventarioSlot, addInventarioItem, removeInventarioItem, updateInventarioItem, isLoaded } = useCharacter();
   const [pickerSlot, setPickerSlot] = useState<SlotKey | null>(null);
@@ -252,7 +259,7 @@ export default function MochilaScreen() {
             onToggleTipo={slot => toggleTipo(slot)}
             onEditEfeito={(slot, v) => { const item = c.equipamentos[slot]; if (item) setEquipamentoItem(slot, { ...item, efeito: v }); }}
             onEditDurabilidade={(slot, v) => { const item = c.equipamentos[slot]; if (item) setEquipamentoItem(slot, { ...item, durabilidade: v }); }}
-            melhoriaColors={COR_TOKEN}
+            melhoriaColors={MELHORIA_COLOR}
             availableMelhorias={{
               arma:       MELHORIAS_POR_SLOT.arma.map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] })),
               escudo:     MELHORIAS_POR_SLOT.escudo.map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] })),

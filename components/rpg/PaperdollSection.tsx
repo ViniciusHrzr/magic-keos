@@ -34,7 +34,7 @@ export interface PaperdollSectionProps {
   onEditEfeito: (slot: SlotKey, v: string) => void;
   onEditDurabilidade: (slot: SlotKey, v: number) => void;
   melhoriaColors: Record<string, string>;
-  availableMelhorias: Record<SlotKey, Array<{ label: string; cor: string }>>;
+  availableMelhorias: Record<SlotKey, { label: string; cor: string }[]>;
   statSummary: Record<SlotKey, string | undefined>;
 }
 
@@ -154,6 +154,39 @@ export default function PaperdollSection({
           />
         </View>
       </View>
+
+      {/* ── SUMMARY (sempre visível) ── */}
+      {(['arma', 'escudo', 'vestimenta', 'acessorio1', 'acessorio2'] as SlotKey[])
+        .filter(slot => equipamentos[slot] != null)
+        .map(slot => {
+          const item = equipamentos[slot]!;
+          const stat = statSummary[slot];
+          return (
+            <View key={slot} style={styles.summaryRow}>
+              <Text style={styles.summaryChar}>{SLOT_CHAR[slot]}</Text>
+              <View style={styles.summaryBody}>
+                <View style={styles.summaryTop}>
+                  <Text style={styles.summaryName} numberOfLines={1}>{item.nome || SLOT_LABELS[slot]}</Text>
+                  {stat ? <Text style={styles.summaryStat}>{stat}</Text> : null}
+                </View>
+                {item.melhorias.length > 0 && (
+                  <View style={styles.summaryBadges}>
+                    {item.melhorias.map((ml, i) => {
+                      const cor = melhoriaColors[ml] ?? RPG.textMuted;
+                      return (
+                        <View key={i} style={[styles.summaryBadge, { borderColor: cor }]}>
+                          <View style={[styles.summaryDot, { backgroundColor: cor }]} />
+                          <Text style={[styles.summaryBadgeLabel, { color: cor }]}>{ml}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
+              </View>
+            </View>
+          );
+        })
+      }
 
       {/* ── PAINEL DE DETALHE ── */}
       {expandedSlot !== null && (
@@ -364,6 +397,30 @@ const styles = StyleSheet.create({
     marginTop: 2,
     fontWeight: '600',
   },
+
+  // ── Equipment summary (always visible) ──
+  summaryRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: RPG.surface,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: RPG.border,
+  },
+  summaryChar: { fontSize: 13, width: 18, textAlign: 'center', color: RPG.textMuted, marginTop: 1 },
+  summaryBody: { flex: 1 },
+  summaryTop: { flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' },
+  summaryName: { color: RPG.text, fontSize: 12, fontWeight: '600', flexShrink: 1 },
+  summaryStat: { color: RPG.textMuted, fontSize: 11, fontStyle: 'italic', flexShrink: 1 },
+  summaryBadges: { flexDirection: 'row', flexWrap: 'wrap', gap: 3, marginTop: 3 },
+  summaryBadge: {
+    flexDirection: 'row', alignItems: 'center', gap: 2,
+    borderWidth: 1, borderRadius: 3, paddingHorizontal: 4, paddingVertical: 1,
+  },
+  summaryDot: { width: 5, height: 5, borderRadius: 2.5 },
+  summaryBadgeLabel: { fontSize: 9, fontWeight: '600' },
 
   // ── Detail panel ──
   detailPanel: {

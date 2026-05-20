@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, LayoutAnimation, Platform, UIManager } from 'react-native';
+import React from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { RPG } from '@/constants/theme';
 import { IStructuredGear, InventoryItem } from '@/types/inventory';
 import { LABEL_TO_COR } from '@/data/regras/equipamentos';
-
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 type TypeEquip = IStructuredGear['type_equip'];
 
@@ -30,14 +26,8 @@ const COR_TOKEN: Record<string, string> = {
 };
 
 function GearCard({ item, onRemove, onUpdate }: GearCardProps) {
-  const [loreOpen, setLoreOpen] = useState(false);
   const affinityColor = item.affinity ? (RPG as any)[item.affinity] ?? RPG.textMuted : RPG.textMuted;
   const hasMelhorias = item.melhorias.length > 0;
-
-  function toggleLore() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setLoreOpen(v => !v);
-  }
 
   return (
     <View style={[styles.card, hasMelhorias && styles.cardWithMelhorias]}>
@@ -52,9 +42,6 @@ function GearCard({ item, onRemove, onUpdate }: GearCardProps) {
         />
         {item.damage ? <Text style={styles.stat}>{item.damage}</Text> : null}
         {item.defense ? <Text style={styles.stat}>{item.defense}</Text> : null}
-        <TouchableOpacity onPress={toggleLore} style={styles.chevronBtn} activeOpacity={0.7}>
-          <Text style={styles.chevron}>{loreOpen ? '▲' : '▼'}</Text>
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => onRemove(item.id)} style={styles.remove}>
           <Text style={styles.removeText}>✕</Text>
         </TouchableOpacity>
@@ -89,9 +76,7 @@ function GearCard({ item, onRemove, onUpdate }: GearCardProps) {
         </View>
       )}
 
-      {loreOpen && item.lore ? (
-        <Text style={styles.lore}>{item.lore}</Text>
-      ) : null}
+      {item.lore ? <Text style={styles.lore}>{item.lore}</Text> : null}
     </View>
   );
 }
