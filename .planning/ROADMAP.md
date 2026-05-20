@@ -54,7 +54,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 16: Atributos & Dados Visuais** — Power Crests para proficiências/habilidades, cards de instância MTG (ATTR-01 removido — não alinhado com regras) *(completed 2026-05-18)*
 - [x] **Phase 17: Vitalidade & Status** — VenenoTracker checkmarks (VIT-03 done; VIT-01 reverted, VIT-02 deferred) *(completed 2026-05-18)*
 - [ ] **Phase 18: Mana com Skia** — Stepper duplo Base/Total por cor, shaders Skia por mana, Canalização grid MTG
-- [ ] **Phase 19: Paperdoll aRPG** — Silhueta centralizada, 5 slots posicionados, estados visual vazio/equipado
+- [x] **Phase 19: Paperdoll aRPG** — Silhueta centralizada, 5 slots posicionados, estados visual vazio/equipado (completed 2026-05-20)
 - [ ] **Phase 20: Grimório Otimizado** — FlashList 60fps, filtros símbolos MTG, shared element transition
 
 ## Phase Details
@@ -319,5 +319,5 @@ Plans:
 | 16. Atributos & Dados Visuais | v1.4 | 0/? | Pending | — |
 | 17. Vitalidade & Status | v1.4 | 1/2 | Complete | 2026-05-18 |
 | 18. Mana com Skia | v1.4 | 0/2 | Planned | — |
-| 19. Paperdoll aRPG | v1.4 | 0/? | Pending | — |
+| 19. Paperdoll aRPG | v1.4 | 1/1 | Complete   | 2026-05-20 |
 | 20. Grimório Otimizado | v1.4 | 0/? | Pending | — |

@@ -2,15 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Nova UI — aRPG & MTG Style
-status: in_progress
-last_updated: "2026-05-18"
-last_activity: 2026-05-18 -- Phase 17 closed (VIT-03 done; VIT-01 reverted, VIT-02 deferred)
+status: 2 plans created — 18-01 (MANA-02 shaders) + 18-02 (MANA-03 CanalizacaoGrid); Wave 1 parallelizable
+stopped_at: context exhaustion at 78% (2026-05-18)
+last_updated: "2026-05-20T00:02:02.090Z"
+last_activity: 2026-05-18 -- Phase 18 planned (MANA-02 ManaRow/ManaShadersLib, MANA-03 CanalizacaoGrid)
 progress:
-  total_phases: 20
-  completed_phases: 13
-  total_plans: 22
-  completed_plans: 25
-  percent: 65
+  total_phases: 16
+  completed_phases: 15
+  total_plans: 25
+  completed_plans: 26
+  percent: 94
 ---
 
 # Project State
@@ -24,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-17 — v1.3 milestone)
 
 ## Current Position
 
-Phase: 18 — Mana com Skia Shaders (planned, ready to execute)
-Plan: 0/2 plans
-Status: 2 plans created — 18-01 (MANA-02 shaders) + 18-02 (MANA-03 CanalizacaoGrid); Wave 1 parallelizable
-Last activity: 2026-05-18 -- Phase 18 planned (MANA-02 ManaRow/ManaShadersLib, MANA-03 CanalizacaoGrid)
+Phase: 19 — Paperdoll aRPG (in progress)
+Plan: 1/1 plans complete
+Status: 19-01 complete — PaperdollSection paperdoll aRPG layout (PAP-01, PAP-02, PAP-03)
+Last activity: 2026-05-19 -- Phase 19 Plan 01 executed — PaperdollSection com silhueta View-based e 5 slots aRPG
 
 ## v1.3 Phase Overview
 
@@ -109,9 +110,15 @@ Key carry-forwards for v1.3:
 - Equipment data em data/regras/equipamentos.ts já usado pelo picker da Mochila
 - Phase 14 adiciona: grade inventário 20 slots, craft 3 melhorias, toggle artefato
 
+Phase 19 Plan 01 decisions:
+
+- PaperdollSection sem Skia — layout View puro RN, sem dependencia de CanvasKit WASM
+- hexContainerHidden usa `opacity: 0, height: 0, overflow: hidden` em vez de `display: none` — preserva measureInWindow para drag-drop via hexRefs
+- availableMelhorias prop: `T[]` em vez de `Array<T>` — conformidade com regra eslint @typescript-eslint/array-type do projeto
+
 ### Pending Todos
 
-None — Phase 14 complete, v1.3 all phases done. Next: human UAT then `/gsd:complete-milestone`
+None — Phase 19 Plan 01 complete. PAP-01, PAP-02, PAP-03 entregues.
 
 ### Blockers/Concerns
 
@@ -137,6 +144,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-18T03:39:31.716Z
+Last session: 2026-05-20T00:02:02.078Z
 Stopped at: context exhaustion at 78% (2026-05-18)
 Resume file: None

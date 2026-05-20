@@ -28,9 +28,9 @@
 
 ### Paperdoll & Mochila
 
-- [ ] **PAP-01**: Silhueta de personagem centralizada no topo da aba Mochila com 5 slots de equipamento posicionados ao redor (estilo aRPG paperdoll)
-- [ ] **PAP-02**: Slots vazios exibem Power Crest (ícone de categoria — espada, escudo, etc.) com opacidade 0.3 como placeholder visual
-- [ ] **PAP-03**: Itens equipados refletem status visual com borda dourada ou glow no slot correspondente
+- [x] **PAP-01**: Silhueta de personagem centralizada no topo da aba Mochila com 5 slots de equipamento posicionados ao redor (estilo aRPG paperdoll)
+- [x] **PAP-02**: Slots vazios exibem Power Crest (ícone de categoria — espada, escudo, etc.) com opacidade 0.3 como placeholder visual
+- [x] **PAP-03**: Itens equipados refletem status visual com borda dourada ou glow no slot correspondente
 
 ### Grimório
 
