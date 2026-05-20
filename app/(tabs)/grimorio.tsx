@@ -13,8 +13,8 @@ import { COLOR_HEX, GRAU_COLORS } from '@/constants/spell-constants';
 import StatPill from '@/components/rpg/StatPill';
 import SpellDetailCard from '@/components/rpg/SpellDetailCard';
 
-const COLOR_LABELS: Record<SpellColor, string> = {
-  branco: 'Branco', verde: 'Verde', vermelho: 'Vermelho', preto: 'Preto', azul: 'Azul',
+const COLOR_PIP: Record<SpellColor, string> = {
+  branco: 'a', verde: 'g', vermelho: 'd', preto: 'b', azul: 'u',
 };
 const TYPE_LABELS_SHORT: Record<SpellType, string> = {
   '[T]': 'Truque', '[E]': 'Encantamento', '[F]': 'Feitiço', '[C]': 'Criatura',
@@ -191,11 +191,11 @@ export default function GrimorioScreen() {
         {COLORS.map(c => (
           <TouchableOpacity
             key={c}
-            style={[styles.filterBtn, { borderColor: COLOR_HEX[c] }, activeColor === c && { backgroundColor: COLOR_HEX[c] + '33' }]}
+            style={[styles.pipBtn, { borderColor: COLOR_HEX[c] }, activeColor === c && { backgroundColor: COLOR_HEX[c] + '33' }]}
             onPress={() => { const next = activeColor === c ? null : c; _activeColor = next; setActiveColor(next); }}
             activeOpacity={0.7}
           >
-            <Text style={[styles.filterText, { color: COLOR_HEX[c] }]}>{COLOR_LABELS[c]}</Text>
+            <Text style={[styles.pipText, { color: COLOR_HEX[c] }]}>{COLOR_PIP[c]}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -306,13 +306,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: RPG.border,
   },
-  filterBtn: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderRadius: 12,
+  pipBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  filterText: { fontSize: 12, fontWeight: '600' },
+  pipText: {
+    fontFamily: 'PlanewalkerDings',
+    fontStyle: 'normal',
+    fontSize: 20,
+    lineHeight: 24,
+  },
   filterBtn2: {
     paddingHorizontal: 8,
     paddingVertical: 3,
