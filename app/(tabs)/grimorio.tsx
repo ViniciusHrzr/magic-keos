@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import {
-  View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, Modal, ScrollView, Image, ActivityIndicator,
+  View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, ScrollView, Image, ActivityIndicator,
 } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { grimoire, domains, Spell, SpellColor, SpellType } from '@/data/grimoire';
 import { RPG } from '@/constants/theme';
@@ -33,6 +34,25 @@ type DomainGroup = {
   spells: Spell[];
   color: SpellColor;
 };
+
+type FlatItem =
+  | { type: 'domain-header'; domain: DomainGroup }
+  | { type: 'add-domain';    domain: DomainGroup }
+  | { type: 'spell';         spell: Spell; domainColor: SpellColor };
+
+function buildFlatItems(groups: DomainGroup[], expanded: Set<string>): FlatItem[] {
+  const items: FlatItem[] = [];
+  for (const domain of groups) {
+    items.push({ type: 'domain-header', domain });
+    if (expanded.has(domain.name)) {
+      items.push({ type: 'add-domain', domain });
+      for (const spell of domain.spells) {
+        items.push({ type: 'spell', spell, domainColor: domain.color });
+      }
+    }
+  }
+  return items;
+}
 
 let _search = '';
 let _activeColor: SpellColor | null = null;
@@ -89,49 +109,61 @@ export default function GrimorioScreen() {
     setDominio(idx, name);
   }, [c.dominios, setDominio]);
 
-  const renderDomain = useCallback(({ item }: { item: DomainGroup }) => {
-    const isOpen = expanded.has(item.name);
-    const colorHex = COLOR_HEX[item.color];
-    const inFicha = c.dominios.some(d => d.trim() === item.name);
-    return (
-      <View style={styles.domainBlock}>
-        <TouchableOpacity style={styles.domainRow} onPress={() => toggleDomain(item.name)} activeOpacity={0.75}>
-          <View style={[styles.colorStrip, { backgroundColor: colorHex }]} />
-          <Text style={[styles.domainName, { color: colorHex }]} numberOfLines={1}>{item.name}</Text>
-          <View style={styles.countBadge}>
-            <Text style={styles.countText}>{item.spells.length}</Text>
-          </View>
-          <Text style={[styles.chevron, { color: colorHex }]}>{isOpen ? '▲' : '▼'}</Text>
+  const renderItem = useCallback(({ item }: { item: FlatItem }) => {
+    if (item.type === 'domain-header') {
+      const { domain } = item;
+      const isOpen = expanded.has(domain.name);
+      const colorHex = COLOR_HEX[domain.color];
+      return (
+        <View style={styles.domainBlock}>
+          <TouchableOpacity style={styles.domainRow} onPress={() => toggleDomain(domain.name)} activeOpacity={0.75}>
+            <View style={[styles.colorStrip, { backgroundColor: colorHex }]} />
+            <Text style={[styles.domainName, { color: colorHex }]} numberOfLines={1}>{domain.name}</Text>
+            <View style={styles.countBadge}>
+              <Text style={styles.countText}>{domain.spells.length}</Text>
+            </View>
+            <Text style={[styles.chevron, { color: colorHex }]}>{isOpen ? '▲' : '▼'}</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    if (item.type === 'add-domain') {
+      const { domain } = item;
+      const inFicha = c.dominios.some(d => d.trim() === domain.name);
+      return (
+        <TouchableOpacity
+          style={[styles.addDominioRow, inFicha && styles.addDominioRowDone]}
+          onPress={() => addDomainToFicha(domain.name)}
+          activeOpacity={inFicha ? 1 : 0.7}
+          disabled={inFicha}
+        >
+          <Text style={[styles.addDominioText, inFicha && styles.addDominioTextDone]}>
+            {inFicha ? '✓ Domínio já está na ficha' : '+ Adicionar Domínio à ficha'}
+          </Text>
         </TouchableOpacity>
-        {isOpen && (
-          <>
-            <TouchableOpacity
-              style={[styles.addDominioRow, inFicha && styles.addDominioRowDone]}
-              onPress={() => addDomainToFicha(item.name)}
-              activeOpacity={inFicha ? 1 : 0.7}
-              disabled={inFicha}
-            >
-              <Text style={[styles.addDominioText, inFicha && styles.addDominioTextDone]}>
-                {inFicha ? '✓ Domínio já está na ficha' : '+ Adicionar Domínio à ficha'}
-              </Text>
-            </TouchableOpacity>
-            {item.spells.map((s, i) => (
-              <TouchableOpacity key={i} style={styles.spellRow} onPress={() => setSelected(s)} activeOpacity={0.75}>
-                <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[s.grau] }]}>
-                  <Text style={[styles.grauText, { color: GRAU_COLORS[s.grau] }]}>{s.grau}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.spellName} numberOfLines={1}>{s.nome}</Text>
-                  <Text style={styles.spellMeta}>{TYPE_LABELS[s.tipo]} · {s.atributo}</Text>
-                </View>
-                <Text style={styles.spellCusto}>{s.custo || '—'}</Text>
-              </TouchableOpacity>
-            ))}
-          </>
-        )}
-      </View>
+      );
+    }
+    // type === 'spell'
+    const { spell } = item;
+    return (
+      <TouchableOpacity style={styles.spellRow} onPress={() => setSelected(spell)} activeOpacity={0.75}>
+        <View style={[styles.grauBadge, { borderColor: GRAU_COLORS[spell.grau] }]}>
+          <Text style={[styles.grauText, { color: GRAU_COLORS[spell.grau] }]}>{spell.grau}</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.spellName} numberOfLines={1}>{spell.nome}</Text>
+          <Text style={styles.spellMeta}>{TYPE_LABELS[spell.tipo]} · {spell.atributo}</Text>
+        </View>
+        <Text style={styles.spellCusto}>{spell.custo || '—'}</Text>
+      </TouchableOpacity>
     );
   }, [expanded, toggleDomain, c.dominios, addDomainToFicha]);
+  // setSelected é estável via useState — omitido intencionalmente do dep array
+
+  const flatItems = useMemo(
+    () => buildFlatItems(filteredGroups, expanded),
+    [filteredGroups, expanded]
+  );
 
   if (!isLoaded) return <ActivityIndicator size="large" color={RPG.gold} style={{ flex: 1, backgroundColor: RPG.bg }} />;
 
@@ -192,13 +224,17 @@ export default function GrimorioScreen() {
         ))}
       </View>
 
-      <FlatList
-        data={filteredGroups}
-        keyExtractor={item => item.name}
-        renderItem={renderDomain}
+      <FlashList
+        data={flatItems}
+        renderItem={renderItem}
+        keyExtractor={(item) => {
+          if (item.type === 'domain-header') return `hdr-${item.domain.name}`;
+          if (item.type === 'add-domain') return `add-${item.domain.name}`;
+          return `spell-${item.spell.nome}-${item.spell.dominio}`;
+        }}
+        drawDistance={500}
         extraData={expanded}
         contentContainerStyle={styles.list}
-        initialNumToRender={30}
       />
 
       <Modal visible={!!selected} transparent animationType="slide" onRequestClose={() => setSelected(null)}>
@@ -292,10 +328,7 @@ const styles = StyleSheet.create({
 
   list: { paddingBottom: 16 },
 
-  domainBlock: {
-    borderBottomWidth: 1,
-    borderBottomColor: RPG.border,
-  },
+  domainBlock: {},
   domainRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -303,6 +336,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingRight: 14,
     gap: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: RPG.border,
   },
   colorStrip: {
     width: 4,
