@@ -82,5 +82,5 @@ export const MANA_VISUAL_STRATEGY: Record<ManaKey, ManaVisualConfig> = {
   verde:    { kind: 'shader-animated' },
   incolor:  { kind: 'shader-static' },
   branco:   { kind: 'radial-glow', glowColor: '#F8F2E2', glowAlpha: 0.85 },
-  preto:    { kind: 'radial-glow', glowColor: '#150B00', glowAlpha: 0.95 },
+  preto:    { kind: 'radial-glow', glowColor: '#2C1445', glowAlpha: 0.90 },
 };

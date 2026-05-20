@@ -21,13 +21,13 @@ export const RPG = {
   branco: '#F8F2E2',
   verde: '#00733E',
   vermelho: '#D3202A',
-  preto: '#150B00',
+  preto: '#2C1445',
   azul: '#0E68AB',
 
   brancoLight: '#FBF8F0',
   verdeLight: '#1A9E5A',
   vermelhoLight: '#E84050',
-  pretoLight: '#4A3828',
+  pretoLight: '#9B59B6',
   azulLight: '#2E8FD0',
 
   incolor: '#A6ADB5',
