@@ -60,7 +60,13 @@ const SLOT_LABELS: Record<SlotKey, string> = {
 const SLOT_META: Record<SlotKey, string[]> = {
   arma:       armas.map(r => `${r.dano} · ${r.especial}`),
   escudo:     escudos.map(r => `IP Corp ${r.ipCorp} · ${r.especial}`),
-  vestimenta: vestimentas.map(r => `IP Corp ${r.ipCorp} · Ment ${r.ipMent} · Esp ${r.ipEsp}`),
+  vestimenta: vestimentas.map(r => {
+    const parts: string[] = [];
+    if (r.ipCorp !== '—') parts.push(`Corp ${r.ipCorp}`);
+    if (r.ipMent !== '—') parts.push(`Ment ${r.ipMent}`);
+    if (r.ipEsp  !== '—') parts.push(`Esp ${r.ipEsp}`);
+    return `IP ${parts.join(' · ')}`;
+  }),
   acessorio1: acessorios.map(r => r.bonus),
   acessorio2: acessorios.map(r => r.bonus),
 };

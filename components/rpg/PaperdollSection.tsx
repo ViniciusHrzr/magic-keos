@@ -105,54 +105,39 @@ export default function PaperdollSection({
         </View>
 
         {/* Vestimenta — topo centro */}
-        <View style={styles.posVestimenta}>
-          <PaperdollSlot
-            slotKey="vestimenta"
-            item={equipamentos.vestimenta}
-            isSelected={expandedSlot === 'vestimenta'}
-            onPress={() => onSlotPress('vestimenta')}
-          />
-        </View>
+        {equipamentos.vestimenta && (
+          <View style={styles.posVestimenta}>
+            <PaperdollSlot slotKey="vestimenta" item={equipamentos.vestimenta} isSelected={expandedSlot === 'vestimenta'} onPress={() => onSlotPress('vestimenta')} />
+          </View>
+        )}
 
         {/* Arma — esquerda */}
-        <View style={styles.posArma}>
-          <PaperdollSlot
-            slotKey="arma"
-            item={equipamentos.arma}
-            isSelected={expandedSlot === 'arma'}
-            onPress={() => onSlotPress('arma')}
-          />
-        </View>
+        {equipamentos.arma && (
+          <View style={styles.posArma}>
+            <PaperdollSlot slotKey="arma" item={equipamentos.arma} isSelected={expandedSlot === 'arma'} onPress={() => onSlotPress('arma')} />
+          </View>
+        )}
 
         {/* Escudo — direita */}
-        <View style={styles.posEscudo}>
-          <PaperdollSlot
-            slotKey="escudo"
-            item={equipamentos.escudo}
-            isSelected={expandedSlot === 'escudo'}
-            onPress={() => onSlotPress('escudo')}
-          />
-        </View>
+        {equipamentos.escudo && (
+          <View style={styles.posEscudo}>
+            <PaperdollSlot slotKey="escudo" item={equipamentos.escudo} isSelected={expandedSlot === 'escudo'} onPress={() => onSlotPress('escudo')} />
+          </View>
+        )}
 
         {/* Acessório 1 — baixo esquerda */}
-        <View style={styles.posAcessorio1}>
-          <PaperdollSlot
-            slotKey="acessorio1"
-            item={equipamentos.acessorio1}
-            isSelected={expandedSlot === 'acessorio1'}
-            onPress={() => onSlotPress('acessorio1')}
-          />
-        </View>
+        {equipamentos.acessorio1 && (
+          <View style={styles.posAcessorio1}>
+            <PaperdollSlot slotKey="acessorio1" item={equipamentos.acessorio1} isSelected={expandedSlot === 'acessorio1'} onPress={() => onSlotPress('acessorio1')} />
+          </View>
+        )}
 
         {/* Acessório 2 — baixo direita */}
-        <View style={styles.posAcessorio2}>
-          <PaperdollSlot
-            slotKey="acessorio2"
-            item={equipamentos.acessorio2}
-            isSelected={expandedSlot === 'acessorio2'}
-            onPress={() => onSlotPress('acessorio2')}
-          />
-        </View>
+        {equipamentos.acessorio2 && (
+          <View style={styles.posAcessorio2}>
+            <PaperdollSlot slotKey="acessorio2" item={equipamentos.acessorio2} isSelected={expandedSlot === 'acessorio2'} onPress={() => onSlotPress('acessorio2')} />
+          </View>
+        )}
       </View>
 
       {/* ── SUMMARY (sempre visível) ── */}
