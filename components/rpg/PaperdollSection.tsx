@@ -43,7 +43,6 @@ function Silhouette() {
     <View style={styles.silhouetteWrap}>
       <View style={styles.silHead} />
       <View style={styles.silShoulders} />
-      <View style={styles.silBody} />
     </View>
   );
 }
@@ -126,18 +125,14 @@ export default function PaperdollSection({
         )}
 
         {/* Acessório 1 — baixo esquerda */}
-        {equipamentos.acessorio1 && (
-          <View style={styles.posAcessorio1}>
-            <PaperdollSlot slotKey="acessorio1" item={equipamentos.acessorio1} isSelected={expandedSlot === 'acessorio1'} onPress={() => onSlotPress('acessorio1')} />
-          </View>
-        )}
+        <View style={styles.posAcessorio1}>
+          <PaperdollSlot slotKey="acessorio1" item={equipamentos.acessorio1} isSelected={expandedSlot === 'acessorio1'} onPress={() => onSlotPress('acessorio1')} />
+        </View>
 
         {/* Acessório 2 — baixo direita */}
-        {equipamentos.acessorio2 && (
-          <View style={styles.posAcessorio2}>
-            <PaperdollSlot slotKey="acessorio2" item={equipamentos.acessorio2} isSelected={expandedSlot === 'acessorio2'} onPress={() => onSlotPress('acessorio2')} />
-          </View>
-        )}
+        <View style={styles.posAcessorio2}>
+          <PaperdollSlot slotKey="acessorio2" item={equipamentos.acessorio2} isSelected={expandedSlot === 'acessorio2'} onPress={() => onSlotPress('acessorio2')} />
+        </View>
       </View>
 
       {/* ── SUMMARY (sempre visível) ── */}
