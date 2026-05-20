@@ -3,7 +3,6 @@ import {
   ScrollView,
   View,
   Text,
-  TextInput,
   StyleSheet,
   Modal,
   TouchableOpacity,
@@ -17,7 +16,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCharacter } from '@/store/CharacterContext';
 import { RPG } from '@/constants/theme';
 import SectionHeader from '@/components/rpg/SectionHeader';
-import NumericStepper from '@/components/rpg/NumericStepper';
 import { EquipItem } from '@/types/character';
 import { armas, escudos, vestimentas, acessorios, MELHORIAS_POR_SLOT, MelhoriaItem } from '@/data/regras/equipamentos';
 import { InventoryItem, IStructuredGear, isQuickNote } from '@/types/inventory';
@@ -25,6 +23,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DroppableHexSlot, { DroppableHexSlotHandle } from '@/components/rpg/DroppableHexSlot';
 import DraggableNoteCard from '@/components/rpg/DraggableNoteCard';
 import DraggableGearCard from '@/components/rpg/DraggableGearCard';
+import PaperdollSection from '@/components/rpg/PaperdollSection';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -213,6 +212,14 @@ export default function MochilaScreen() {
   const activePickerSlot = pickerSlot ?? 'arma';
   const activeCrafterSlot = crafterSlot ?? 'arma';
 
+  const paperdollStatSummary = {
+    arma:       c.equipamentos.arma       ? getStatSummary('arma',       c.equipamentos.arma.nome)       : undefined,
+    escudo:     c.equipamentos.escudo     ? getStatSummary('escudo',     c.equipamentos.escudo.nome)     : undefined,
+    vestimenta: c.equipamentos.vestimenta ? getStatSummary('vestimenta', c.equipamentos.vestimenta.nome) : undefined,
+    acessorio1: c.equipamentos.acessorio1 ? getStatSummary('acessorio1', c.equipamentos.acessorio1.nome) : undefined,
+    acessorio2: c.equipamentos.acessorio2 ? getStatSummary('acessorio2', c.equipamentos.acessorio2.nome) : undefined,
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -227,7 +234,36 @@ export default function MochilaScreen() {
             <Text style={styles.title}>Mochila</Text>
           </View>
           <SectionHeader title="Equipamentos" />
-          <View style={styles.hexContainer}>
+          <PaperdollSection
+            equipamentos={{
+              arma:       c.equipamentos.arma       ?? null,
+              escudo:     c.equipamentos.escudo     ?? null,
+              vestimenta: c.equipamentos.vestimenta ?? null,
+              acessorio1: c.equipamentos.acessorio1 ?? null,
+              acessorio2: c.equipamentos.acessorio2 ?? null,
+            }}
+            expandedSlot={expandedSlot}
+            onSlotPress={slot => toggleExpanded(slot)}
+            onPickerOpen={slot => setPickerSlot(slot)}
+            onCrafterOpen={slot => setCrafterSlot(slot)}
+            onClearSlot={slot => clearSlot(slot)}
+            onEditNome={(slot, nome) => editNome(slot, nome)}
+            onRemoveMelhoria={(slot, idx) => removeMelhoria(slot, idx)}
+            onToggleTipo={slot => toggleTipo(slot)}
+            onEditEfeito={(slot, v) => { const item = c.equipamentos[slot]; if (item) setEquipamentoItem(slot, { ...item, efeito: v }); }}
+            onEditDurabilidade={(slot, v) => { const item = c.equipamentos[slot]; if (item) setEquipamentoItem(slot, { ...item, durabilidade: v }); }}
+            melhoriaColors={COR_TOKEN}
+            availableMelhorias={{
+              arma:       MELHORIAS_POR_SLOT.arma.map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] })),
+              escudo:     MELHORIAS_POR_SLOT.escudo.map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] })),
+              vestimenta: MELHORIAS_POR_SLOT.vestimenta.map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] })),
+              acessorio1: MELHORIAS_POR_SLOT.acessorio1.map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] })),
+              acessorio2: MELHORIAS_POR_SLOT.acessorio2.map(m => ({ label: m.label, cor: COR_TOKEN[m.cor] })),
+            }}
+            statSummary={paperdollStatSummary}
+          />
+          {/* DroppableHexSlots mantidos ocultos para preservar hexRefs e compatibilidade de drag-drop */}
+          <View style={styles.hexContainerHidden}>
             {SLOT_KEYS.map(slot => {
               const item = c.equipamentos[slot];
               return (
@@ -393,14 +429,13 @@ const styles = StyleSheet.create({
     color: RPG.gold,
     letterSpacing: 1,
   },
-  hexContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 10,
-    paddingVertical: 8,
-    marginBottom: 8,
-    zIndex: 1,
+  hexContainerHidden: {
+    // Mantido montado para preservar hexRefs (compatibilidade drag-drop DraggableGearCard)
+    // Invisível ao usuário mas com Views medíveis pelo measureInWindow
+    opacity: 0,
+    height: 0,
+    overflow: 'hidden',
+    zIndex: 0,
   },
   inventarioContainer: {
     overflow: 'visible',
