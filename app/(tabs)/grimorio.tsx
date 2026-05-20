@@ -13,8 +13,8 @@ import { ErrorBoundary } from '@/components/rpg/ErrorBoundary';
 import { COLOR_HEX, GRAU_COLORS } from '@/constants/spell-constants';
 import { selectedSpell } from '@/store/selectedSpell';
 
-const COLOR_PIP: Record<SpellColor, string> = {
-  branco: 'a', verde: 'g', vermelho: 'd', preto: 'b', azul: 'u',
+const COLOR_LABELS: Record<SpellColor, string> = {
+  branco: 'Branco', verde: 'Verde', vermelho: 'Verm.', preto: 'Preto', azul: 'Azul',
 };
 const TYPE_LABELS_SHORT: Record<SpellType, string> = {
   '[T]': 'Truque', '[E]': 'Encantamento', '[F]': 'Feitiço', '[C]': 'Criatura',
@@ -194,22 +194,18 @@ export default function GrimorioScreen() {
         />
       </View>
 
-      {/* Color filters */}
+      {/* All filters — single row with wrap */}
       <View style={styles.filters}>
         {COLORS.map(c => (
           <TouchableOpacity
             key={c}
-            style={[styles.pipBtn, { borderColor: COLOR_HEX[c] }, activeColor === c && { backgroundColor: COLOR_HEX[c] + '33' }]}
+            style={[styles.filterBtn, { borderColor: COLOR_HEX[c] }, activeColor === c && { backgroundColor: COLOR_HEX[c] + '33' }]}
             onPress={() => { const next = activeColor === c ? null : c; _activeColor = next; setActiveColor(next); }}
             activeOpacity={0.7}
           >
-            <Text style={[styles.pipText, { color: COLOR_HEX[c] }]}>{COLOR_PIP[c]}</Text>
+            <Text style={[styles.filterText, { color: COLOR_HEX[c] }]}>{COLOR_LABELS[c]}</Text>
           </TouchableOpacity>
         ))}
-      </View>
-
-      {/* Grau + Type filters */}
-      <View style={styles.filters}>
         {[0, 1, 2, 3].map(g => (
           <TouchableOpacity
             key={g}
@@ -217,7 +213,7 @@ export default function GrimorioScreen() {
             onPress={() => { const next = activeGrau === g ? null : g; _activeGrau = next; setActiveGrau(next); }}
             activeOpacity={0.7}
           >
-            <Text style={[styles.filterText2, activeGrau === g && { color: RPG.gold }]}>Grau {g}</Text>
+            <Text style={[styles.filterText2, activeGrau === g && { color: RPG.gold }]}>G{g}</Text>
           </TouchableOpacity>
         ))}
         {TYPES.map(t => (
@@ -299,20 +295,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: RPG.border,
   },
-  pipBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1.5,
-    alignItems: 'center',
-    justifyContent: 'center',
+  filterBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderRadius: 12,
   },
-  pipText: {
-    fontFamily: 'PlanewalkerDings',
-    fontStyle: 'normal',
-    fontSize: 20,
-    lineHeight: 24,
-  },
+  filterText: { fontSize: 12, fontWeight: '600' },
   filterBtn2: {
     paddingHorizontal: 8,
     paddingVertical: 3,
