@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Nova UI — aRPG & MTG Style
 status: completed
-stopped_at: Phase 20 context gathered
-last_updated: "2026-05-20T00:27:23.145Z"
-last_activity: 2026-05-19 -- Phase 19 Plan 01 executed — PaperdollSection com silhueta View-based e 5 slots aRPG
+stopped_at: context exhaustion at 75% (2026-05-20)
+last_updated: "2026-05-20T00:00:00.000Z"
+last_activity: 2026-05-20 -- paperdoll hotfixes: silBody removido, slots acessório sempre visíveis
 progress:
   total_phases: 16
-  completed_phases: 15
-  total_plans: 25
-  completed_plans: 26
-  percent: 94
+  completed_phases: 16
+  total_plans: 28
+  completed_plans: 29
+  percent: 100
 ---
 
 # Project State
@@ -120,6 +120,11 @@ Phase 19 Plan 01 decisions:
 
 None — Phase 19 Plan 01 complete. PAP-01, PAP-02, PAP-03 entregues.
 
+### Post-Phase Hotfixes (2026-05-20)
+
+- silBody removido da Silhouette — retângulo goldDim abaixo da túnica eliminado
+- acessório1/acessório2 slots sempre visíveis no paperdoll (sem condicional de item)
+
 ### Blockers/Concerns
 
 None.
@@ -144,6 +149,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-20T00:27:23.130Z
-Stopped at: Phase 20 context gathered
-Resume file: .planning/phases/20-grim-rio-otimizado/20-CONTEXT.md
+Last session: 2026-05-20T09:46:03.978Z
+Stopped at: context exhaustion at 75% (2026-05-20)
+Resume file: None

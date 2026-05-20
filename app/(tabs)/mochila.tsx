@@ -1,29 +1,29 @@
-import React, { useState, useRef } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  LayoutAnimation,
-  ActivityIndicator,
-  UIManager,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useCharacter } from '@/store/CharacterContext';
-import { RPG } from '@/constants/theme';
-import SectionHeader from '@/components/rpg/SectionHeader';
-import { EquipItem } from '@/types/character';
-import { armas, escudos, vestimentas, acessorios, MELHORIAS_POR_SLOT, MelhoriaItem } from '@/data/regras/equipamentos';
-import { InventoryItem, IStructuredGear, isQuickNote } from '@/types/inventory';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import DroppableHexSlot, { DroppableHexSlotHandle } from '@/components/rpg/DroppableHexSlot';
-import DraggableNoteCard from '@/components/rpg/DraggableNoteCard';
 import DraggableGearCard from '@/components/rpg/DraggableGearCard';
+import DraggableNoteCard from '@/components/rpg/DraggableNoteCard';
+import DroppableHexSlot, { DroppableHexSlotHandle } from '@/components/rpg/DroppableHexSlot';
 import PaperdollSection from '@/components/rpg/PaperdollSection';
+import SectionHeader from '@/components/rpg/SectionHeader';
+import { RPG } from '@/constants/theme';
+import { acessorios, armas, escudos, MelhoriaItem, MELHORIAS_POR_SLOT, vestimentas } from '@/data/regras/equipamentos';
+import { useCharacter } from '@/store/CharacterContext';
+import { EquipItem } from '@/types/character';
+import { InventoryItem, isQuickNote, IStructuredGear } from '@/types/inventory';
+import React, { useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  LayoutAnimation,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  UIManager,
+  View,
+} from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -318,7 +318,7 @@ export default function MochilaScreen() {
             )}
             <View style={styles.addItemRow}>
               <TouchableOpacity style={styles.addItemBtn} onPress={handleAddNote} activeOpacity={0.8}>
-                <Text style={styles.addItemBtnText}>+ Nota Rápida</Text>
+                <Text style={styles.addItemBtnText}>+ Item</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.addItemBtn} onPress={handleAddGear} activeOpacity={0.8}>
                 <Text style={styles.addItemBtnText}>+ Equipamento</Text>
