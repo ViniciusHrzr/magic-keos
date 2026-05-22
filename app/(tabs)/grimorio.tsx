@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import {
   View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
+import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import Animated from 'react-native-reanimated';
@@ -228,7 +228,7 @@ export default function GrimorioScreen() {
         ))}
       </View>
 
-      <FlashList
+      <FlatList
         data={flatItems}
         renderItem={renderItem}
         keyExtractor={(item) => {
@@ -236,7 +236,6 @@ export default function GrimorioScreen() {
           if (item.type === 'add-domain') return `add-${item.domain.name}`;
           return `spell-${item.spell.nome}-${item.spell.dominio}`;
         }}
-        drawDistance={500}
         extraData={expanded}
         contentContainerStyle={styles.list}
       />
